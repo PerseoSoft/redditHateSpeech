@@ -1,0 +1,23 @@
+version: "3.6"
+services:
+  conda:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      -  ./src:/opt/notebooks/clustering
+      - conda_volume:/opt/conda
+    ports:
+      -  8888:8888
+    tty: true
+    container_name: condahs
+    environment:
+      - REDDIT_CLIENT_ID=${REDDIT_CLIENT_ID}
+      - REDDIT_CLIENT_SECRET=${REDDIT_CLIENT_SECRET}
+      - REDDIT_USER_AGENT=${REDDIT_USER_AGENT}
+    command:
+      - /bin/bash
+
+# Creates a named volume to persist our database data
+volumes:
+    conda_volume:
