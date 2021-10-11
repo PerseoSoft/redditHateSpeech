@@ -8,3 +8,4 @@ pandas
 spacy
 gensim
 praw
+emoji
