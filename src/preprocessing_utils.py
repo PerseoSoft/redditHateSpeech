@@ -85,4 +85,20 @@ def tokenize(text):
     return tokens
 
 
+def preprocess_corpus(corpus):
+    preprocessed_corpus = []
+
+    for idx, line in enumerate(corpus):
+
+        line = give_emoji_free_text(line)
+        line = url_free_text(line)
+        line = email_free_text(line)
+        line = quotes_free_text(line)
+        line = tokenize(line)
+
+        preprocessed_corpus.append(' '.join(line))
+        
+    return preprocessed_corpus
+
+
 nlp = spacy.load('es_core_news_sm', disable=['ner', 'parser']) # disabling Named Entity Recognition for speed
