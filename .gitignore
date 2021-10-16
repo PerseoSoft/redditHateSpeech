@@ -127,3 +127,9 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+src/docs/detoxis_data/
+
+src/docs/hateval2019/
+
+src/docs/MeOffendEs/
