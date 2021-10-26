@@ -49,9 +49,11 @@ def get_lemmas(text):
 
     doc = nlp(text)
 
+    nlp.Defaults.stop_words |= {"⡿","🤣", '😂', 'savevideo&message=', 'view', 'savevideo)&#32;|&#32;[**donate',  '^(reddit', 'downloader',  '⠛', '⣀', '⠉', '⢀', '⣿', '⠈', '⡀', '⠁', '⣧', '⠋', '⠄', '⣤', '⢸', '⣴'}
+    
     # Something goes here :P
     for token in doc:
-        if ((token.is_stop == False) and (token.is_punct == False)) and (token.pos_ in ['NOUN', 'ADJ', 'VERB', 'ADV', 'PROPN', 'PROPN']):
+        if ((token.is_stop == False) and (token.is_punct == False)  and (token.is_space == False)) and (token.pos_ in ['NOUN', 'ADJ', 'VERB', 'ADV', 'PROPN', 'PROPN']):
             lemmas.append(token.lemma_)
 
     return lemmas
