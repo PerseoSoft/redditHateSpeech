@@ -7,13 +7,12 @@ COPY ./src/requirements.txt /tmp/requirements.txt/
 RUN conda create --name keras python=3.5
 RUN conda init bash
 RUN source activate keras
-RUN echo pwd
 RUN pip install -U pip setuptools wheel
 RUN pip install -U spacy
 RUN pip install pyLDAvis
 RUN python -m spacy download es_core_news_lg
 
-RUN conda install -c conda-forge keras
+#RUN conda install -c conda-forge keras
 RUN conda install -c conda-forge wordcloud=1.6.0
 RUN pip install --upgrade gensim
 # Setup for Jupyter Notebook
