@@ -15,6 +15,7 @@ def give_emoji_free_text(text):
         Text (emoji free tweets)
     """
     emoji_list = [c for c in text if c in emoji.UNICODE_EMOJI]
+    emoji_list.append('!dolar')
     clean_text = ' '.join([str for str in text.split() if not any(i in str for i in emoji_list)])
     return clean_text
 
@@ -49,7 +50,7 @@ def get_lemmas(text):
 
     doc = nlp(text)
 
-    nlp.Defaults.stop_words |= {"⡿","🤣", '😂', 'savevideo&message=', 'view', 'savevideo)&#32;|&#32;[**donate',  '^(reddit', 'downloader',  '⠛', '⣀', '⠉', '⢀', '⣿', '⠈', '⡀', '⠁', '⣧', '⠋', '⠄', '⣤', '⢸', '⣴'}
+    nlp.Defaults.stop_words |= {"⡿","🤣", '😀', '😂', 'savevideo&message=', 'view', 'savevideo)&#32;|&#32;[**donate',  '^(reddit', 'downloader',  '⠛', '⣀', '⠉', '⢀', '⣿', '⠈', '⡀', '⠁', '⣧', '⠋', '⠄',  '⢫',    '⡰', '⠑', '⡰',       '⡰',  '⠢',      '⣤', '⢸', '⣴', '⢧',  '⢧', '⠣', '⣇', '⡾',  '⢧,' '⡾' , '⡾,' '⢴' , '⢄' , '⢧','⢄' , '⡾', '⣇'  , '⢴' , '⡾',  '⣇', '⢧' , '⡾' , '⠣' , '⢴' , '⡾'  , '⢧' , '⡜' , '⢧' , '⣇' , '⢧' , '⡾' , '⠣' , '⣇' , '⢧' , '⡾' , '⣇'  , '⢴' , '⠢', '⠣' ,  '⣇' , '⡾' , '⢧' , '⣇' , '⢴' , '⠣' ,  '⡾' , '⢧' , '⣇'  , '⢴' , '⠣'  , '⣇'  ,  '⡾'  , '⢧' , '⣇' , '⢧' ,  '⡾'  ,  '⢧' , '⡜'  , '⠣'   }
     
     # Something goes here :P
     for token in doc:
