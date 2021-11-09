@@ -104,4 +104,4 @@ def preprocess_corpus(corpus):
     return preprocessed_corpus
 
 
-nlp = spacy.load('es_core_news_sm', disable=['ner', 'parser']) # disabling Named Entity Recognition for speed
+nlp = spacy.load('es_core_news_lg', disable=['ner', 'parser']) # disabling Named Entity Recognition for speed
