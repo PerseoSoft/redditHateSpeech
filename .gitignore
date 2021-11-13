@@ -138,4 +138,4 @@ src/.vscode/
 
 src/word2vec.model.wv.vectors_ngrams.npy
 
-src/docs/test/
+
