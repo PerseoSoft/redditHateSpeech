@@ -1,21 +1,32 @@
-# Introducción
+# Caracterización de discurso de odio en r/argentina
+## Introducción
 
-El presente repo contiene el código correspondiente al proyecto final de la materia [Minería de datos para texto](https://sites.google.com/unc.edu.ar/textmining2021/).
+El presente repo contiene el código correspondiente al proyecto final de la materia [Minería de datos para texto](https://sites.google.com/unc.edu.ar/textmining2021/), a cargo de Laura Alonso i Alemany.
 
 Objetivo del proyecto: Caracterizar discursos de odio dentro de la comunidad de [Reddit Argentina](https://reddit.com/r/argentina). Esto es, detectarlos y encontrar sub-lenguajes de odio en los mismos.
 
-Para realizar esto, se llevó a cabo un proceso consistente en 5 pasos (cada uno con su notebook):
+Para realizar esto, se llevó a cabo un proceso consistente en 5 etapas, como se muestra en la siguiente figura:
 
-1. Obtención del conjunto de comentarios de a través de la API de Reddit ([notebook](https://github.com/MEvaVG12/hateSpeechTextMining/blob/main/src/1_pipeline_download_reddit_comments.ipynb)).
-1. Pre-procesamiento del mismo ([notebook](https://github.com/MEvaVG12/hateSpeechTextMining/blob/main/src/2_pipeline_preprocessing.ipynb)).
-1. Aplicación de embeddings y categorización en clústers (notebook [LDA](https://github.com/MEvaVG12/hateSpeechTextMining/blob/main/src/3a_pipeline_lda.ipynb) [Word2Vec](https://github.com/MEvaVG12/hateSpeechTextMining/blob/main/src/3b_pipeline_embedding_word2vec.ipynb) [FastText](https://github.com/MEvaVG12/hateSpeechTextMining/blob/main/src/3c_pipeline_embedding_fasttext.ipynb)).
-1. Entrenamiento de un modelo de detección de odio ([notebook](https://github.com/MEvaVG12/hateSpeechTextMining/blob/main/src/4_detect_hate_speech.ipynb)) y aplicación en los comentarios recolectados ([notebook](https://github.com/MEvaVG12/hateSpeechTextMining/blob/main/src/5_pipeline_hate_speech.ipynb)).
-1. Combinación de dicho modelo con las categorías encontradas para encontrar correlaciones ([notebook](https://github.com/MEvaVG12/hateSpeechTextMining/blob/main/src/6_pipeline_result.ipynb)).
-
-**El informe y proyecto en proceso 🚧🔨, está todavía sujeto a cambios y mejoras**
+![pipeline_reddit](/misc/workflow.drawio.png)
 
 
-# Fuentes consultadas para el trabajo
+Cada etapa tiene su correspondiente notebook:
+
+1. Obtención del conjunto de comentarios de a través de la API de Reddit ([notebook](https://github.com/EvaVillarrealGuzman/redditHateSpeech/blob/main/src/1_pipeline_download_reddit_comments.ipynb)).
+   
+2. Pre-procesamiento del mismo ([notebook](https://github.com/EvaVillarrealGuzman/redditHateSpeech/blob/main/src/2_pipeline_preprocessing.ipynb)).
+
+3. Aplicación de embeddings y categorización en clústers (notebook [LDA](https://github.com/EvaVillarrealGuzman/redditHateSpeech/blob/main/src/3a_pipeline_lda.ipynb) [Word2Vec](https://github.com/EvaVillarrealGuzman/redditHateSpeech/blob/main/src/3b_pipeline_embedding_word2vec.ipynb) [FastText](https://github.com/EvaVillarrealGuzman/redditHateSpeech/blob/main/src/3c_pipeline_embedding_fasttext.ipynb)).
+
+4. Entrenamiento de un modelo de detección de odio y extracción de palabras de odio en cada dataset ([notebook](https://github.com/EvaVillarrealGuzman/redditHateSpeech/blob/main/src/4_detect_hate_speech.ipynb)).
+Para realizar el entrenamiento de los modelos, es necesario contar con los datasets respectivos de cada competencia (Hateval, DETOXIS, MeOffendMex) que se desee entrenar.
+
+5. Uso del modelo para predecir los comentarios recolectados ([notebook](https://github.com/EvaVillarrealGuzman/redditHateSpeech/blob/main/src/5_pipeline_hate_speech.ipynb)).
+
+6. Combinación de dicho modelo con las categorías encontradas para encontrar correlaciones ([notebook](https://github.com/EvaVillarrealGuzman/redditHateSpeech/blob/main/src/6_pipeline_result.ipynb)).
+
+**Este informe y proyecto estan en proceso 🚧🔨, todavía sujetos a cambios, correcciones, y mejoras**
+
 - https://github.com/jfreddypuentes/spanlp
 - https://becominghuman.ai/detecting-gender-based-hate-speech-in-spanish-with-natural-language-processing-cdbba6ec2f8b
 - https://www.learndatasci.com/tutorials/sentiment-analysis-reddit-headlines-pythons-nltk/
