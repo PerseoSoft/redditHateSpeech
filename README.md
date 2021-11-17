@@ -3,7 +3,7 @@
 
 El presente repo contiene el código correspondiente al proyecto final de la materia [Minería de datos para texto](https://sites.google.com/unc.edu.ar/textmining2021/), a cargo de Laura Alonso i Alemany.
 
-Objetivo del proyecto: Caracterizar discursos de odio dentro de la comunidad de [Reddit Argentina](https://reddit.com/r/argentina). Esto es, detectarlos y encontrar sub-lenguajes de odio en los mismos.
+Objetivo del proyecto: Caracterizar discursos de odio dentro de la comunidad de [reddit Argentina](https://reddit.com/r/argentina). Esto es, detectarlos y encontrar sub-lenguajes de odio en los mismos.
 
 Para realizar esto, se llevó a cabo un proceso consistente en 5 etapas, como se muestra en la siguiente figura:
 
@@ -27,6 +27,40 @@ Para realizar el entrenamiento de los modelos, es necesario contar con los datas
 
 **Este informe y proyecto estan en proceso 🚧🔨, todavía sujetos a cambios, correcciones, y mejoras**
 
+
+## Flujo de datos generados
+
+Los distintos notebooks forman un pipeline en el cuál cada uno utiliza los datos generados por el anterior. Se listan cada una de las entradas:
+
+1. Obtención de comentarios. 
+    - Archivos de entrada: N/A. 
+    - Archivo de salida: *docs/reddit_data.csv*: CSV que contiene los comentarios de reddit descargados
+
+2. Pre-procesamiento del dataset.
+    - Archivos de entrada: *docs/reddit_data.csv*.
+    - Archivos de salida: *docs/preprocessing_reddit_data.csv*: CSV con los comentarios pre-procesados.
+   
+
+3. Embeddings y clustering.
+    - Archivos de entrada: *docs/preprocessing_reddit_data.csv*.
+    - Archivos de salida: 
+      - *docs/reddit_data_<método>.csv*, donde *<método>* puede ser 'lda', o 'word2vec', 'fasttext'. Cada uno de estos archivos toma el dataset pre-procesado y le agrega el número de clúster al que pertenecería cada comentario, según su cercanía.
+      - *docs/models/<model>.model*, el modelo entrenado. Puede ser 'word2vec', o 'fasttext'. 
+      - *docs/models/<model>_kmeans.model*, el modelo de k-means entrenado usando los embeddings de <model> (para 'word2vec' y 'fasttext').
+
+
+4. Entrenamiento y selección del modelo.
+   - Archivos de entrada: *docs/hateval2019/hateval2019_es_train.csv*, *docs/detoxis_data/train.csv*, y *docs/MeOffendEs/mx-train-data-non-contextual.csv*. Estos archivos requieren la descarga previa manual de cada dataset.
+   - Archivos de salida: para cada dataset, se guarda:
+     - Palabras de odio de cada modelo: *docs/palabras_odio.csv*.
+     - Vectorizador: *docs/models/<dataset>_vectorizer.pkl* donde *<dataset>* es hateval, detoxis, o meoffendmex.
+     - Modelo entrenado: *docs/models/<dataset>_<iniciales_modelo>_model.pkl* donde *<iniciales_modelo>* es 'lr', 'rf', o 'nb'.
+   - Archivos de salida (de prueba): Predicciones: *docs/test/reddit_<dataset>_hate_comments.csv*, uno para cada <dataset>: 'hateval', 'detoxis', 'meoffendmex'.
+   
+5. Aplicación del modelo en comentarios de reddit. 
+6. Análisis de resultados.
+   - Archivos de entrada: *docs/reddit_data_hate_speech.csv*
+   - Archivos de salida: N/A.
 - https://github.com/jfreddypuentes/spanlp
 - https://becominghuman.ai/detecting-gender-based-hate-speech-in-spanish-with-natural-language-processing-cdbba6ec2f8b
 - https://www.learndatasci.com/tutorials/sentiment-analysis-reddit-headlines-pythons-nltk/
