@@ -61,6 +61,7 @@ Los distintos notebooks forman un pipeline en el cuál cada uno utiliza los dato
 6. Análisis de resultados.
    - Archivos de entrada: *docs/reddit_data_hate_speech.csv*
    - Archivos de salida: N/A.
+## Fuentes consultadas para el trabajo
 - https://github.com/jfreddypuentes/spanlp
 - https://becominghuman.ai/detecting-gender-based-hate-speech-in-spanish-with-natural-language-processing-cdbba6ec2f8b
 - https://www.learndatasci.com/tutorials/sentiment-analysis-reddit-headlines-pythons-nltk/
