@@ -131,7 +131,7 @@ Los distintos notebooks forman un pipeline en el cuál cada uno utiliza los dato
 
 ### Procesamiento de lenguaje natural
 
-- Manning & Sch...
+- Foundations of Statistical Natural Language Processing - Manning & Schütze (1999)
 - https://spacy.io
 - https://radimrehurek.com/gensim/
 - https://www.nltk.org
@@ -149,13 +149,13 @@ Los distintos notebooks forman un pipeline en el cuál cada uno utiliza los dato
 - https://ai.intelligentonlinetools.com/ml/k-means-clustering-example-word2vec/
 - https://medium.com/@rohithramesh1991/unsupervised-text-clustering-using-natural-language-processing-nlp-1a8bc18b048d
 - https://xplordat.com/2018/12/14/want-to-cluster-text-try-custom-word-embeddings/
-- https://ai.intelligentonlinetools.com/ml/k-means-clustering-example-word2vec/
-- https://adrian-rdz.github.io/NLP_word2vec/
-- https://paperperweek.wordpress.com/2018/04/09/best-ways-to-cluster-word2vec/
-- https://www.kdnuggets.com/2018/04/robust-word2vec-models-gensim.html
-- https://www.baeldung.com/cs/ml-word2vec-topic-modeling
-- https://www.kaggle.com/szymonjanowski/internet-articles-data-with-users-engagement
-- https://medium.com/ml2vec/using-word2vec-to-analyze-reddit-comments-28945d8cee57
 - https://towardsdatascience.com/clustering-with-more-than-two-features-try-this-to-explain-your-findings-b053007d680a
-- https://towardsdatascience.com/k-means-clustering-8e1e64c1561c
-- https://towardsdatascience.com/fit-vs-predict-vs-fit-predict-in-python-scikit-learn-f15a34a8d39f
+
+### Trabajos relacionados
+
+- https://github.com/jfreddypuentes/spanlp
+- https://medium.com/ml2vec/using-word2vec-to-analyze-reddit-comments-28945d8cee57
+- https://www.kaggle.com/szymonjanowski/internet-articles-data-with-users-engagement
+- https://towardsdatascience.com/religion-on-twitter-5f7b84062304
+- https://becominghuman.ai/detecting-gender-based-hate-speech-in-spanish-with-natural-language-processing-cdbba6ec2f8b
+- https://www.learndatasci.com/tutorials/sentiment-analysis-reddit-headlines-pythons-nltk/
