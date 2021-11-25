@@ -1,17 +1,30 @@
-# Caracterización de discurso de odio en r/argentina
+Caracterización de discurso de odio en r/argentina
 
-## Índice
+---
 
-1. [Vistazo rápido](#vistazo-rápido).
-2. [Introducción](#introducción).
-3. [Obtención de datos](#obtención-de-datos).
-4. [Pre-procesamiento](#pre-procesamiento).
-5. [Embeddings](#embeddings).
-6. [Entrenamiento del detector de odio](#entrenamiento-de-detector-de-odio).
-7. [Aplicación del modelo a los comentarios](#aplicación-del-modelo-a-los-comentarios).
-8. [Análisis de resultados](#análisis-de-resultados).
-9. [Conclusiones](#conclusiones).
-10. [Trabajos futuros](#trabajos-futuros).
+Índice
+- [Vistazo rápido](#vistazo-rápido)
+  - [Flujo de datos generados](#flujo-de-datos-generados)
+- [Introducción](#introducción)
+  - [Discurso de odio](#discurso-de-odio)
+  - [reddit](#reddit)
+  - [r/argentina](#rargentina)
+- [Obtención de datos](#obtención-de-datos)
+- [Pre-procesamiento](#pre-procesamiento)
+- [Embeddings](#embeddings)
+- [Entrenamiento de detector de odio](#entrenamiento-de-detector-de-odio)
+- [Aplicación del modelo a los comentarios](#aplicación-del-modelo-a-los-comentarios)
+- [Análisis de resultados](#análisis-de-resultados)
+- [Conclusiones](#conclusiones)
+- [Trabajos futuros](#trabajos-futuros)
+- [Texto no asignado](#texto-no-asignado)
+- [Backlog](#backlog)
+- [Fuentes consultadas para el trabajo](#fuentes-consultadas-para-el-trabajo)
+  - [Discursos de odio](#discursos-de-odio)
+  - [reddit API](#reddit-api)
+  - [Procesamiento de lenguaje natural](#procesamiento-de-lenguaje-natural)
+  - [Clustering](#clustering)
+  - [Trabajos relacionados](#trabajos-relacionados)
 
 
 ## Vistazo rápido
@@ -101,13 +114,39 @@ Los distintos notebooks forman un pipeline en el cuál cada uno utiliza los dato
 
 ## Trabajos futuros
 ## Fuentes consultadas para el trabajo
-- https://github.com/jfreddypuentes/spanlp
-- https://becominghuman.ai/detecting-gender-based-hate-speech-in-spanish-with-natural-language-processing-cdbba6ec2f8b
-- https://www.learndatasci.com/tutorials/sentiment-analysis-reddit-headlines-pythons-nltk/
+
+
+### Discursos de odio
+
+- https://en.wikipedia.org/wiki/Hate_speech
+- https://www.rightsforpeace.org/hate-speech
+- https://fsi.stanford.edu/news/reddit-hate-speech
+- https://variety.com/2020/digital/news/reddit-bans-hate-speech-groups-removes-2000-subreddits-donald-trump-1234692898
+- https://www.reddithelp.com/hc/en-us/articles/360045715951-Promoting-Hate-Based-on-Identity-or-Vulnerability
+
+### reddit API
+
 - https://www.jcchouinard.com/reddit-api/
-- https://towardsdatascience.com/religion-on-twitter-5f7b84062304
-- https://dylancastillo.co/nlp-snippets-cluster-documents-using-word2vec/
+
+
+### Procesamiento de lenguaje natural
+
+- Manning & Sch...
+- https://spacy.io
+- https://radimrehurek.com/gensim/
+- https://www.nltk.org
+- https://www.baeldung.com/cs/ml-word2vec-topic-modeling
+- https://www.kdnuggets.com/2018/04/robust-word2vec-models-gensim.html
+- https://adrian-rdz.github.io/NLP_word2vec/
 - https://towardsdatascience.com/applying-machine-learning-to-classify-an-unsupervised-text-document-e7bb6265f52
+- https://dylancastillo.co/nlp-snippets-cluster-documents-using-word2vec/
+- https://www.roelpeters.be/calculating-mutual-information-in-python/
+
+### Clustering
+
+- https://towardsdatascience.com/k-means-clustering-8e1e64c1561c
+- https://paperperweek.wordpress.com/2018/04/09/best-ways-to-cluster-word2vec/
+- https://ai.intelligentonlinetools.com/ml/k-means-clustering-example-word2vec/
 - https://medium.com/@rohithramesh1991/unsupervised-text-clustering-using-natural-language-processing-nlp-1a8bc18b048d
 - https://xplordat.com/2018/12/14/want-to-cluster-text-try-custom-word-embeddings/
 - https://ai.intelligentonlinetools.com/ml/k-means-clustering-example-word2vec/
