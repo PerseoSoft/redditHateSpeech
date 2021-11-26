@@ -122,6 +122,65 @@ El pre-procesamiento consistió en:
 
 ## Embeddings
 
+Para poder detectar las subcomunidades dentro de reddit comenzamos utilizando LDA. Sin embargo, los resultados que obtuvimos no fueron satisfactorios, ya que a la hora de realizar un análisis de los tópicos identificados por el modelo, encontramos poca cohesión entre los temas.
+
+A raíz de esto, probamos con *word embedding* donde obtuvimos resultados que captan mucho mejor la semántica de la información. El proceso que llevamos a cabo en *word embedding* para obtener las subcomunidades fue:
+
+1. Generar una representación vectorial de los comentarios: se mapearon los comentarios a partir de palabras en vectores numéricos.
+2. Aplicamos un algoritmo de *clustering*, particularmente *k-means*, donde las características que se pasaron son los vectores numéricos obtenidos en el paso anterior.
+
+Utilizamos dos técnicas de *word embedding*: primero usamos Word2Vec y luego FastText.
+
+A continuación mostramos algunos comentarios que fueron agrupados a través de las diferentes técnicas aplicadas. Un evento particular que sucedió durante la descarga de estos datos en reddit fue el debate de la ley de etiquetados en Argentina. Vamos a comparar las subcomunidades obtenidos en cada técnica analizando particularmente la subcomunidad referida a este evento.
+
+### Embedding con LDA
+
+En la siguiente imagen se pueden observar algunos de los tópicos identificados por LDA.
+
+![](misc/embedding_1.png)
+
+El tópico número 91, **piedra - etiqueta - pan - mira**, incluye comentarios sobre la tratativa de la ley de etiquetado y temas que tienen que ver con la comida en general. Algunos comentarios son:
+
+1. Me alegro mucho, seguro muy feliz todos por el reencuentro. Igual te recomiendo que no coma directo de la lata, pasale a un platito o comedero. Entiendo que a veces ni te dan tiempo.
+2. Todo mi secundario el desayuno fue un fantoche triple y una lata de coca.  Y sólo gastaba 2$. Qué buenos tiempos.
+3. La manteca no hace mal. Es muy difícil comer exceso de grasas para tu cuerpo en comparación con lo fácil que es atiborrarte con azúcar y carbohidratos. Esos son los verdaderos enemigos
+4. Y con etiquetas que te dicen cuánta grasa tiene un kilo de bayonesa
+5. Alta banfest se van a mandar los mods con este thread. Despedite de tu cuenta, maquinola, denunciado
+
+### Embedding con Word2Vec
+
+En la siguiente imagen se pueden observar algunas de las subcominidades identificados por Word2Vec.
+
+![](misc/embedding_2.png)
+
+El *cluster* número 94, **ley - etiquetado - proyecto**, incluye comentarios sobre la tratativa de la ley de etiquetado y temas que tienen que ver con las leyes en general. Algunos comentarios son:
+
+1. Una prueba mas de la ley de oferta y demanda
+2. Con la nueva ley no le podés regalar leche entera o un alfajor a un comedor, decir comida basura en un país donde el 50% de los chicos no hacen toda las comidas es lo más clasista que existe.
+3. Recuerden la ley de alquileres.... Fué sancionada con un beso muy fuerte de los K, PRO y demás muchachos...
+4. No entiendo cómo hay tanta gente en contra de una ley que no te cambia un carajo tu vida. Es la ley más anodina que sacó el Kirchnerismo en toda su historia creo
+5. Pero hay leyes contra la violencia de genero! Como paso esto!!!1!?
+6. No existe tal cosa en Argentina. Existe el Estado de Sitio, pero no se asemeja para nada a una ley marcial.. El concepto de ley marcial como tal, desapareció en el 94 con la nueva Constitución.
+
+### Embedding con FastText
+
+En la siguiente imagen se pueden observar algunas de las subcominidades identificados por FastText.
+
+![](misc/embedding_3.png)
+
+Como se puede ver en el cluster **jaja - jajaja - jajajar - jajajaja - jajaj**, FastText identifica mejor las alteraciones que pueden suceder dentro de una palabra.
+
+El *cluster* número 113, **ley - etiquetado - votar**, incluye comentarios sobre la tratativa de la ley de etiquetado y temas que tienen que ver con las leyes en general. Algunos comentarios son:
+
+1. Feriado con fines turísticos. Ley 27.399
+2. ajajaja como los cagaron a los primeros. como siempre la ley aplica a todos por igual /s
+3. El sticker en Chile fue durante la transición de la ley. Imagínate tener productos fabricados y tener que cambiar la envoltura a todos para que cumplan la ley
+4. Gracias gloriosa ley de regulación de alimentos, ahora se que desayunar coca cola con surtidos bagleys esta mal
+5. Eso y que la ley va a prohibir vender dulces y gaseosas en los colegios, y usar imágenes de famosos en los envases.
+6. Eso está por la ley Micaela no?. Tipo esta clase de capacitaciones no?
+7. y ahora Lipovetzky reconoce lo de la ley de alquileres
+
+
 ## Entrenamiento de detector de odio
 
 ## Aplicación del modelo a los comentarios
