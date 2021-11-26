@@ -99,7 +99,26 @@ Los distintos notebooks forman un pipeline en el cuál cada uno utiliza los dato
 
 ## Obtención de datos
 
+Para la obtención de los datos se utilizó un *wrapper* de la API de reddit, llamado [praw](https://praw.readthedocs.io/en/stable/index.html), a partir del cuál descargamos comentarios de diferentes *post* del *subreddit* argentina, así como las respuestas de los comentarios.
+Los comentarios en reddit pueden ser *link* o pueden ser solo textos. Filtramos solamente los comentarios que tengan textos. A la vez solo se consideraron comentarios que tuvieran como mínimo cierta cantidad de caracteres.
+
+De cada comentario que se guardó de reddit, se obtuvieron los siguientes datos:
+- *id*: identificador de reddit. Se guardó por cuestiones de trazabilidad.
+- *comment_parent_id*: identificador del *post* o comentario al cuál responde el comentario actual en caso que corresponda. Se guardó por cuestiones de trazabilidad.
+- *flair*: es el tipo de comentario etiquetado por reddit, por ejemplo, política, economía, humor, etc.
+- *comms_num*: número de respuestas que recibió el comentaio.
+- *score*: es un puntaje que los usuarios le dan al comentario.
+
 ## Pre-procesamiento
+
+El pre-procesamiento consistió en:
+
+- Eliminar emojis, urls, comillas, caracteres especiales, puntuaciones.
+- Aplicar tokenización: en cada comentario, el token era la palabra.
+- Conversión a minúscula.
+- Eliminación de stopwords utilizando spaCy.
+- Lematización utilizando spaCy.
+- Construir bigramas y trigramas.
 
 ## Embeddings
 
