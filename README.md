@@ -118,13 +118,115 @@ El presente trabajo se basa en la siguiente hipótesis: "en una comunidad en don
 
 Quisimos hacer nuestro trabajo enfocado en una comunidad Argentina fuera de las redes sociales más comunes (dado que son aquellas más comúnmente abordadas), pero que a la vez tenga el tamaño suficiente como para tener muchos usuarios e interacciones. En ese sentido, r/argentina fue la opción más prominente, ya que la comunidad es muy activa y cuenta con cerca de 350.000 subscriptores (a Noviembre de 2021).
 ### Discurso de odio
+
+Hay varias posturas sobre lo que es discurso de odio, en general se coincide en que es un discurso que:
+
+1. Apunta a un grupo o individuo, basado en algún aspecto como su orientación sexual, religión, nacionalidad, etc.
+2. Busca humillar, discriminar o propagar el odio/hostilidad hacia ese grupo.
+3. Tiene una intención deliberada.
+
+Su manifestación en Internet, además:
+1. Puede motivar formas de agresión en línea.
+2. Permite propagar el discurso de odio con velocidad.
+3. Permite que el discurso se mantenga y comparta con facilidad.
+4. Facilita la generación de cámaras de eco.
+5. Al estar en servidores privados, permite que ciertas empresas intenten eludir su control, y usarlos para mantener sus usuarios interactuando con el servicio.
+
 ### r/argentina
+
+[Reddit](https://www.reddit.com/) es  una red social de “comunidades” creadas por usuarios. En este proyecto, nos centramos en [reddit argentina](https://www.reddit.com/r/argentina/).
+
+En la siguiente imagen podemos ver la estructura general de un post en reddit:
+
+![](misc/reddit.png)
+
+En cada comunidad sus miembros hacen posts, y cada post puede ser comentado generando debate.
+
+Su aspecto distintivo, es que cada post o comentario recibe votos, con el objetivo de que aquellos posts o comentarios que más aportan aparezcan encima de los que no. También se pueden premiar a aquellos destacados.
 
 ## Obtención de datos
 
+Para la obtención de los datos se utilizó un *wrapper* de la API de reddit, llamado [praw](https://praw.readthedocs.io/en/stable/index.html), a partir del cuál descargamos comentarios de diferentes *post* del *subreddit* argentina, así como las respuestas de los comentarios.
+Los comentarios en reddit pueden ser *link* o pueden ser solo textos. Filtramos solamente los comentarios que tengan textos. A la vez solo se consideraron comentarios que tuvieran como mínimo cierta cantidad de caracteres.
+
+De cada comentario que se guardó de reddit, se obtuvieron los siguientes datos:
+- *id*: identificador de reddit. Se guardó por cuestiones de trazabilidad.
+- *comment_parent_id*: identificador del *post* o comentario al cuál responde el comentario actual en caso que corresponda. Se guardó por cuestiones de trazabilidad.
+- *flair*: es el tipo de comentario etiquetado por reddit, por ejemplo, política, economía, humor, etc.
+- *comms_num*: número de respuestas que recibió el comentaio.
+- *score*: es un puntaje que los usuarios le dan al comentario.
+
 ## Pre-procesamiento
 
+El pre-procesamiento consistió en:
+
+- Eliminar emojis, urls, comillas, caracteres especiales, puntuaciones.
+- Aplicar tokenización: en cada comentario, el token era la palabra.
+- Conversión a minúscula.
+- Eliminación de stopwords utilizando spaCy.
+- Lematización utilizando spaCy.
+- Construir bigramas y trigramas.
+
 ## Embeddings
+
+Para poder detectar las subcomunidades dentro de reddit comenzamos utilizando LDA. Sin embargo, los resultados que obtuvimos no fueron satisfactorios, ya que a la hora de realizar un análisis de los tópicos identificados por el modelo, encontramos poca cohesión entre los temas.
+
+A raíz de esto, probamos con *word embedding* donde obtuvimos resultados que captan mucho mejor la semántica de la información. El proceso que llevamos a cabo en *word embedding* para obtener las subcomunidades fue:
+
+1. Generar una representación vectorial de los comentarios: se mapearon los comentarios a partir de palabras en vectores numéricos.
+2. Aplicamos un algoritmo de *clustering*, particularmente *k-means*, donde las características que se pasaron son los vectores numéricos obtenidos en el paso anterior.
+
+Utilizamos dos técnicas de *word embedding*: primero usamos Word2Vec y luego FastText.
+
+A continuación mostramos algunos comentarios que fueron agrupados a través de las diferentes técnicas aplicadas. Un evento particular que sucedió durante la descarga de estos datos en reddit fue el debate de la ley de etiquetados en Argentina. Vamos a comparar las subcomunidades obtenidos en cada técnica analizando particularmente la subcomunidad referida a este evento.
+
+### Embedding con LDA
+
+En la siguiente imagen se pueden observar algunos de los tópicos identificados por LDA.
+
+![](misc/embedding_1.png)
+
+El tópico número 91, **piedra - etiqueta - pan - mira**, incluye comentarios sobre la tratativa de la ley de etiquetado y temas que tienen que ver con la comida en general. Algunos comentarios son:
+
+1. Me alegro mucho, seguro muy feliz todos por el reencuentro. Igual te recomiendo que no coma directo de la lata, pasale a un platito o comedero. Entiendo que a veces ni te dan tiempo.
+2. Todo mi secundario el desayuno fue un fantoche triple y una lata de coca.  Y sólo gastaba 2$. Qué buenos tiempos.
+3. La manteca no hace mal. Es muy difícil comer exceso de grasas para tu cuerpo en comparación con lo fácil que es atiborrarte con azúcar y carbohidratos. Esos son los verdaderos enemigos
+4. Y con etiquetas que te dicen cuánta grasa tiene un kilo de bayonesa
+5. Alta banfest se van a mandar los mods con este thread. Despedite de tu cuenta, maquinola, denunciado
+
+### Embedding con Word2Vec
+
+En la siguiente imagen se pueden observar algunas de las subcominidades identificados por Word2Vec.
+
+![](misc/embedding_2.png)
+
+El *cluster* número 94, **ley - etiquetado - proyecto**, incluye comentarios sobre la tratativa de la ley de etiquetado y temas que tienen que ver con las leyes en general. Algunos comentarios son:
+
+1. Una prueba mas de la ley de oferta y demanda
+2. Con la nueva ley no le podés regalar leche entera o un alfajor a un comedor, decir comida basura en un país donde el 50% de los chicos no hacen toda las comidas es lo más clasista que existe.
+3. Recuerden la ley de alquileres.... Fué sancionada con un beso muy fuerte de los K, PRO y demás muchachos...
+4. No entiendo cómo hay tanta gente en contra de una ley que no te cambia un carajo tu vida. Es la ley más anodina que sacó el Kirchnerismo en toda su historia creo
+5. Pero hay leyes contra la violencia de genero! Como paso esto!!!1!?
+6. No existe tal cosa en Argentina. Existe el Estado de Sitio, pero no se asemeja para nada a una ley marcial.. El concepto de ley marcial como tal, desapareció en el 94 con la nueva Constitución.
+
+### Embedding con FastText
+
+En la siguiente imagen se pueden observar algunas de las subcominidades identificados por FastText.
+
+![](misc/embedding_3.png)
+
+Como se puede ver en el cluster **jaja - jajaja - jajajar - jajajaja - jajaj**, FastText identifica mejor las alteraciones que pueden suceder dentro de una palabra.
+
+El *cluster* número 113, **ley - etiquetado - votar**, incluye comentarios sobre la tratativa de la ley de etiquetado y temas que tienen que ver con las leyes en general. Algunos comentarios son:
+
+1. Feriado con fines turísticos. Ley 27.399
+2. ajajaja como los cagaron a los primeros. como siempre la ley aplica a todos por igual /s
+3. El sticker en Chile fue durante la transición de la ley. Imagínate tener productos fabricados y tener que cambiar la envoltura a todos para que cumplan la ley
+4. Gracias gloriosa ley de regulación de alimentos, ahora se que desayunar coca cola con surtidos bagleys esta mal
+5. Eso y que la ley va a prohibir vender dulces y gaseosas en los colegios, y usar imágenes de famosos en los envases.
+6. Eso está por la ley Micaela no?. Tipo esta clase de capacitaciones no?
+7. y ahora Lipovetzky reconoce lo de la ley de alquileres
+
 
 ## Entrenamiento de detector de odio
 
