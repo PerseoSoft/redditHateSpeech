@@ -95,7 +95,31 @@ Los distintos notebooks forman un pipeline en el cuál cada uno utiliza los dato
 ## Introducción
 
 ### Discurso de odio
+
+Hay varias posturas sobre lo que es discurso de odio, en general se coincide en que es un discurso que:
+
+1. Apunta a un grupo o individuo, basado en algún aspecto como su orientación sexual, religión, nacionalidad, etc.
+2. Busca humillar, discriminar o propagar el odio/hostilidad hacia ese grupo.
+3. Tiene una intención deliberada.
+
+Su manifestación en Internet, además:
+1. Puede motivar formas de agresión en línea.
+2. Permite propagar el discurso de odio con velocidad.
+3. Permite que el discurso se mantenga y comparta con facilidad.
+4. Facilita la generación de cámaras de eco.
+5. Al estar en servidores privados, permite que ciertas empresas intenten eludir su control, y usarlos para mantener sus usuarios interactuando con el servicio.
+
 ### r/argentina
+
+[Reddit](https://www.reddit.com/) es  una red social de “comunidades” creadas por usuarios. En este proyecto, nos centramos en [reddit argentina](https://www.reddit.com/r/argentina/).
+
+En la siguiente imagen podemos ver la estructura general de un post en reddit:
+
+![](misc/reddit.png)
+
+En cada comunidad sus miembros hacen posts, y cada post puede ser comentado generando debate.
+
+Su aspecto distintivo, es que cada post o comentario recibe votos, con el objetivo de que aquellos posts o comentarios que más aportan aparezcan encima de los que no. También se pueden premiar a aquellos destacados.
 
 ## Obtención de datos
 
