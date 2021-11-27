@@ -1,20 +1,18 @@
-FROM continuumio/anaconda3
-SHELL ["/bin/bash", "-c"]
+FROM continuumio/anaconda3:2021.05
+
 WORKDIR /opt/notebooks/clustering
 
-COPY ./src/requirements.txt /tmp/requirements.txt/
+# Create the environment:
+COPY environment.yml .
+RUN conda env create -f environment.yml
 
-RUN conda create --name keras python=3.5
+# Make RUN commands use the new environment:
+SHELL ["conda", "run", "-n", "hateSpeech", "/bin/bash", "-c"]
 RUN conda init bash
-RUN source activate keras
-RUN pip install -U pip setuptools wheel
-RUN pip install -U spacy
-RUN pip install pyLDAvis
+RUN source activate hateSpeech
+
 RUN python -m spacy download es_core_news_lg
 
-#RUN conda install -c conda-forge keras
-RUN conda install -c conda-forge wordcloud=1.6.0
-RUN pip install --upgrade gensim
 # Setup for Jupyter Notebook
 RUN groupadd -g 1000 jupyter && \
 useradd -g jupyter -m -s /bin/bash jupyter && \
