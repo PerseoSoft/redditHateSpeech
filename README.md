@@ -1,11 +1,17 @@
 Caracterización de discurso de odio en r/argentina
 
+
 ---
 
 Índice
+
 - [Vistazo rápido](#vistazo-rápido)
+  - [Instalación](#instalación)
   - [Flujo de datos generados](#flujo-de-datos-generados)
+- [Informe del proyecto](#informe-del-proyecto)
 - [Introducción](#introducción)
+    - [Motivación](#motivación)
+      - [¿Por qué reddit argentina?](#por-qué-reddit-argentina)
   - [Discurso de odio](#discurso-de-odio)
   - [reddit](#reddit)
   - [r/argentina](#rargentina)
@@ -27,7 +33,8 @@ Caracterización de discurso de odio en r/argentina
   - [Trabajos relacionados](#trabajos-relacionados)
 
 
-## Vistazo rápido
+
+# Vistazo rápido
 
 El presente repo contiene el código correspondiente al proyecto final de la materia [Minería de datos para texto](https://sites.google.com/unc.edu.ar/textmining2021/), a cargo de Laura Alonso i Alemany.
 
@@ -55,8 +62,9 @@ Para realizar el entrenamiento de los modelos, es necesario contar con los datas
 
 **Este informe y proyecto estan en proceso 🚧🔨, todavía sujetos a cambios, correcciones, y mejoras**
 
+## Instalación
 
-### Flujo de datos generados
+## Flujo de datos generados
 
 Los distintos notebooks forman un pipeline en el cuál cada uno utiliza los datos generados por el anterior. Se listan cada una de las entradas:
 
@@ -92,8 +100,23 @@ Los distintos notebooks forman un pipeline en el cuál cada uno utiliza los dato
 6. Análisis de resultados.
    - Archivos de entrada: *docs/reddit_data_hate_speech.csv*
    - Archivos de salida: N/A.
+
+
+# Informe del proyecto
+
+Se muestra a continuación el informe del proyecto, en donde se especifican la motivación y objetivos del trabajo, y los distintos enfoques abordados para realizar la detección de odio.
+
 ## Introducción
 
+### Motivación
+
+El presente trabajo se enfoca en la detección de discursos de odio en la comunidad seleccionada. Los objetivos del mismo son: **1)** detección de comentarios con discurso de odio, y **2)** caracterizar ese discurso de odio en sub-lenguajes de odio.
+
+El presente trabajo se basa en la siguiente hipótesis: "en una comunidad en donde existen comentarios con discurso de odio, es posible combinar técnicas de aprendizaje supervisado y no supervisado, para realizar la detección de discursos de odio a partir de modelos que se especialicen en distintos grupos de comentarios".
+
+#### ¿Por qué reddit argentina?
+
+Quisimos hacer nuestro trabajo enfocado en una comunidad Argentina fuera de las redes sociales más comunes (dado que son aquellas más comúnmente abordadas), pero que a la vez tenga el tamaño suficiente como para tener muchos usuarios e interacciones. En ese sentido, r/argentina fue la opción más prominente, ya que la comunidad es muy activa y cuenta con cerca de 350.000 subscriptores (a Noviembre de 2021).
 ### Discurso de odio
 
 Hay varias posturas sobre lo que es discurso de odio, en general se coincide en que es un discurso que:
