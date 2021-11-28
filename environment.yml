@@ -16,6 +16,7 @@ dependencies:
   - jupyterlab=3.2.4
   - pyLDAvis=3.3.1
   - pip=21.3.1
+  - nltk=3.6.5
   - pip:
       - praw===7.5.0
       - emoji==1.6.1

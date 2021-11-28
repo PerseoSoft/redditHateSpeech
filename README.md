@@ -64,6 +64,34 @@ Para realizar el entrenamiento de los modelos, es necesario contar con los datas
 
 ## Instalación
 
+### Instalación con conda
+
+Instalar Anaconda ([ver aquí](https://docs.anaconda.com/anaconda/install/index.html)) y luego ejecutar:
+
+```bash
+#Crear entorno con conda y activarlo
+conda env create -f environment.yml
+source activate hateSpeech
+#Descarga del Trained pipelines de spaCy
+python -m spacy download es_core_news_lg
+#Correr Jupyter Lab
+jupyter lab --ip=0.0.0.0 --no-browser --allow-root --NotebookApp.token='' --NotebookApp.password=''
+```
+Ir a [http://localhost:8888](http://localhost:8888) para acceder a la UI de Jupyter.
+
+### Instalación con Docker compose
+
+Instalar Docker Compose ([ver aquí](https://docs.docker.com/compose/install/)) y luego ejecutar:
+
+```bash
+#Construir imagen
+docker-compose build
+#Correr Jupyter Lab
+docker-compose up -d
+```
+
+Ir a [http://localhost:8888](http://localhost:8888) para acceder a la UI de Jupyter.
+
 ## Flujo de datos generados
 
 Los distintos notebooks forman un pipeline en el cuál cada uno utiliza los datos generados por el anterior. Se listan cada una de las entradas:
@@ -142,7 +170,7 @@ En la siguiente imagen podemos ver la estructura general de un post en reddit:
 
 En cada comunidad sus miembros hacen posts, y cada post puede ser comentado generando debate.
 
-Su aspecto distintivo, es que cada post o comentario recibe votos, con el objetivo de que aquellos posts o comentarios que más aportan aparezcan encima de los que no. También se pueden premiar a aquellos destacados.
+Su aspecto distintivo es que cada post o comentario recibe votos, con el objetivo de que aquellos posts o comentarios que más aportan aparezcan encima de los que no. También se pueden premiar a aquellos destacados.
 
 ## Obtención de datos
 
