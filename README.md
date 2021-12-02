@@ -16,6 +16,11 @@ Caracterización de discurso de odio en r/argentina
     - [Motivación del trabajo](#motivación-del-trabajo)
     - [reddit](#reddit)
       - [¿Por qué r/argentina?](#por-qué-rargentina)
+  - [Paso a paso del proyecto](#paso-a-paso-del-proyecto)
+    - [1. Obtención de los datos](#1-obtención-de-los-datos)
+    - [2. Pre-procesamiento](#2-pre-procesamiento)
+    - [3. Embeddings](#3-embeddings)
+      - [3a. Embeddings con LDA](#3a-embeddings-con-lda)
   - [1. Obtención de datos](#1-obtención-de-datos)
   - [2. Pre-procesamiento](#2-pre-procesamiento)
   - [3. Embeddings](#3-embeddings)
@@ -58,7 +63,7 @@ Cada etapa tiene su correspondiente notebook:
    
 2. Pre-procesamiento del mismo ([notebook](https://github.com/PerseoSoft/redditHateSpeech/blob/main/src/2_pipeline_preprocessing.ipynb)).
 
-3. Aplicación de embeddings y categorización en clústers (notebook [LDA](https://github.com/PerseoSoft/redditHateSpeech/blob/main/src/3a_pipeline_lda.ipynb) [Word2Vec](https://github.com/PerseoSoft/redditHateSpeech/blob/main/src/3b_pipeline_embedding_word2vec.ipynb) [FastText](https://github.com/PerseoSoft/redditHateSpeech/blob/main/src/3c_pipeline_embedding_fasttext.ipynb)).
+3. Aplicación de embeddings y categorización en clusters (notebook [LDA](https://github.com/PerseoSoft/redditHateSpeech/blob/main/src/3a_pipeline_lda.ipynb) [Word2Vec](https://github.com/PerseoSoft/redditHateSpeech/blob/main/src/3b_pipeline_embedding_word2vec.ipynb) [FastText](https://github.com/PerseoSoft/redditHateSpeech/blob/main/src/3c_pipeline_embedding_fasttext.ipynb)).
 
 4. Entrenamiento de un modelo de detección de odio y extracción de palabras de odio en cada dataset ([notebook](https://github.com/PerseoSoft/redditHateSpeech/blob/main/src/4_detect_hate_speech.ipynb)).
 Para realizar el entrenamiento de los modelos, es necesario contar con los datasets respectivos de tres competencias (Hateval, DETOXIS, MeOffendMex) que se desee entrenar.
@@ -67,7 +72,7 @@ Para realizar el entrenamiento de los modelos, es necesario contar con los datas
 
 6. Combinación de dicho modelo con las categorías encontradas para encontrar correlaciones ([notebook](https://github.com/PerseoSoft/redditHateSpeech/blob/main/src/6_pipeline_result.ipynb)).
 
-**Este informe y proyecto estan en proceso 🚧🔨, todavía sujetos a cambios, correcciones, y mejoras**
+**Este informe y proyecto están en proceso 🚧🔨, todavía sujetos a cambios, correcciones, y mejoras**
 
 ## Instalación
 
@@ -139,7 +144,7 @@ Los distintos notebooks forman un pipeline en el cuál cada uno utiliza los dato
 
 # Informe del proyecto
 
-Se muestra a continuación el informe del proyecto, en donde se especifican la motivación y objetivos del trabajo, y los distintos enfoques abordados para realizar la detección de odio.
+Se muestra a continuación el informe producto de este proyecto, en donde se especifican la motivación y objetivos del trabajo, y los distintos enfoques abordados para realizar la detección de odio.
 
 ## Introducción
 
@@ -168,37 +173,43 @@ No obstante, el problema de la propagación de odio permanece...
 
 ### Motivación del trabajo
 
-Considerando las consecuencias que puede traer aparejados los discursos de odio, este trabajo se enfoca en la detección de discursos de odio en una comunidad particular de reddit. Los objetivos del mismo son: **1)** detección de comentarios con discurso de odio, y **2)** caracterizar ese discurso de odio en sub-lenguajes de odio.
+Considerando las consecuencias que pueden traer aparejadas los discursos de odio, este trabajo se enfoca en la detección de tales discursos en una comunidad particular de reddit. Los objetivos del mismo son: **1)** detección de comentarios con discurso de odio, y **2)** caracterizar ese discurso de odio en sub-lenguajes de odio.
 
-El presente trabajo se basa en la siguiente hipótesis: "*en una comunidad en donde existen comentarios con discurso de odio, es beneficioso combinar técnicas de aprendizaje supervisado y no supervisado, para realizar la detección de subcomunidades de odio, a partir de modelos que se especializan en distintos grupos de comentarios*".
+El presente trabajo se basa en la siguiente hipótesis: *"en una comunidad en donde existen comentarios con discurso de odio, es beneficioso combinar técnicas de aprendizaje supervisado y no supervisado, para realizar la detección de subcomunidades de odio, a partir de modelos que se especializan en distintos grupos de comentarios"*.
 
 ### reddit
 
-[Reddit](https://www.reddit.com/) es una red social de “comunidades” creadas y moderadas por sus propios usuarios. En cada comunidad sus miembros hacen posts, y cada post puede ser comentado generando debate. Su aspecto distintivo es que cada post o comentario recibe votos, con el objetivo de que aquellos posts o comentarios que más aportan aparezcan encima de los que no. También se pueden premiar a aquellos destacados. 
+[Reddit](https://www.reddit.com/) es una red social de “comunidades”, creadas y moderadas por sus propios usuarios. En cada comunidad, sus miembros hacen posts, y cada post puede ser comentado generando debate. Su aspecto distintivo es que cada post o comentario recibe votos, con el objetivo de que aquellos posts o comentarios que más aportan aparezcan encima de los que no. También se pueden premiar a aquellos destacados. 
 
 En la siguiente imagen podemos ver la estructura general de un post en reddit:
 
 ![](misc/reddit.png)
 
-En este proyecto, nos centramos en [r/argentina](https://www.reddit.com/r/argentina/), que es una comunidad dedicada a charlar temas referentes a Argentina, que van desde comidas, costumbres, chistes, deporte, política y economía.
+
+En este proyecto, nos centramos en [r/argentina](https://www.reddit.com/r/argentina/), que es una comunidad dedicada a charlar temas referentes a Argentina, que incluyen comidas, costumbres, chistes, deporte, política,  economía, consejos, entre otros.
 
 #### ¿Por qué r/argentina?
 
-Quisimos hacer nuestro trabajo enfocado en una comunidad Argentina fuera de las redes sociales más comunes (dado que son aquellas más frecuentenemente estudiadas), pero que a la vez tenga el tamaño suficiente como para tener muchos usuarios e interacciones. En ese sentido, r/argentina fue la opción más prominente, ya que la comunidad es muy activa y cuenta con cerca de 350.000 subscriptores (a Noviembre de 2021).
+Quisimos hacer nuestro trabajo enfocado en una comunidad Argentina fuera de las redes sociales más comunes (dado que son aquellas más frecuentemente estudiadas), pero que a la vez tenga el tamaño suficiente como para tener muchos usuarios e interacciones. En ese sentido, r/argentina fue la opción más prominente, ya que la comunidad es muy activa y cuenta con cerca de 350.000 suscriptores (a Noviembre de 2021).
 
-De acuerdo a las reglas de r/argentina (en concreto, la Regla 3), el discurso de odio está prohibido:
+Respecto a su posición frente a discursos de odio, en las reglas de r/argentina (en concreto, la Regla 3) se deja totalmente de manifiesto su prohibición. Citando textualmente:
 
 >**3. No se permite el racismo, xenofobia u otras expresiones de odio**
 >
 > No se permite el racismo, xenofobia, ni ninguna otra forma de odio (incluyendo sexismo, homofobia, transfobia, clase social, etc), ni ningún tipo de discriminación o expresiones de odio o lenguaje deshumanizante en general; esto incluye comentarios incitando violencia. Esto también se extiende a grupos. Hacer referencia a enfermedades o discapacidades para insultar a otros no será tolerado. Usuarios que incurran en estas faltas podrán ser baneados permanentemente sin apelación.
 
-No obstante, al ver mensajes de la comunidad para llevar adelante este trabajo, hemos detectado en ciertos casos comentarios con discursos de odio, ej.: manifestando aporofobia, gordofobia, o agresiones contra mujeres, entre otros.
 
-Dado este , la motivación de nuestro trabajo es la de buscar comentarios o mensajes 
+No obstante, al elaborar este trabajo, hemos detectado casos de comentarios con discursos de odio, ej.: manifestando aporofobia, gordofobia, o agresiones contra mujeres, entre otros.
+
+Dada esta situación, la motivación de nuestro trabajo es la de poder detectar automáticamente este tipo de comentarios, pudiendo caracterizar los mismos en sub-comunidades.
 
 
+## Paso a paso del proyecto
 
-## 1. Obtención de datos
+A continuación, vemos el paso a paso de las distintas etapas de este proyecto, partiendo de los datos iniciales, cómo los mismos fueron procesados y usados para entrenar distintos algoritmos, los resultados obtenidos tras ello, y finalmente las conclusiones y trabajo futuro.
+
+
+### 1. Obtención de los datos
 
 [Notebook](/src/1_pipeline_download_reddit_comments.ipynb)
 
@@ -212,7 +223,7 @@ De cada comentario que se guardó de reddit, se obtuvieron los siguientes datos:
 - *comms_num*: número de respuestas que recibió el comentario.
 - *score*: es un puntaje que los usuarios le dieron al comentario.
 
-## 2. Pre-procesamiento
+### 2. Pre-procesamiento
 
 [Notebook](/src/2_pipeline_preprocessing.ipynb)
 
@@ -225,7 +236,7 @@ El pre-procesamiento consistió en:
 - Lematización utilizando spaCy.
 - Construir bigramas y trigramas.
 
-## 3. Embeddings
+### 3. Embeddings
 
 Para poder detectar las subcomunidades dentro de reddit, comenzamos utilizando [Latent Dirichlet Allocation](https://en.wikipedia.org/wiki/Latent_Dirichlet_allocation): un método generativo muy utilizado, en el que se asume que cada documento está compuesto por una mezcla de tópicos, y donde cada palabra se relaciona con uno de ellos.
 
@@ -243,10 +254,10 @@ A raíz de esto, probamos con *word embeddings* donde obtuvimos resultados que c
 
 Utilizamos dos técnicas de word embeddings: [Word2Vec](https://en.wikipedia.org/wiki/Word2vec) y [FastText](https://en.wikipedia.org/wiki/FastText).
 
-A continuación, mostramos algunos comentarios que fueron agrupados a través de las diferentes técnicas aplicadas. Un evento particular que sucedió durante la descarga de estos datos en reddit fue el debate de la "[Ley de Promoción de la Alimentación Saludable](https://www.boletinoficial.gob.ar/detalleAviso/primera/252728/20211112)", también conocida como "ley de etiquetado frontal". Vamos a comparar las subcomunidades obtenidos en cada técnica, analizando particularmente la aquellas referidas a este evento.
+A continuación, mostramos algunos comentarios que fueron agrupados a través de las diferentes técnicas aplicadas. Un evento particular que sucedió durante la descarga de estos datos en reddit fue el debate de la "[Ley de Promoción de la Alimentación Saludable](https://www.boletinoficial.gob.ar/detalleAviso/primera/252728/20211112)", también conocida como "ley de etiquetado frontal". Vamos a comparar las subcomunidades obtenidos en cada técnica, analizando particularmente aquéllas referidas a este evento.
 
 
-### 3a. Embeddings con LDA
+#### 3a. Embeddings con LDA
 
 [Notebook](/src/3a_pipeline_lda.ipynb)
 
@@ -306,7 +317,8 @@ El *cluster* número 113, **ley - etiquetado - votar**, incluye comentarios sobr
 
 [Notebook](/src/4_detect_hate_speech.ipynb)
 
-En paralelo a la búsqueda de clústers que agrupen los distintos tópicos, se buscó también, a partir de los datos [pre-procesados anteriormente](#2-pre-procesamiento) el detectar automáticamente comentarios de odio, para poder combinarlos con los [tópicos encontrados](#3-embeddings). Para ello, se recurrió a conjuntos de datos anotados y en castellano, que hayan utilizados para tareas similares. En particular, se optó por los siguientes tres:
+
+En paralelo a la búsqueda de clústers que agrupan los distintos tópicos, se buscó también, a partir de los datos [pre-procesados anteriormente](#2-pre-procesamiento) el detectar automáticamente comentarios de odio, para poder combinarlos con los [tópicos encontrados](#3-embeddings). Para ello, se recurrió a conjuntos de datos anotados y en castellano, que hayan utilizados para tareas similares. En particular, se optó por los siguientes tres:
 
 **TODO poner las etiquetas que se decidieron usar en cada dataset**
 
@@ -366,21 +378,31 @@ Estando generados los clusters, los modelos entrenados, las palabras de odio y l
 
 - Tomando el enfoque de este trabajo como base, buscar caracterizar el discurso de odio en otras comunidades de foros populares argentinos, tales como [Taringa!](https://www.taringa.net/), [r/republicaargentina](https://www.reddit.com/r/RepublicaArgentina/), [r/dankargentina](https://www.reddit.com/r/dankargentina/), o comunidades argentinas en Twitter.
 
+- Explorar la relación entre "baits" y la generación de discursos de odio en los comentarios alrededor de los mismos. Por ejemplo, posts con información no verificada o con una editorialización marcada (pudiendo estar generada tanto por un medio, o que el título haya sido cambiado por quien realizó el post), o memes o chistes con animosidad hacia un determinado grupo o persona.
+
 ### Clustering
 
 - Usar coeficientes de silueta para determinar el número óptimo de clústers.
 
 ### Modelo
 
-- Realizar un etiquetado en diferentes comentarios de r/argentina que pertenezcan a ciertos clusters que potencialmente contengan odio, y entrenar un modelo a partir de ellos, para poder mejorar la detección de comentarios de odio.
-- Realizar optimización de híper-parámetros.
+- Realizar optimización de híper-parámetros para mejorar el rendimiento de los modelos.
+  
+- Realizar un etiquetado en diferentes comentarios de r/argentina que pertenezcan a ciertos clusters que potencialmente contengan odio (o bien que pertenezcan a un cierto Flair), y entrenar un modelo a partir de ellos, para poder mejorar la detección de comentarios de odio.
 
 ### Información de contexto
 
 - Incorporar info de la comunidad, para ver qué tan de acuerdo estuvieron los usuarios con los comentarios.
+  
 - Incorporar el contexto del comentario padre, especialmente si se lo está respondiendo. Esto es dado que un mensaje puede no ser un mensaje de odio por sí sólo, pero sí lo es al observar el comentario al que se contesta.
+  
+- Incorporar el puntaje y premios de los posts y comentarios en el análisis.
+  
 - Considerar dejar de alguna forma los emojis, ya que también pueden representar una forma de manifestar odio.
-- Incorporar más los tags al análisis, como por ejemplo: “\[Serio\]”.
+  
+- Incorporar los tags al análisis, como por ejemplo: “\[Serio\]”.
+  
+- Incluir en el contexto el análisis morfosintáctico de las palabras.
 
 
 ## Fuentes consultadas para el trabajo
