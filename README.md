@@ -1,54 +1,8 @@
-Caracterización de discurso de odio en r/argentina
-
-
----
-
-Índice
-
-- [Vistazo rápido](#vistazo-rápido)
-  - [Instalación](#instalación)
-    - [Instalación con conda](#instalación-con-conda)
-    - [Instalación con Docker Compose](#instalación-con-docker-compose)
-  - [Flujo de datos generados](#flujo-de-datos-generados)
-- [Informe del proyecto](#informe-del-proyecto)
-  - [Introducción](#introducción)
-    - [Discursos de odio](#discursos-de-odio)
-    - [Motivación del trabajo](#motivación-del-trabajo)
-    - [reddit](#reddit)
-      - [¿Por qué r/argentina?](#por-qué-rargentina)
-  - [Paso a paso del proyecto](#paso-a-paso-del-proyecto)
-    - [1. Obtención de los datos](#1-obtención-de-los-datos)
-    - [2. Pre-procesamiento](#2-pre-procesamiento)
-    - [3. Embeddings](#3-embeddings)
-      - [3a. Embeddings con LDA](#3a-embeddings-con-lda)
-  - [1. Obtención de datos](#1-obtención-de-datos)
-  - [2. Pre-procesamiento](#2-pre-procesamiento)
-  - [3. Embeddings](#3-embeddings)
-    - [3a. Embeddings con LDA](#3a-embeddings-con-lda)
-    - [3b. Embeddings con Word2Vec](#3b-embeddings-con-word2vec)
-    - [3c. Embeddings con FastText](#3c-embeddings-con-fasttext)
-  - [4. Entrenamiento del detector de odio](#4-entrenamiento-del-detector-de-odio)
-  - [5. Aplicación del modelo a los comentarios de reddit](#5-aplicación-del-modelo-a-los-comentarios-de-reddit)
-  - [6. Análisis de resultados](#6-análisis-de-resultados)
-  - [Conclusiones](#conclusiones)
-  - [Trabajo futuro](#trabajo-futuro)
-    - [General](#general)
-    - [Clustering](#clustering)
-    - [Modelo](#modelo)
-    - [Información de contexto](#información-de-contexto)
-  - [Fuentes consultadas para el trabajo](#fuentes-consultadas-para-el-trabajo)
-    - [Discursos de odio](#discursos-de-odio-1)
-    - [reddit API](#reddit-api)
-    - [Procesamiento de lenguaje natural](#procesamiento-de-lenguaje-natural)
-    - [Clustering](#clustering-1)
-    - [Competencias](#competencias)
-    - [Trabajos relacionados](#trabajos-relacionados)
-
 
 
 # Vistazo rápido
 
-El presente repo contiene el código correspondiente al proyecto final de la materia [Minería de datos para texto](https://sites.google.com/unc.edu.ar/textmining2021/), a cargo de Laura Alonso i Alemany.
+El presente repo contiene el código correspondiente al proyecto final de la materia [Minería de datos para texto](https://sites.google.com/unc.edu.ar/textmining2021/), a cargo de [Laura Alonso i Alemany](https://cs.famaf.unc.edu.ar/~laura/).
 
 Objetivo del proyecto: Caracterizar discursos de odio dentro de la comunidad de [reddit Argentina](https://reddit.com/r/argentina). Esto es, detectarlos y encontrar sub-lenguajes de odio en los mismos.
 
@@ -59,20 +13,21 @@ Para realizar esto, se llevó a cabo un proceso consistente en 6 etapas, como se
 
 Cada etapa tiene su correspondiente notebook:
 
-1. Obtención del conjunto de comentarios de a través de la API de Reddit ([notebook](https://github.com/PerseoSoft/redditHateSpeech/blob/main/src/1_pipeline_download_reddit_comments.ipynb)).
+1. Obtención del conjunto de comentarios de a través de la API de Reddit ([link](https://github.com/PerseoSoft/redditHateSpeech/blob/main/src/1_pipeline_download_reddit_comments.ipynb)).
    
-2. Pre-procesamiento del mismo ([notebook](https://github.com/PerseoSoft/redditHateSpeech/blob/main/src/2_pipeline_preprocessing.ipynb)).
+2. Pre-procesamiento del mismo ([link](https://github.com/PerseoSoft/redditHateSpeech/blob/main/src/2_pipeline_preprocessing.ipynb)).
 
-3. Aplicación de embeddings y categorización en clusters (notebook [LDA](https://github.com/PerseoSoft/redditHateSpeech/blob/main/src/3a_pipeline_lda.ipynb) [Word2Vec](https://github.com/PerseoSoft/redditHateSpeech/blob/main/src/3b_pipeline_embedding_word2vec.ipynb) [FastText](https://github.com/PerseoSoft/redditHateSpeech/blob/main/src/3c_pipeline_embedding_fasttext.ipynb)).
+3. Aplicación de embeddings y categorización en clusters (notebook [LDA](https://github.com/PerseoSoft/redditHateSpeech/blob/main/src/3a_pipeline_lda.ipynb) [Word2vec](https://github.com/PerseoSoft/redditHateSpeech/blob/main/src/3b_pipeline_embedding_word2vec.ipynb) [fastText](https://github.com/PerseoSoft/redditHateSpeech/blob/main/src/3c_pipeline_embedding_fasttext.ipynb)).
 
-4. Entrenamiento de un modelo de detección de odio y extracción de palabras de odio en cada dataset ([notebook](https://github.com/PerseoSoft/redditHateSpeech/blob/main/src/4_detect_hate_speech.ipynb)).
+4. Entrenamiento de un modelo de detección de odio y extracción de palabras de odio en cada dataset ([link](https://github.com/PerseoSoft/redditHateSpeech/blob/main/src/4_detect_hate_speech.ipynb)).
 Para realizar el entrenamiento de los modelos, es necesario contar con los datasets respectivos de tres competencias (Hateval, DETOXIS, MeOffendMex) que se desee entrenar.
 
-5. Uso del modelo para predecir los comentarios recolectados ([notebook](https://github.com/PerseoSoft/redditHateSpeech/blob/main/src/5_pipeline_hate_speech.ipynb)).
+5. Uso del modelo para predecir los comentarios recolectados ([link](https://github.com/PerseoSoft/redditHateSpeech/blob/main/src/5_pipeline_hate_speech.ipynb)).
 
-6. Combinación de dicho modelo con las categorías encontradas para encontrar correlaciones ([notebook](https://github.com/PerseoSoft/redditHateSpeech/blob/main/src/6_pipeline_result.ipynb)).
+6. Combinación de dicho modelo con las categorías encontradas para encontrar correlaciones ([link](https://github.com/PerseoSoft/redditHateSpeech/blob/main/src/6_pipeline_result.ipynb)).
 
 **Este informe y proyecto están en proceso 🚧🔨, todavía sujetos a cambios, correcciones, y mejoras**
+
 
 ## Instalación
 
@@ -142,15 +97,55 @@ Los distintos notebooks forman un pipeline en el cuál cada uno utiliza los dato
    - Archivos de salida: N/A.
 
 
+---
+
 # Informe del proyecto
 
 Se muestra a continuación el informe producto de este proyecto, en donde se especifican la motivación y objetivos del trabajo, y los distintos enfoques abordados para realizar la detección de odio.
+
+Índice
+
+- [Vistazo rápido](#vistazo-rápido)
+  - [Instalación](#instalación)
+    - [Instalación con conda](#instalación-con-conda)
+    - [Instalación con Docker Compose](#instalación-con-docker-compose)
+  - [Flujo de datos generados](#flujo-de-datos-generados)
+- [Informe del proyecto](#informe-del-proyecto)
+  - [Introducción](#introducción)
+    - [Discursos de odio](#discursos-de-odio)
+    - [Motivación del trabajo](#motivación-del-trabajo)
+    - [reddit](#reddit)
+      - [¿Por qué r/argentina?](#por-qué-rargentina)
+  - [Paso a paso del proyecto](#paso-a-paso-del-proyecto)
+    - [1. Obtención de los datos](#1-obtención-de-los-datos)
+    - [2. Pre-procesamiento](#2-pre-procesamiento)
+    - [3. Representación de tópicos mediante embeddings](#3-representación-de-tópicos-mediante-embeddings)
+      - [3a. Embeddings con LDA](#3a-embeddings-con-lda)
+    - [3b. Embeddings con Word2vec](#3b-embeddings-con-word2vec)
+    - [3c. Embeddings con fastText](#3c-embeddings-con-fasttext)
+  - [4. Entrenamiento del detector de odio](#4-entrenamiento-del-detector-de-odio)
+  - [5. Aplicación del modelo a los comentarios de reddit](#5-aplicación-del-modelo-a-los-comentarios-de-reddit)
+  - [6. Análisis de resultados](#6-análisis-de-resultados)
+  - [Conclusiones](#conclusiones)
+  - [Trabajo futuro](#trabajo-futuro)
+    - [General](#general)
+    - [Clustering](#clustering)
+    - [Modelo](#modelo)
+    - [Información de contexto](#información-de-contexto)
+  - [Fuentes consultadas para el trabajo](#fuentes-consultadas-para-el-trabajo)
+    - [Discursos de odio](#discursos-de-odio-1)
+    - [reddit API](#reddit-api)
+    - [Procesamiento de lenguaje natural](#procesamiento-de-lenguaje-natural)
+    - [Clustering](#clustering-1)
+    - [Competencias](#competencias)
+    - [Trabajos relacionados](#trabajos-relacionados)
+
 
 ## Introducción
 
 ### Discursos de odio
 
-El discurso de odio es un problema muy relevante en la actualidad, dado su rol en la discriminación de grupos y minorías sociales, y [es considerado como precursor de crímenes de odio, que incluyen al genocido](). **TODO agregar cita**
+El discurso de odio es un problema muy relevante en la actualidad, dado su rol en la discriminación de grupos y minorías sociales, y [es considerado como precursor de crímenes de odio, que incluyen al genocidio](). **TODO agregar cita**
 
 Hay varias posturas sobre lo que es el discurso de odio, en general se coincide en que es un discurso que:
 
@@ -173,7 +168,7 @@ No obstante, el problema de la propagación de odio permanece...
 
 ### Motivación del trabajo
 
-Considerando las consecuencias que pueden traer aparejadas los discursos de odio, este trabajo se enfoca en la detección de tales discursos en una comunidad particular de reddit. Los objetivos del mismo son: **1)** detección de comentarios con discurso de odio, y **2)** caracterizar ese discurso de odio en sub-lenguajes de odio.
+Considerando las consecuencias que pueden traer aparejadas los discursos de odio, este trabajo se enfoca en la detección de tales discursos en una comunidad particular de reddit. Los objetivos del mismo son: **1)** detección de comentarios con discurso de odio y **2)** caracterizar ese discurso de odio en sub-lenguajes de odio.
 
 El presente trabajo se basa en la siguiente hipótesis: *"en una comunidad en donde existen comentarios con discurso de odio, es beneficioso combinar técnicas de aprendizaje supervisado y no supervisado, para realizar la detección de subcomunidades de odio, a partir de modelos que se especializan en distintos grupos de comentarios"*.
 
@@ -199,67 +194,69 @@ Respecto a su posición frente a discursos de odio, en las reglas de r/argentina
 > No se permite el racismo, xenofobia, ni ninguna otra forma de odio (incluyendo sexismo, homofobia, transfobia, clase social, etc), ni ningún tipo de discriminación o expresiones de odio o lenguaje deshumanizante en general; esto incluye comentarios incitando violencia. Esto también se extiende a grupos. Hacer referencia a enfermedades o discapacidades para insultar a otros no será tolerado. Usuarios que incurran en estas faltas podrán ser baneados permanentemente sin apelación.
 
 
-No obstante, al elaborar este trabajo, hemos detectado casos de comentarios con discursos de odio, ej.: manifestando aporofobia, gordofobia, o agresiones contra mujeres, entre otros.
+No obstante, al elaborar este trabajo, hemos detectado casos de comentarios con discursos de odio, ej.: manifestando [aporofobia](https://es.wikipedia.org/wiki/Aporofobia), [obesofobia](https://es.wikipedia.org/wiki/Obesofobia), o comentarios agresivos contra mujeres, entre otros.
 
 Dada esta situación, la motivación de nuestro trabajo es la de poder detectar automáticamente este tipo de comentarios, pudiendo caracterizar los mismos en sub-comunidades.
 
 
 ## Paso a paso del proyecto
 
-A continuación, vemos el paso a paso de las distintas etapas de este proyecto, partiendo de los datos iniciales, cómo los mismos fueron procesados y usados para entrenar distintos algoritmos, los resultados obtenidos tras ello, y finalmente las conclusiones y trabajo futuro.
+Se describe a continuación, el paso a paso de las distintas etapas de este proyecto, partiendo de los datos iniciales, cómo los mismos fueron procesados y usados para entrenar distintos algoritmos, los resultados obtenidos tras ello, y finalmente las conclusiones y trabajo futuro.
 
 
 ### 1. Obtención de los datos
 
 [Notebook](/src/1_pipeline_download_reddit_comments.ipynb)
 
-Para la obtención de los datos se utilizó un *wrapper* de la API de reddit, llamado [praw](https://praw.readthedocs.io/en/stable/index.html), a partir del cuál descargamos comentarios de diferentes *post* del *subreddit* argentina, así como las respuestas de los comentarios.
-Los comentarios en reddit pueden ser *link* o pueden ser solo textos. Filtramos solamente los comentarios que tengan textos. A la vez solo se consideraron comentarios que tuvieran como mínimo cierta cantidad de caracteres.
+Para la obtención de los datos se utilizó un *wrapper* de la API de reddit, llamado [PRAW](https://praw.readthedocs.io/en/stable/index.html), a partir del cual se descargaron comentarios de diferentes *post* del r/argentina, así como las respuestas de los comentarios.
+Los posts en reddit pueden ser de tipo *link* (por ejemplo, colocando el link hacia una noticia), o pueden ser de tipo texto.
+Para la descarga de comentarios de cada post, se consideraron sólo aquellos que contenían texto, y una cierta cantidad de caracteres como mínimo.
 
 De cada comentario que se guardó de reddit, se obtuvieron los siguientes datos:
-- *id*: identificador del *post* o comentario. Se guardó por cuestiones de trazabilidad.
+- *id*: identificador del *post* o comentario. Guardado por cuestiones de trazabilidad.
 - *comment_parent_id*: identificador del comentario al cuál responde el comentario actual, en caso que corresponda. Se guardó por cuestiones de trazabilidad.
 - *flair*: categoría del post, asignada por el usuario que lo crea (a partir de una lista brindada por el propio subreddit). En el caso de r/argentina, las categorías incluyen tópicos como "Política", "Economía", "Humor", "Historia" o "Serio".
 - *comms_num*: número de respuestas que recibió el comentario.
 - *score*: es un puntaje que los usuarios le dieron al comentario.
 
+En total, se descargaron **TODO** comentarios, desde el día **TODO** hasta el **TODO**.
+
+
 ### 2. Pre-procesamiento
 
 [Notebook](/src/2_pipeline_preprocessing.ipynb)
 
-El pre-procesamiento consistió en:
+Teniendo descargados los datos, se aplicó un pre-procesamiento sobre cada comentario, que consistió en:
 
-- Eliminar emojis, urls, comillas, caracteres especiales, puntuaciones.
-- Aplicar tokenización: en cada comentario, el token era la palabra.
+- Eliminar emojis, urls, comillas, caracteres especiales y puntuaciones.
+- Aplicar tokenización, dividiendo cada comentario en sus correspondientes palabras.
 - Conversión a minúscula.
-- Eliminación de stopwords utilizando spaCy.
-- Lematización utilizando spaCy.
+- Eliminación de *stopwords* (mediante spaCy).
+- Lematización (mediante spaCy).
 - Construir bigramas y trigramas.
 
-### 3. Embeddings
+### 3. Representación de tópicos mediante embeddings
 
-Para poder detectar las subcomunidades dentro de reddit, comenzamos utilizando [Latent Dirichlet Allocation](https://en.wikipedia.org/wiki/Latent_Dirichlet_allocation): un método generativo muy utilizado, en el que se asume que cada documento está compuesto por una mezcla de tópicos, y donde cada palabra se relaciona con uno de ellos.
+Teniendo los comentarios pre-procesados, el siguiente objetivo fue detectar tópicos a partir de los mismos de acuerdo a las co-ocurrencias de las palabras, para poder identificar los distintos temas que se hablan, y los sublenguajes empleados en ellos.
 
-La elección inicial de este modelo se basó en la diversidad de tópicos que el mismo es capaz de detectar.
+Para poder llevar esto a cabo, se emplearon tres métodos en los datos obtenidos:
 
-Al aplicar este modelo, hemos observado que esta **TODO**.
+1. Latent Dirichlet Allocation.
+2. Word2vec.
+3. fastText.
 
+Se describe a continuación cada uno de ellos, mostrando particularmente algunos comentarios que fueron agrupados a través de las diferentes técnicas aplicadas. Un evento particular que sucedió durante la descarga de estos datos en reddit fue el debate de la "[Ley de Promoción de la Alimentación Saludable](https://www.boletinoficial.gob.ar/detalleAviso/primera/252728/20211112)", también conocida como "ley de etiquetado frontal". Vamos a comparar las subcomunidades obtenidas en cada técnica, analizando particularmente aquéllas referidas a este evento.
 
-Sin embargo, los resultados que obtuvimos no fueron satisfactorios, ya que a la hora de realizar un análisis de los tópicos identificados por el modelo, encontramos poca cohesión entre los temas.
-
-A raíz de esto, probamos con *word embeddings* donde obtuvimos resultados que captan mucho mejor la semántica de la información. El proceso que llevamos a cabo en word embeddings para obtener las subcomunidades fue:
-
-1. Generar una representación vectorial de los comentarios: se mapearon los comentarios a partir de palabras en vectores numéricos.
-2. Aplicamos un algoritmo de *clustering*, particularmente *k-means*, donde las características que se pasaron son los vectores numéricos obtenidos en el paso anterior.
-
-Utilizamos dos técnicas de word embeddings: [Word2Vec](https://en.wikipedia.org/wiki/Word2vec) y [FastText](https://en.wikipedia.org/wiki/FastText).
-
-A continuación, mostramos algunos comentarios que fueron agrupados a través de las diferentes técnicas aplicadas. Un evento particular que sucedió durante la descarga de estos datos en reddit fue el debate de la "[Ley de Promoción de la Alimentación Saludable](https://www.boletinoficial.gob.ar/detalleAviso/primera/252728/20211112)", también conocida como "ley de etiquetado frontal". Vamos a comparar las subcomunidades obtenidos en cada técnica, analizando particularmente aquéllas referidas a este evento.
-
+**TODO agregar los tópicos detectados de insultos / posible odio para comparar en los tres modelos**
 
 #### 3a. Embeddings con LDA
 
 [Notebook](/src/3a_pipeline_lda.ipynb)
+
+El primer modelo que se comenzó utilizando es [Latent Dirichlet Allocation](https://en.wikipedia.org/wiki/Latent_Dirichlet_allocation), que es un método generativo que asume que cada documento está compuesto por una mezcla de tópicos, y donde cada palabra tiene una probabilidad de relacionarse con cada uno de ellos.
+La elección inicial de LDA se fundamentó en que es un método sólido para detección de tópicos en corpus de texto.
+
+El modelo se aplicó probando tamaños de clústers de **TODO** a **TODO**, y distintas configuraciones de híper-parámetros. No obstante, los resultados obtenidos  no fueron satisfactorios, ya que a la hora de realizar un análisis de los tópicos identificados por el modelo, se encontró poca cohesión entre los tópicos detectados.
 
 En la siguiente imagen se pueden observar algunos de los tópicos identificados por LDA.
 
@@ -268,21 +265,37 @@ En la siguiente imagen se pueden observar algunos de los tópicos identificados 
 El tópico número 91, **piedra - etiqueta - pan - mira**, incluye comentarios sobre la tratativa de la ley de etiquetado y temas que tienen que ver con la comida en general. Algunos comentarios son:
 
 1. "Me alegro mucho, seguro muy feliz todos por el reencuentro. Igual te recomiendo que no coma directo de la lata, pasale a un platito o comedero. Entiendo que a veces ni te dan tiempo."
-2. "Todo mi secundario el desayuno fue un fantoche triple y una lata de coca.  Y sólo gastaba 2. Qué buenos tiempos.""
+2. "Todo mi secundario el desayuno fue un fantoche triple y una lata de coca.  Y sólo gastaba 2. Qué buenos tiempos."
 3. "La manteca no hace mal. Es muy difícil comer exceso de grasas para tu cuerpo en comparación con lo fácil que es atiborrarte con azúcar y carbohidratos. Esos son los verdaderos enemigos"
 4. "Y con etiquetas que te dicen cuánta grasa tiene un kilo de bayonesa"
 5. "Alta banfest se van a mandar los mods con este thread. Despedite de tu cuenta, maquinola, denunciado"
 
 
-### 3b. Embeddings con Word2Vec
+**TODO agregar también una imagen de las proyecciones realizadas con PCA (que serían los embeddings aquí aplicados) para mostrar la distribución de tópicos. También se puede agregar más info sobre híper-parámetros y demás**
+
+
+### 3b. Embeddings con Word2vec
 
 [Notebook](/src/3b_pipeline_embedding_word2vec.ipynb)
 
-En la siguiente imagen se pueden observar algunas de las subcomunidades identificadas por Word2Vec.
+Dado que el funcionamiento con LDA no se consideró como satisfactorio, el siguiente paso consistió probar otro tipo de modelos: los *embeddings* de palabras.
+Los mismos consisten en llevar las palabras a un nuevo espacio, de forma tal que aquellas que comparten un contexto común en los comentarios obtenidos, tiendan a encontrarse mucho más cerca que aquellas que no.
+De esta manera, se podrían identificar subcomunidades en este nuevo espacio.
+
+Para ello, se llevaron a cabo los siguientes pasos:
+
+1. Entrenar el modelo de generación de embeddings de palabras mediante una *tarea de pretexto* (dada una palabra, predecir información relacionada a su contexto, por ejemplo una palabra que le sigue). Se emplearon dos modelos: [Word2vec](https://en.wikipedia.org/wiki/Word2vec), cuyos resultados se muestran en esta sección, y [fastText](https://en.wikipedia.org/wiki/fastText), mostrado en la siguiente.
+2. Una vez entrenados los modelos, se procedió a generar una representación vectorial de cada comentario, donde cada uno se mapeó a un vector numérico de acuerdo al promedio de los embeddings de cada una de sus palabras.
+3. Se aplicó el algoritmo de *clustering* *[k-means](https://en.wikipedia.org/wiki/K-means_clustering)*, tomando los vectores generados en el paso anterior.
+
+Tras realizar el entrenamiento y aplicar clustering, se observaron que los tópicos obtenidos se identificaban de forma mucho mejor que al usar LDA.
+En la siguiente imagen se pueden observar algunas de las subcomunidades identificadas tras aplicar Word2vec.
+
+**TODO mencionar que se probaron distintos numeros de clústers y el que mejor funcionó fue 120, porque se identifican claramente ciertos tópicos, a pesar de que otros no tienen una identidad común**
 
 ![](misc/embedding_2.png)
 
-El *cluster* número 94, **ley - etiquetado - proyecto**, incluye comentarios sobre la tratativa de la ley de etiquetado y temas que tienen que ver con las leyes en general. Algunos comentarios son:
+En particular, el *cluster* número 94, **ley - etiquetado - proyecto**, es el que incluye comentarios sobre la tratativa de la ley de etiquetado y temas que tienen que ver con las leyes en general. Algunos comentarios del mismo son:
 
 1. "Una prueba mas de la ley de oferta y demanda"
 2. "Con la nueva ley no le podés regalar leche entera o un alfajor a un comedor, decir comida basura en un país donde el 50\% de los chicos no hacen toda las comidas es lo más clasista que existe."
@@ -291,16 +304,19 @@ El *cluster* número 94, **ley - etiquetado - proyecto**, incluye comentarios so
 5. "Pero hay leyes contra la violencia de genero! Como paso esto!!!1!?"
 6. "No existe tal cosa en Argentina. Existe el Estado de Sitio, pero no se asemeja para nada a una ley marcial.. El concepto de ley marcial como tal, desapareció en el 94 con la nueva Constitución."
 
+**TODO agregar ejemplos de clusters de insultos y relacionados**
 
-### 3c. Embeddings con FastText
+### 3c. Embeddings con fastText
 
 [Notebook](/src/3c_pipeline_embedding_fasttext.ipynb)
 
-En la siguiente imagen se pueden observar algunas de las subcominidades identificados por FastText.
+Finalmente, el último método aplicado fue [fastText](https://en.wikipedia.org/wiki/fastText) que entrena una tarea de pretexto para generar un embedding de palabras al igual que Word2vec, pero además tiene en cuenta las sub-palabras, lo cuál resulta útil para identificar las alteraciones que puede tener una misma palabra.
+
+En la siguiente imagen se pueden observar algunas de las subcomunidades identificadas por fastText.
 
 ![](misc/embedding_3.png)
 
-Como se puede ver en el cluster **jaja - jajaja - jajajar - jajajaja - jajaj**, FastText identifica mejor las alteraciones que pueden suceder dentro de una palabra.
+Como se puede ver en el cluster **jaja - jajaja - jajajar - jajajaja - jajaj**, fastText identifica mejor las alteraciones que pueden suceder dentro de una palabra.
 
 El *cluster* número 113, **ley - etiquetado - votar**, incluye comentarios sobre la tratativa de la ley de etiquetado y temas que tienen que ver con las leyes en general. Algunos comentarios son:
 
@@ -311,6 +327,8 @@ El *cluster* número 113, **ley - etiquetado - votar**, incluye comentarios sobr
 5. "Eso y que la ley va a prohibir vender dulces y gaseosas en los colegios, y usar imágenes de famosos en los envases."
 6. "Eso está por la ley Micaela no?. Tipo esta clase de capacitaciones no?"
 7. "y ahora Lipovetzky reconoce lo de la ley de alquileres"
+
+**TODO agregar ejemplos de clusters de insultos y relacionados**
 
 
 ## 4. Entrenamiento del detector de odio
@@ -334,7 +352,7 @@ Para realizar el entrenamiento, a cada comentario se le aplicó el vectorizador 
 
 **TODO**
 
-$$$$
+$$X = $$
 
 donde los predictores representan los unigramas, bigramas y trigramas de cada comentario.
 
