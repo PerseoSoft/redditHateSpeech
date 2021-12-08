@@ -304,8 +304,6 @@ En particular, el *cluster* número 94, **ley - etiquetado - proyecto**, es el q
 5. "Pero hay leyes contra la violencia de genero! Como paso esto!!!1!?"
 6. "No existe tal cosa en Argentina. Existe el Estado de Sitio, pero no se asemeja para nada a una ley marcial.. El concepto de ley marcial como tal, desapareció en el 94 con la nueva Constitución."
 
-**TODO agregar ejemplos de clusters de insultos y relacionados**
-
 ### 3c. Embeddings con fastText
 
 [Notebook](/src/3c_pipeline_embedding_fasttext.ipynb)
@@ -328,7 +326,21 @@ El *cluster* número 113, **ley - etiquetado - votar**, incluye comentarios sobr
 6. "Eso está por la ley Micaela no?. Tipo esta clase de capacitaciones no?"
 7. "y ahora Lipovetzky reconoce lo de la ley de alquileres"
 
-**TODO agregar ejemplos de clusters de insultos y relacionados**
+Si bien existen algunos *clusters* que nos permiten identificar tópicos especificos (como el 113), se observó que si bien el método detecta variantes de palabras, en términos generales los *clusters* no se traducen en tópicos cohesivos. Por ejemplo, en el *cluster* número 54 encontrarmos comentarios de diferentes tópicos:
+1. No lo veo a Belgrano? Saavedra?. Me re mintieron!
+2. Mate de cafe re copado, un litro de cafe en tu organismo
+3. ajajajajajaj Geologia, es re linda carrera igual pero esta materia es una completa mierda
+4. cuando dije eso? milei está re bajon desde el debate del otro dia, me lo dice gente que habla con el casi todos los dias
+
+También se observó que algunos *clusters* se construyen exclusivamente alrededor de una palabra y sus variantes, por ejemplo el 43 se construyó alrededor de la palabra **decir**:
+
+1. Por eso dije ""en general"". Hay excepciones.
+2. Son los muy menos. Yo diría que 1 de cada 100.
+3. 6! Seis! Seis, por favor! Dije seissss??!!
+4. sera lo que el gobierno diga
+5. Lo sé lo sé... Me lo decía mi abuela
+
+Observando esto, y el buen rendimiento observado al usar Word2vec, se optó finalmente por avanzar en la identificación de subcomunidades empleando dicha técnica.
 
 
 ## 4. Entrenamiento del detector de odio
