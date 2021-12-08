@@ -395,8 +395,75 @@ Los modelos entrenados detectaron .
 
 [Notebook](/src/6_pipeline_result.ipynb)
 
-Estando generados los clusters, los modelos entrenados, las palabras de odio y los resultados, se procede a hacer un análisis de los resultados obtenidos.
+Para analizar los resultados se seleccionaron *clusters* para realizar un análisis detallado. Los *clusters* se seleccionaron de manera que fueran representativos de las subcomunidades detectadas con Word2Vec.  
 
+Las subcomunidades a analizar son sobre género y soberanía. Para cada caso, se realizó un análisis manual sobre si el comentario contenía discurso de odio y si era agresivo. El resultado de este análisis se encuentran en los siguientes documentos:
+
+- [Análisis manual de género](/src/docs/analisis/genero.csv)
+- [Análisis manual de soberanía](/src/docs/analisis/genero.csv)
+
+
+A continuación, analizamos los resultados de cada subcomunidad:
+
+### Subcomunidad de Género
+
+El *cluster* número 99 contiene comentarios que hacen referencia a géneros, tales como mujer, hombre, no binario, homosexual, trans.
+
+**TODO agregar la comparación entre lo realizado por el modelo y lo manual.**
+
+### Comentarios que se detectaron correctamente como discurso de odio o agresivos:
+
+- Vamos todos juntos!!: "*a La mUjEr sE le CrEe sieMpReEEe!!!*"
+- Seguro era un hombre vestido de mujer!!! las mujeres no hacen esas cosas, son seres de luz! jamas harian eso!!!
+- Espert es lo mejor que hay, lamentablemente nunca va a llegar a ser presidente porque su mujer es fea.. A menos que se separe y establezca relación con una mujer más atractiva.
+- Pero los hombres son pajeros y lo hacen gratis. Conseguir hombres es casi gratis.
+
+### Comentarios que se detectaron incorrectamente como discurso de odio o agresivos:
+
+- Es cierto que las cárceles de mujeres son mucho peores que las de los hombres?
+- Pobre hombre. Pobre familia. Ni se lo vio venir ):
+- Ajajja escribo re contra mal, pero es cierto que puede afectar a los hombres! Graciassss
+- La pregunta para definir si ir es: aparte de lo que contas, había Mujeres?
+
+### Comentarios que se detectaron correctamente como no discurso de odio y no agresivos:
+
+- Estás minimizando el sufrimiento de la mujer
+- No binario quiere decir que no se identifica ni como mujer ni como hombre. Si se identifica como mujer entonces es binario.
+- Que el ministerio se llame "de mujeres y géneros" no es redundante?
+- Uff siendo mujer debe ser mucho más jodido…
+
+### Comentarios que se detectaron correctamente como no discurso de odio y no agresivos:
+
+- Recuerden chiques: si al crimen lo comete una mujer, lo justificamos como sea. MAL
+- Hombre y mujer, el resto son diferentes gamas de homosexualidad
+- Si un hombre siquiera está cerca dd una mujer sin su completa aprobación, es automáticamente violencia de género, machismo y patriarcado.. - alguna feminazi.
+- Eso prueba que las mujeres siempre estan cachondas.
+
+**TODO Analizar el promedio de los puntajes y comentarios. Se puede ver que los hate speech tienen más pruntajes y número de comentarios que lo que no lo son**
+
+![](misc/genero_freq.png)
+
+![](misc/genero_pmi.png)
+
+### Subcomunidad de Soberanía
+
+Esta subcomunidad incluye comentarios que hacen referencia a diferentes tipos de soberanía, como la territorial. Dentro del tópico se ven comentarios referidos al conflicto mapuche, a las islas malvinas, nacionalización del Kimchi, entre muchos otros.
+
+### Comentarios que se detectaron correctamente como discurso de odio o agresivos:
+
+
+### Comentarios que se detectaron incorrectamente como discurso de odio o agresivos:
+
+
+### Comentarios que se detectaron correctamente como no discurso de odio y no agresivos:
+
+
+### Comentarios que se detectaron correctamente como no discurso de odio y no agresivos:
+
+
+![](misc/mapuche_freq.png)
+
+![](misc/mapuche_pmi.png)
 
 ## Conclusiones
 
