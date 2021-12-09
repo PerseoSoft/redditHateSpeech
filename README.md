@@ -123,8 +123,8 @@ Se muestra a continuación el informe producto de este proyecto, en donde se esp
       - [3a. Embeddings con LDA](#3a-embeddings-con-lda)
     - [3b. Embeddings con Word2vec](#3b-embeddings-con-word2vec)
     - [3c. Embeddings con fastText](#3c-embeddings-con-fasttext)
-  - [4. Entrenamiento del detector de odio](#4-entrenamiento-del-detector-de-odio)
-  - [5. Aplicación del modelo a los comentarios de reddit](#5-aplicación-del-modelo-a-los-comentarios-de-reddit)
+  - [4. Entrenamiento de detectores de odio](#4-entrenamiento-de-detectores-de-odio)
+  - [5. Aplicación de los modelos a los comentarios de reddit](#5-aplicación-de-los-modelos-a-los-comentarios-de-reddit)
   - [6. Análisis de resultados](#6-análisis-de-resultados)
   - [Conclusiones](#conclusiones)
   - [Trabajo futuro](#trabajo-futuro)
@@ -331,12 +331,12 @@ El *cluster* número 113, **ley - etiquetado - votar**, incluye comentarios sobr
 **TODO agregar ejemplos de clusters de insultos y relacionados**
 
 
-## 4. Entrenamiento del detector de odio
+## 4. Entrenamiento de detectores de odio
 
 [Notebook](/src/4_detect_hate_speech.ipynb)
 
 
-En paralelo a la búsqueda de clústers que agrupan los distintos tópicos, se buscó también, a partir de los datos [pre-procesados anteriormente](#2-pre-procesamiento) el detectar automáticamente comentarios de odio, para poder combinarlos con los [tópicos encontrados](#3-embeddings). Para ello, se recurrió a conjuntos de datos anotados y en castellano, que hayan utilizados para tareas similares. En particular, se optó por los siguientes tres:
+En paralelo a la búsqueda de clústers que agrupan los distintos tópicos, se buscó también, a partir de los datos [pre-procesados anteriormente](#2-pre-procesamiento), el detectar automáticamente comentarios de odio, para poder combinarlos con los [tópicos encontrados](#3-embeddings). Para ello, se recurrió a conjuntos de datos anotados y en castellano, que hayan sido utilizados para tareas similares. En particular, se optó por los siguientes tres:
 
 **TODO poner las etiquetas que se decidieron usar en cada dataset**
 
@@ -348,7 +348,7 @@ En paralelo a la búsqueda de clústers que agrupan los distintos tópicos, se b
 
 En cada uno de los mismos, se entrenaron tres modelos de aprendizaje supervisado: *[regresión logística](https://en.wikipedia.org/wiki/Logistic_regression)*, *[naive Bayes](https://en.wikipedia.org/wiki/Naive_Bayes_classifier)* y *[random forest](https://en.wikipedia.org/wiki/Random_forests)*, todos provistos por la librería [scikit-learn](https://scikit-learn.org).
 
-Para realizar el entrenamiento, a cada comentario se le aplicó el vectorizador [CountVectorizer](https://scikit-learn.org/stable/modules/generated/sklearn.feature_extraction.text.CountVectorizer.html), que transformó cada comentario en una matriz *sparse* de forma
+Para realizar el entrenamiento, a cada comentario se le aplicó el vectorizador [CountVectorizer](https://scikit-learn.org/stable/modules/generated/sklearn.feature_extraction.text.CountVectorizer.html), que transformó cada uno en una matriz *sparse* de forma
 
 **TODO**
 
@@ -356,23 +356,56 @@ $$X = $$
 
 donde los predictores representan los unigramas, bigramas y trigramas de cada comentario.
 
-Tal matriz, junto con las correspondientes etiquetas de cada comentario, constituyeron la entrada de cada uno de los modelos. Tales modelos funcionaron bastante bien con sus configuraciones básicas, **TODO**, mostrando matrices de confusión sólidas. Especialmente, los que mejor performaron fueron naive Bayes y random forest.
+Tal matriz, junto con las correspondientes etiquetas de cada comentario, constituyeron la entrada de cada uno de los modelos. Tales modelos funcionaron bien (con sus configuraciones básicas, está pendiente realizar un ajuste de sus de híper-parámetros) tanto en Hateval y MeOffendMex, y no tan bien al detectar comentarios agresivos en DETOXIS.
+La siguiente tabla muestra un vistazo rápido de los resultados obtenidos, al evaluar el rendimiento de los modelos en el conjunto de validación.
 
-Una vez entrenados, se extrajeron las palabras que posiblemente manifiestan odio en cada dataset, en base al entrenamiento de los modelos de naive Bayes y random forest, de acuerdo a su aporte a la clasificación de las palabras **TODO**.
+| Modelo              | Dataset     | Tasa de aciertos | F1 clase 0 | F1 clase 1 |
+|---------------------|-------------|:-----------------:|:----------:|:----------:|
+| Regresión logística | Hateval     |        .8        |     .84    |     .76    |
+| Naive Bayes         |             |        .8        |     .84    |     .75    |
+| Random forest       |             |        .77       |     .79    |     .74    |
+| Regresión logística | DETOXIS     |        .96       |     .98    |     .09    |
+| Naive Bayes         |             |        .86       |     .92    |     .11    |
+| Random forest       |             |        .96       |     .98    |     .00    |
+| Regresión logística | MeOffendMex |        .77       |     .85    |     .53    |
+| Naive Bayes         |             |        .76       |     .82    |     .62    |
+| Random forest       |             |        .79       |     .87    |     .53    |
 
-**TODO agregar matrices de confusión, y comentar un poco los criterios tomados, especialmente respecto a los falsos positivos**
+Una vez teniendo los modelos entrenados, se extrajeron las palabras que más probablemente manifiesten odio en cada dataset, de acuerdo a su aporte a la clasificación de las palabras. Estas palabras fueron guardadas en el archivo [palabras_odio.csv](src/docs/palabras_odio.csv).
+Por otra parte, [se guardaron](src/docs/models/) los modelos entrenados en cada dataset, y sus correspondientes vectorizaciones para su uso posterior.
 
-
-La salida del detector de odio se puede ver en el archivo **TODO**.
-
-
-## 5. Aplicación del modelo a los comentarios de reddit
+## 5. Aplicación de los modelos a los comentarios de reddit
 
 [Notebook](/src/5_pipeline_hate_speech.ipynb)
 
-Una vez teniendo los modelos entrenados, el siguiente paso consistió en aplicarlos en los comentarios recolectados de reddit.
+**comentar un poco los criterios tomados, especialmente respecto a los falsos positivos**
 
-Al aplicar los modelos entrenados en los comentarios, lo primero que se observó es la cantidad de falsos positivos detectados como comentario de odio.
+**La salida del detector de odio se puede ver en el archivo TODO**.
+
+Teniendo los modelos entrenados en tres datasets con tareas similares, el siguiente paso consistió en aplicarlos en los comentarios recolectados y [preprocesados previamente](#2-pre-procesamiento), para evaluar cómo los mismos se desenvolvían, viendo algunos de los comentarios que fueron predichos como positivos.
+Lo primero que se observó al verlos fue la significativa cantidad de falsos positivos (con el umbral de clasificación por defecto de 50\%), prediciendo como verdaderos a comentarios totalmente inofensivos.
+
+**TODO evaluar si mostrar ejemplo(s) ilustrativo(s) de falso positivo**
+
+A raíz de ello, se optó por incrementar los umbrales de clasificación de los modelos en pos de reducir los falsos positivos. En la siguiente tabla se observa cómo varía la cantidad de comentarios clasificados como positivos de acuerdo al umbral de clasificación, de los 27791 comentarios recolectados en total.
+
+| Modelo              | Dataset     | # pred. umb. 0.5 | # pred. umb. 0.6 | # pred. umb. 0.7 | # pred. umb. 0.8 | # pred. umb. 0.9 |
+|---------------------|-------------|:----------------:|:----------------:|:----------------:|:----------------:|:----------------:|
+| Regresión logística | HatEval     |       5344       |       3151       |       1710       |        790       |        227       |
+| Naive Bayes         | HatEval     |       10420      |       6951       |       4312       |       2370       |        948       |
+| Random forest       | HatEval     |       1336       |        338       |        52        |         3        |         0        |
+| Regresión logística | DETOXIS     |        19        |         7        |         2        |         0        |         0        |
+| Naive Bayes         | DETOXIS     |       3695       |       2393       |       1618       |       1003       |        512       |
+| Random forest       | DETOXIS     |         0        |         0        |         0        |         0        |         0        |
+| Regresión logística | MeOffendMex |       1197       |        679       |        367       |        166       |        50        |
+| Naive Bayes         | MeOffendMex |       7977       |       5247       |       3502       |       2075       |       1080       |
+| Random forest       | MeOffendMex |        455       |        167       |        72        |        14        |         0        |
+
+
+De la misma, pueden destacarse algunos aspectos:
+
+* Naive Bayes es el modelo que mayor cantidad de comentarios clasifica como positivo. Por ejemplo, en HatEval, empleando un umbral de 0.5, clasifica un 37\% del total de comentarios como de odio. A este modelo le siguen la regresión logística y random forest, que en tiende a clasificar muy poca cantidad de ejemplos como positivo al aumentar el umbral desde 0.6 (llegando a no clasificar ningún ejemplo como positivo en el dataset DETOXIS).
+* .
 
 En particular, el dataset cuyo mejor rendimiento observamos detectando comentarios en reddit fue MeOffendEs **TODO**. A partir de esto, se guardaron los resultados y **TODO**.
 
@@ -383,7 +416,7 @@ Los modelos entrenados detectaron .
 
 [Notebook](/src/6_pipeline_result.ipynb)
 
-Estando generados los clusters, los modelos entrenados, las palabras de odio y los resultados, se procede a hacer un análisis de los resultados obtenidos.
+Estando generados los clusters, los modelos entrenados, las palabras de odio y los resultados, el último paso consistió en realizar un análisis de los resultados obtenidos.
 
 
 ## Conclusiones
