@@ -327,18 +327,18 @@ El *cluster* número 113, **ley - etiquetado - votar**, incluye comentarios sobr
 7. "y ahora Lipovetzky reconoce lo de la ley de alquileres"
 
 Si bien existen algunos *clusters* que nos permiten identificar tópicos especificos (como el 113), se observó que si bien el método detecta variantes de palabras, en términos generales los *clusters* no se traducen en tópicos cohesivos. Por ejemplo, en el *cluster* número 54 encontrarmos comentarios de diferentes tópicos:
-1. No lo veo a Belgrano? Saavedra?. Me re mintieron!
-2. Mate de cafe re copado, un litro de cafe en tu organismo
-3. ajajajajajaj Geologia, es re linda carrera igual pero esta materia es una completa mierda
-4. cuando dije eso? milei está re bajon desde el debate del otro dia, me lo dice gente que habla con el casi todos los dias
+1. "No lo veo a Belgrano? Saavedra?. Me re mintieron!"
+2. "Mate de cafe re copado, un litro de cafe en tu organismo"
+3. "ajajajajajaj Geologia, es re linda carrera igual pero esta materia es una completa mierda"
+4. "cuando dije eso? milei está re bajon desde el debate del otro dia, me lo dice gente que habla con el casi todos los dias"
 
 También se observó que algunos *clusters* se construyen exclusivamente alrededor de una palabra y sus variantes, por ejemplo el 43 se construyó alrededor de la palabra **decir**:
 
-1. Por eso dije ""en general"". Hay excepciones.
-2. Son los muy menos. Yo diría que 1 de cada 100.
-3. 6! Seis! Seis, por favor! Dije seissss??!!
-4. sera lo que el gobierno diga
-5. Lo sé lo sé... Me lo decía mi abuela
+1. "Por eso dije ""en general"". Hay excepciones."
+2. "Son los muy menos. Yo diría que 1 de cada 100."
+3. "6! Seis! Seis, por favor! Dije seissss??!!"
+4. "sera lo que el gobierno diga"
+5. "Lo sé lo sé... Me lo decía mi abuela"
 
 Observando esto, y el buen rendimiento observado al usar Word2vec, se optó finalmente por avanzar en la identificación de subcomunidades empleando dicha técnica.
 
@@ -395,7 +395,64 @@ Los modelos entrenados detectaron .
 
 [Notebook](/src/6_pipeline_result.ipynb)
 
-Para analizar los resultados se seleccionaron *clusters* para realizar un análisis detallado. Los *clusters* se seleccionaron de manera que fueran representativos de las subcomunidades detectadas con Word2Vec.  
+En la siguiente sección, se toman los [clusters generados](#3-representación-de-tópicos-mediante-embeddings), los [modelos entrenados](#4-entrenamiento-del-detector-de-odio) y [sus predicciones](#5-aplicación-del-modelo-a-los-comentarios-de-reddit), para llevar a cabo un análisis de los resultados obtenidos.
+
+Para este análisis, se usó el modelo entrenado con Naive Bayes (con un umbral de 0.8) sobre el conjunto de datos MeOffendMex, y el modelo Word2vec entrenado previamente.
+
+### Vista general de los distintos clusters
+
+Vemos una vista general de los datos con los que se cuenta hasta ahora, con respecto a su distribución en los distintos clusters.
+
+* Se cuenta con 27.791 comentarios, donde cada uno tiene asignado un número de tópico y una etiqueta indicando si el clasificador lo categorizó como discurso de odio / agresivo o no. Los mensajes se distribuyen en los tópicos de la siguiente manera:
+
+![](misc/num_topicos.png)
+
+* De los 27.791 comentarios, 2075 fueron predichos como odio por el clasificador. Tales prediciones de distribuyen como sigue:
+
+![](misc/pred_hs_por_topico.png)
+
+* De los distintos clústers, existen varios cuyo porcentaje de comentarios predicho como odio es muy significativo:
+
+| Número de cluster | \% pred. positivas |
+|:-----------------:|:-----------------------:|
+|        116        |           73\%          |
+|         66        |           39\%          |
+|         79        |           36\%          |
+|         27        |           27\%          |
+|         93        |           24\%          |
+
+
+* Vemos también el porcentaje de comentarios predichos en cada flair:
+
+|     Flair    | \% pred. positivas |
+|:------------:|:-----------------------:|
+|  Historia🇦🇷  |         11\%        |
+|  Policiales🚨 |         10\%        |
+|   Política🏛️  |         9\%        |
+|   Meet-up❗   |         9\%        |
+|    Video📽️    |         9\%        |
+
+
+* Vemos, para todos los clústers en general y para los tres de mayor proporción de predicciones en particular, si existe una correlación lineal tanto entre el puntaje y la cantidad de réplicas de cada comentario, y su predicción como mensaje de odio.
+
+| Cluster | Corr. puntaje y pred. pos. | Corr. num. com. y pred. pos. |
+|:-------:|:--------------------------:|:----------------------------:|
+|  Todos  |          -0.001         |           -0.016          |
+|   116   |          0.028          |           0.005           |
+|    66   |          0.068          |           0.170           |
+|    79   |          -0.025          |           -0.150          |
+
+Se puede observar al ver todos los clústers, que no existe una correlación lineal entre puntaje o cantidad de comentarios obtenidos y clasificación o no como discurso de odio. Por otra parte, al ver esto en los tres clústers donde mayor proporción de discurso de odio se detectó, se observa que la correlación varía levemente según el caso.
+
+
+### Vista de los clusters con mayor proporción de predicción positiva
+
+Vemos ahora las palabras de mayor frecuencia (tanto predichas o no como odio), encontradas en los tres clústers con más proporción de predicciones positivas (el 116, 66 y 79).
+
+![](misc/top_3_clusters_word_freq_1.png)
+![](misc/top_3_clusters_word_freq_2.png)
+![](misc/top_3_clusters_word_freq_3.png)
+
 
 Las subcomunidades a analizar son sobre género y soberanía. Para cada caso, se realizó un análisis manual sobre si el comentario contenía discurso de odio y si era agresivo. El resultado de este análisis se encuentran en los siguientes documentos:
 
