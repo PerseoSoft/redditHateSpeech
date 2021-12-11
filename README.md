@@ -508,15 +508,31 @@ Esta subcomunidad incluye comentarios que hacen referencia a diferentes tipos de
 
 ### Comentarios que se detectaron correctamente como discurso de odio o agresivos:
 
+- No, ni siquiera. Esperan que el Estado los proteja mediante DDDH. Esto esta apuntado en contra del "empresario usurpador capitalista" y la gente víctima de los ataques de estos insurgentes terroristas de mierda.
+- Madre de terroristas ofrece ayuda a terroristas.. Mas noticias, el pronostico y un par de culos luego de los comerciales.
+- Los chilenos ya tienen a los """mapuches"""" en sus calles prendiendo fuego todo y algunos se metieron al congreso, dudo que puedan o tengan la intencion de hacer algo.
+- y de paso hacerte unos ntfs con la cara del mapuche flogger mártir preso en chile para recaudar unos dólarcitos más
 
 ### Comentarios que se detectaron incorrectamente como discurso de odio o agresivos:
 
+- Lo de China no le perdono, porque siguiendo su logica no deberiamos ni estar negociando con EEUU por su "Moral". En los negocios internacionales no hay moral solo utilitarismo
+- oh Rallo eres un tesoro nacional
+- Igual eso no cambia la realidad del abandono de las islas y el descuido del pais
+- Si es por tu cuenta no es natural
 
 ### Comentarios que se detectaron correctamente como no discurso de odio y no agresivos:
 
+- Ni en Corea tienen dia nacional del kimchi me parece
+- Y Dolarizando te tenes que comer la impresión de billetes a lo argentina que está haciendo la reserva federal con este nuevo gobierno… sin ninguno de los “beneficios”.
+- Listo para ir a las Malvinas (?)
+- Cerca de la Patagonia está la Antártida.
 
 ### Comentarios que se detectaron correctamente como no discurso de odio y no agresivos:
 
+- Gracias por la info dia a dia! Es importante estar al corriente de los atentados de los terroristas mapuches!. HAGA PATRIA ...
+- Hay que ajusticiar a todos los emo mapuches.
+- Reprimir no, a esta altura tiene que ser balas de plomo
+- Aquí vemos a dos machos de la especie paquerus peronistus luchando por marcar territorio
 
 ![](misc/mapuche_freq.png)
 
