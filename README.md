@@ -126,6 +126,12 @@ Se muestra a continuación el informe producto de este proyecto, en donde se esp
   - [4. Entrenamiento del detector de odio](#4-entrenamiento-del-detector-de-odio)
   - [5. Aplicación del modelo a los comentarios de reddit](#5-aplicación-del-modelo-a-los-comentarios-de-reddit)
   - [6. Análisis de resultados](#6-análisis-de-resultados)
+    - [Vista general de los distintos clusters](#vista-general-de-los-distintos-clusters)
+    - [Vista de los clusters con mayor proporción de predicción positiva](#vista-de-los-clusters-con-mayor-proporción-de-predicción-positiva)
+    - [](#)
+    - [Análisis detallado de dos clústers](#análisis-detallado-de-dos-clústers)
+      - [Cluster de Género](#cluster-de-género)
+      - [Cluster de Soberanía](#cluster-de-soberanía)
   - [Conclusiones](#conclusiones)
   - [Trabajo futuro](#trabajo-futuro)
     - [General](#general)
@@ -256,7 +262,7 @@ Se describe a continuación cada uno de ellos, mostrando particularmente algunos
 El primer modelo que se comenzó utilizando es [Latent Dirichlet Allocation](https://en.wikipedia.org/wiki/Latent_Dirichlet_allocation), que es un método generativo que asume que cada documento está compuesto por una mezcla de tópicos, y donde cada palabra tiene una probabilidad de relacionarse con cada uno de ellos.
 La elección inicial de LDA se fundamentó en que es un método sólido para detección de tópicos en corpus de texto.
 
-El modelo se aplicó probando tamaños de clústers de **TODO** a **TODO**, y distintas configuraciones de híper-parámetros. No obstante, los resultados obtenidos  no fueron satisfactorios, ya que a la hora de realizar un análisis de los tópicos identificados por el modelo, se encontró poca cohesión entre los tópicos detectados.
+El modelo se aplicó probando tamaños de clústers de 30 a 120, y distintas configuraciones de híper-parámetros. No obstante, los resultados obtenidos  no fueron satisfactorios, ya que a la hora de realizar un análisis de los tópicos identificados por el modelo, se encontró poca cohesión entre los tópicos detectados.
 
 En la siguiente imagen se pueden observar algunos de los tópicos identificados por LDA.
 
@@ -407,7 +413,16 @@ Vemos una vista general de los datos con los que se cuenta hasta ahora, con resp
 
 ![](misc/num_topicos.png)
 
-* De los 27.791 comentarios, 2075 fueron predichos como odio por el clasificador. Tales prediciones de distribuyen como sigue:
+* En muchos de los clusters se identifican tópicos concretos. Algunos ejemplos:
+  * Cluster 8: economía.
+  * Cluster 18: política.
+  * Cluster 23: dólar.
+  * Cluster 94: leyes.
+  * Cluster 98: comidas.
+  * Cluster 99: género.
+  * Cluster 116: insultos.
+
+* De los 27.791 comentarios, 2075 fueron predichos como de odio por el clasificador. Tales prediciones de distribuyen como sigue:
 
 ![](misc/pred_hs_por_topico.png)
 
@@ -453,74 +468,109 @@ Vemos ahora las palabras de mayor frecuencia (tanto predichas o no como odio), e
 ![](misc/top_3_clusters_word_freq_2.png)
 ![](misc/top_3_clusters_word_freq_3.png)
 
+Puede observarse que se detectan muchos insultos en los tres clústers. No obstante, no se distingue una separación clara de los términos usados (tanto de odio como de no odio) al realizar agrupamiento por términos más frecuentes. Por ello, se optó por ordenarlos según su [información mutua puntual](https://es.wikipedia.org/wiki/Punto_de_informaci%C3%B3n_mutua). Se muestra abajo como quedarían entonces los términos agrupados de esta forma, en donde se puede ver que el ordenamiento es mucho mejor:
 
-Las subcomunidades a analizar son sobre género y soberanía. Para cada caso, se realizó un análisis manual sobre si el comentario contenía discurso de odio y si era agresivo. El resultado de este análisis se encuentran en los siguientes documentos:
+![](misc/top_3_clusters_word_pmi_1.png)
+![](misc/top_3_clusters_word_pmi_2.png)
+![](misc/top_3_clusters_word_pmi_3.png)
 
-- [Análisis manual de género](/src/docs/analisis/genero.csv)
-- [Análisis manual de soberanía](/src/docs/analisis/genero.csv)
+### 
 
 
-A continuación, analizamos los resultados de cada subcomunidad:
+**TODO comentar sobre la combinación entre enfoque automático y manual, especialmente con esto último que seleccionamos dos clústers en particular**
 
-### Subcomunidad de Género
+**comentar sobre el enfoque tomado con discurso de odio/agresiones**
 
-El *cluster* número 99 contiene comentarios que hacen referencia a géneros, tales como mujer, hombre, no binario, homosexual, trans.
+**incluir tambien las cercanías de las palabras de odio sacadas de los modelos a otros clústers**
 
-**TODO agregar la comparación entre lo realizado por el modelo y lo manual.**
+### Análisis detallado de dos clústers
 
-### Comentarios que se detectaron correctamente como discurso de odio o agresivos:
+En particular, se seleccionaron dos clusters que nos resultaron de interés, para hacer una vista más cercana, y evaluar concretamente cuál es el rendimiento del modelo, frente a un etiquetado manual realizado en ambos.
 
-- Vamos todos juntos!!: "*a La mUjEr sE le CrEe sieMpReEEe!!!*"
-- Seguro era un hombre vestido de mujer!!! las mujeres no hacen esas cosas, son seres de luz! jamas harian eso!!!
-- Espert es lo mejor que hay, lamentablemente nunca va a llegar a ser presidente porque su mujer es fea.. A menos que se separe y establezca relación con una mujer más atractiva.
-- Pero los hombres son pajeros y lo hacen gratis. Conseguir hombres es casi gratis.
+Los clusters a analizar fueron el de género (99) y soberanía (94). Para cada caso, se realizó un etiquetado a mano de cada comentario, respecto a si el mismo contenía discurso de odio, y si el mismo tenía un contenido agresivo. Esto se hizo con el fin de poder analizar la calidad de la detección del modelo en casos particulares. El criterio tomado fue el siguiente: dada .
 
-### Comentarios que se detectaron incorrectamente como discurso de odio o agresivos:
+Aclaración: el etiquetado de ambos clusters fue realizado según el criterio de quienes hicimos este trabajo; el mismo fue hecho según nuestros propios criterios, y está sujeta a errores u omisiones. No obstante, consideramos que resulta muy importante para poder obtener una vista del rendimiento del modelo, de sus puntos fuertes y débiles.
 
-- Es cierto que las cárceles de mujeres son mucho peores que las de los hombres?
-- Pobre hombre. Pobre familia. Ni se lo vio venir ):
-- Ajajja escribo re contra mal, pero es cierto que puede afectar a los hombres! Graciassss
-- La pregunta para definir si ir es: aparte de lo que contas, había Mujeres?
+Los comentarios de estos clusters con etiquetado manual se encuentran en los siguientes documentos:
 
-### Comentarios que se detectaron correctamente como no discurso de odio y no agresivos:
+- [Análisis manual de cluster de género](/src/docs/analisis/genero.csv).
+- [Análisis manual de cluster de soberanía](/src/docs/analisis/soberania.csv).
 
-- Estás minimizando el sufrimiento de la mujer
-- No binario quiere decir que no se identifica ni como mujer ni como hombre. Si se identifica como mujer entonces es binario.
-- Que el ministerio se llame "de mujeres y géneros" no es redundante?
-- Uff siendo mujer debe ser mucho más jodido…
+A continuación, vemos los resultados del análisis de cada cluster:
 
-### Comentarios que se detectaron correctamente como no discurso de odio y no agresivos:
+#### Cluster de Género
 
-- Recuerden chiques: si al crimen lo comete una mujer, lo justificamos como sea. MAL
-- Hombre y mujer, el resto son diferentes gamas de homosexualidad
-- Si un hombre siquiera está cerca dd una mujer sin su completa aprobación, es automáticamente violencia de género, machismo y patriarcado.. - alguna feminazi.
-- Eso prueba que las mujeres siempre estan cachondas.
+El *cluster* 99 contiene comentarios que hacen referencia a temas de género, tales como: "mujer, hombre, no binario, homosexual, trans", entre otros.
 
-**TODO Analizar el promedio de los puntajes y comentarios. Se puede ver que los hate speech tienen más pruntajes y número de comentarios que lo que no lo son**
+Vemos la distribución de las palabras del cluster según su frecuencia e información mutua:
 
 ![](misc/genero_freq.png)
 
 ![](misc/genero_pmi.png)
 
-### Subcomunidad de Soberanía
-
-Esta subcomunidad incluye comentarios que hacen referencia a diferentes tipos de soberanía, como la territorial. Dentro del tópico se ven comentarios referidos al conflicto mapuche, a las islas malvinas, nacionalización del Kimchi, entre muchos otros.
-
-### Comentarios que se detectaron correctamente como discurso de odio o agresivos:
+Vemos ahora las métricas del modelo en este cluster:
 
 
-### Comentarios que se detectaron incorrectamente como discurso de odio o agresivos:
+
+**TODO**
+
+Vemos algunos ejemplos de predicciones del modelo:
+
+**TODO agregar la comparación entre lo realizado por el modelo y lo manual.**
+
+Predichos correctamente como discurso de odio / agresivos:
+
+- "Vamos todos juntos!!: "*a La mUjEr sE le CrEe sieMpReEEe!!!*""
+- "Seguro era un hombre vestido de mujer!!! las mujeres no hacen esas cosas, son seres de luz! jamas harian eso!!!"
+- "Espert es lo mejor que hay, lamentablemente nunca va a llegar a ser presidente porque su mujer es fea.. A menos que se separe y establezca relación con una mujer más atractiva."
+- "Pero los hombres son pajeros y lo hacen gratis. Conseguir hombres es casi gratis."
 
 
-### Comentarios que se detectaron correctamente como no discurso de odio y no agresivos:
+Predichos incorrectamente como discurso de odio / agresivos:
+
+- "Es cierto que las cárceles de mujeres son mucho peores que las de los hombres?"
+- "Pobre hombre. Pobre familia. Ni se lo vio venir ):"
+- "Ajajja escribo re contra mal, pero es cierto que puede afectar a los hombres! Graciassss"
+- "La pregunta para definir si ir es: aparte de lo que contas, había Mujeres?"
 
 
-### Comentarios que se detectaron correctamente como no discurso de odio y no agresivos:
+Predichos correctamente como no discurso de odio / agresivos:
+
+- "Estás minimizando el sufrimiento de la mujer"
+- "No binario quiere decir que no se identifica ni como mujer ni como hombre. Si se identifica como mujer entonces es binario."
+- "Que el ministerio se llame "de mujeres y géneros" no es redundante?"
+- "Uff siendo mujer debe ser mucho más jodido…"
 
 
-![](misc/mapuche_freq.png)
+Predichos incorrectamente como no discurso de odio / agresivos:
 
-![](misc/mapuche_pmi.png)
+- "Recuerden chiques: si al crimen lo comete una mujer, lo justificamos como sea. MAL"
+- "Hombre y mujer, el resto son diferentes gamas de homosexualidad"
+- "Si un hombre siquiera está cerca dd una mujer sin su completa aprobación, es automáticamente violencia de género, machismo y patriarcado.. - alguna feminazi."
+- "Eso prueba que las mujeres siempre estan cachondas."
+
+**TODO Analizar el promedio de los puntajes y comentarios. Se puede ver que los hate speech tienen más pruntajes y número de comentarios que lo que no lo son**
+
+
+#### Cluster de Soberanía
+
+Este cluster (número 94) incluye comentarios que hacen referencia a diferentes tipos de soberanía, como la territorial. Dentro del tópico se ven comentarios referidos al conflicto por el territorio Mapuche, a comentarios sobre las Islas Malvinas, la aprobación del Senado de la Nación de la Ley que establece el "Día Nacional del Kimchi", entre muchos otros.
+
+![](misc/soberania_freq.png)
+
+![](misc/soberania_pmi.png)
+
+
+Predichos correctamente como discurso de odio o agresivos:
+
+Predichos incorrectamente como discurso de odio o agresivos:
+
+Predichos correctamente como no discurso de odio / agresivos:
+
+Predichos incorrectamente como no discurso de odio / agresivos:
+
+
+
 
 ## Conclusiones
 
