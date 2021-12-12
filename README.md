@@ -225,7 +225,7 @@ De cada comentario que se guardó de reddit, se obtuvieron los siguientes datos:
 - *comms_num*: número de respuestas que recibió el comentario.
 - *score*: es un puntaje que los usuarios le dieron al comentario.
 
-En total, se descargaron **TODO** comentarios, desde el día **TODO** hasta el **TODO**.
+En total, se descargaron 44813 comentarios, desde el día **TODO** hasta el **TODO**.
 
 
 ### 2. Pre-procesamiento
@@ -346,7 +346,7 @@ También se observó que algunos *clusters* se construyen exclusivamente alreded
 4. "sera lo que el gobierno diga"
 5. "Lo sé lo sé... Me lo decía mi abuela"
 
-Observando esto, y el buen rendimiento observado al usar Word2vec, se optó finalmente por avanzar en la identificación de subcomunidades empleando dicha técnica.
+Observando esto, y el buen rendimiento obtenido al usar Word2vec, se optó finalmente por avanzar en la identificación de subcomunidades empleando dicha técnica.
 
 
 ## 4. Entrenamiento del detector de odio
@@ -554,7 +554,7 @@ Predichos incorrectamente como no discurso de odio / agresivos:
 
 #### Cluster de Soberanía
 
-Este cluster (número 94) incluye comentarios que hacen referencia a diferentes tipos de soberanía, como la territorial. Dentro del tópico se ven comentarios referidos al conflicto por el territorio Mapuche, a comentarios sobre las Islas Malvinas, la aprobación del Senado de la Nación de la Ley que establece el "Día Nacional del Kimchi", entre muchos otros.
+Este cluster (número 94) incluye comentarios que hacen referencia a diferentes tipos de soberanía, como la territorial. Dentro del tópico se ven comentarios referidos al conflicto por el territorio Mapuche, comentarios sobre las Islas Malvinas, la aprobación del Senado de la Nación de la Ley que establece el "Día Nacional del Kimchi", entre muchos otros.
 
 Vemos la distribución de las palabras del cluster según su frecuencia e información mutua:
 
