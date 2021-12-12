@@ -510,9 +510,9 @@ Vemos la distribución de las palabras del cluster según su frecuencia e inform
 
 Vemos ahora las métricas del modelo en este cluster:
 
+![](misc/confusion_matrix_genero.png)
 
-
-**TODO**
+Como se puede observar, se cuenta con un conjunto de datos en donde la mayoría no son de odio (100, frente a 27), y se distribuyen de forma similar tanto la cantidad de falsos positivos como de falsos negativos.
 
 Vemos algunos ejemplos de predicciones del modelo:
 
