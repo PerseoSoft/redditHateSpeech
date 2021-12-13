@@ -128,10 +128,11 @@ Se muestra a continuación el informe producto de este proyecto, en donde se esp
   - [6. Análisis de resultados](#6-análisis-de-resultados)
     - [Vista general de los distintos clusters](#vista-general-de-los-distintos-clusters)
     - [Vista de los clusters con mayor proporción de predicción positiva](#vista-de-los-clusters-con-mayor-proporción-de-predicción-positiva)
-    - [](#)
+    - [Detección de clústers según palabras asociadas con odio](#detección-de-clústers-según-palabras-asociadas-con-odio)
     - [Análisis detallado de dos clústers](#análisis-detallado-de-dos-clústers)
       - [Cluster de Género](#cluster-de-género)
       - [Cluster de Soberanía](#cluster-de-soberanía)
+    - [Visualización de términos cercanos seleccionados](#visualización-de-términos-cercanos-seleccionados)
   - [Conclusiones](#conclusiones)
   - [Trabajo futuro](#trabajo-futuro)
     - [General](#general)
@@ -462,7 +463,13 @@ Se puede observar al ver todos los clústers, que no existe una correlación lin
 
 ### Vista de los clusters con mayor proporción de predicción positiva
 
-Vemos ahora las palabras de mayor frecuencia (tanto predichas o no como odio), encontradas en los tres clústers con más proporción de predicciones positivas (el 116, 66 y 79).
+Vemos los términos más cercanos a los centroides de cada uno de los tres clusters con más proporción de predicciones positivas (el 116, 66 y 79):
+
+* Cluster 116: "hijo puta kjjjjjjjjjjj palmó comper pobretonto pario colaborá ramen vigote "
+* Cluster 66: "va coquetar orina desmechado ansiosa amigoooo catre vas guita safás "
+* Cluster 79: "kjjjjjjjjjjj hijo palmó comper pobretonto ahorcandolo pario puta ramen refuta "
+
+Vemos ahora las palabras de mayor frecuencia (tanto predichas o no como odio), encontradas en los mismos.
 
 ![](misc/top_3_clusters_word_freq_1.png)
 ![](misc/top_3_clusters_word_freq_2.png)
@@ -474,20 +481,60 @@ Puede observarse que se detectan muchos insultos en los tres clústers. No obsta
 ![](misc/top_3_clusters_word_pmi_2.png)
 ![](misc/top_3_clusters_word_pmi_3.png)
 
-### 
+**TODO comentar**
 
 
-**TODO comentar sobre la combinación entre enfoque automático y manual, especialmente con esto último que seleccionamos dos clústers en particular**
 
-**comentar sobre el enfoque tomado con discurso de odio/agresiones**
+### Detección de clústers según palabras asociadas con odio
 
-**incluir tambien las cercanías de las palabras de odio sacadas de los modelos a otros clústers**
+Dadas las palabras asociadas con odio extraídas anteriormente de los modelos, se analiza si es posible encontrar nuevos clusters que tengan contenido de agresión u odio, en base a la distancia de cada una de las mismas con respecto a ellos.
+Para ello, se obtienen los clusters más cercanos de cada una de dichas palabras, y se evalúa cuáles fueron los clusters que ocurrieron más frecuentemente al considerar todas las palabras.
+
+El resultado se puede ver en la siguiente tabla:
+
+| Cluster más frecuente (# en top 1) | Cluster más frecuente (# en top 3) |
+|:----------------------------------:|:-------------------------------------------------:|
+|            0 (72 veces)            |                    0 (72 veces)                   |
+|              113 (10)              |                      87 (72)                      |
+|               24 (4)               |                      86 (72)                      |
+|               116 (4)              |                      113 (15)                     |
+|               81 (1)               |                      24 (14)                      |
+
+Vemos cuales fueron los términos más comunes de cada cluster detectado. Respecto a los clusters que más se repitieron:
+
+* Cluster 0: "hacer dislocar desuscribite ss vtv paja preferiría bosta oooon maloliente "
+* Cluster 113: "ibarra baratisimo diz rayitar candadito feriar dolaaaar mote doxxeo gual "
+* Cluster 24: "childrir changes clothes argument wage \-mr oooon boah pandemic ⣄ "
+
+Respecto a los clusters que más aparecieron en entre los tres más cercanos (excluyendo el cluster 0):
+
+* Cluster 87: "macri sander bowie ionizante acuario galperin descubierto peluco preferio freestyler "
+* Cluster 86: "salir biodegradar tenian grabate navegar pensés esfuenzar chango platea drogar "
+* Cluster 113: "ibarra baratisimo diz rayitar candadito feriar dolaaaar mote doxxeo gual "
+
+Vemos los términos más frecuentes de varios de estos clusters:
+
+![](misc/top_3_clusters_from_hate_words_word_freq_1.png)
+![](misc/top_3_clusters_from_hate_words_word_freq_2.png)
+![](misc/top_3_clusters_from_hate_words_word_freq_3.png)
+
+
+**TODO comentar**
+
+Vemos ahora los términos ordenados por información mutua puntual
+
+![](misc/top_3_clusters_from_hate_words_word_pmi_1.png)
+![](misc/top_3_clusters_from_hate_words_word_pmi_2.png)
+![](misc/top_3_clusters_from_hate_words_word_pmi_3.png)
+
+**TODO comentar**
+
 
 ### Análisis detallado de dos clústers
 
 En particular, se seleccionaron dos clusters que nos resultaron de interés, para hacer una vista más cercana, y evaluar concretamente cuál es el rendimiento del modelo, frente a un etiquetado manual realizado en ambos.
 
-Los clusters a analizar fueron el de género (99) y soberanía (94). Para cada caso, se realizó un etiquetado a mano de cada comentario, respecto a si el mismo contenía discurso de odio, y si el mismo tenía un contenido agresivo. Esto se hizo con el fin de poder analizar la calidad de la detección del modelo en casos particulares. El criterio tomado fue el siguiente: dada .
+Los clusters a analizar fueron el de género (99) y soberanía (94). Para cada caso, se realizó un etiquetado a mano de cada comentario, respecto a si el mismo contenía discurso de odio, y si el mismo tenía un contenido agresivo. Esto se hizo con el fin de poder analizar la calidad de la detección del modelo en casos particulares.
 
 Aclaración: el etiquetado de ambos clusters fue realizado según el criterio de quienes hicimos este trabajo; el mismo fue hecho según nuestros propios criterios, y está sujeta a errores u omisiones. No obstante, consideramos que resulta muy importante para poder obtener una vista del rendimiento del modelo, de sus puntos fuertes y débiles.
 
@@ -508,6 +555,8 @@ Vemos la distribución de las palabras del cluster según su frecuencia e inform
 
 ![](misc/genero_pmi.png)
 
+**TODO comentar**
+
 Vemos ahora las métricas del modelo en este cluster:
 
 ![](misc/confusion_matrix_genero.png)
@@ -515,8 +564,6 @@ Vemos ahora las métricas del modelo en este cluster:
 Como se puede observar, se cuenta con un conjunto de datos en donde la mayoría no son de odio (100, frente a 27), y se distribuyen de forma similar tanto la cantidad de falsos positivos como de falsos negativos.
 
 Vemos algunos ejemplos de predicciones del modelo:
-
-**TODO agregar la comparación entre lo realizado por el modelo y lo manual.**
 
 Predichos correctamente como discurso de odio / agresivos:
 
@@ -549,8 +596,6 @@ Predichos incorrectamente como no discurso de odio / agresivos:
 - "Si un hombre siquiera está cerca dd una mujer sin su completa aprobación, es automáticamente violencia de género, machismo y patriarcado.. - alguna feminazi."
 - "Eso prueba que las mujeres siempre estan cachondas."
 
-**TODO Analizar el promedio de los puntajes y comentarios. Se puede ver que los hate speech tienen más pruntajes y número de comentarios que lo que no lo son**
-
 
 #### Cluster de Soberanía
 
@@ -561,38 +606,55 @@ Vemos la distribución de las palabras del cluster según su frecuencia e inform
 ![](misc/soberania_freq.png)
 ![](misc/soberania_pmi.png)
 
-
+**TODO decir algo sobre esto**
 
 Predichos correctamente como discurso de odio o agresivos:
 
-- No, ni siquiera. Esperan que el Estado los proteja mediante DDDH. Esto esta apuntado en contra del "empresario usurpador capitalista" y la gente víctima de los ataques de estos insurgentes terroristas de mierda.
-- Madre de terroristas ofrece ayuda a terroristas.. Mas noticias, el pronostico y un par de culos luego de los comerciales.
-- Los chilenos ya tienen a los """mapuches"""" en sus calles prendiendo fuego todo y algunos se metieron al congreso, dudo que puedan o tengan la intencion de hacer algo.
-- y de paso hacerte unos ntfs con la cara del mapuche flogger mártir preso en chile para recaudar unos dólarcitos más
+- "No, ni siquiera. Esperan que el Estado los proteja mediante DDDH. Esto esta apuntado en contra del "empresario usurpador capitalista" y la gente víctima de los ataques de estos insurgentes terroristas de mierda."
+- "Madre de terroristas ofrece ayuda a terroristas.. Mas noticias, el pronostico y un par de culos luego de los comerciales."
+- "Los chilenos ya tienen a los """mapuches"""" en sus calles prendiendo fuego todo y algunos se metieron al congreso, dudo que puedan o tengan la intencion de hacer algo."
+- "y de paso hacerte unos ntfs con la cara del mapuche flogger mártir preso en chile para recaudar unos dólarcitos más"
 
 
 Predichos incorrectamente como discurso de odio o agresivos:
 
-- Lo de China no le perdono, porque siguiendo su logica no deberiamos ni estar negociando con EEUU por su "Moral". En los negocios internacionales no hay moral solo utilitarismo
-- oh Rallo eres un tesoro nacional
-- Igual eso no cambia la realidad del abandono de las islas y el descuido del pais
-- Si es por tu cuenta no es natural
+- "Lo de China no le perdono, porque siguiendo su logica no deberiamos ni estar negociando con EEUU por su "Moral". En los negocios internacionales no hay moral solo utilitarismo"
+- "oh Rallo eres un tesoro nacional"
+- "Igual eso no cambia la realidad del abandono de las islas y el descuido del pais"
+- "Si es por tu cuenta no es natural"
 
 
 Predichos correctamente como no discurso de odio / agresivos:
 
-- Ni en Corea tienen dia nacional del kimchi me parece
-- Y Dolarizando te tenes que comer la impresión de billetes a lo argentina que está haciendo la reserva federal con este nuevo gobierno… sin ninguno de los “beneficios”.
-- Listo para ir a las Malvinas (?)
-- Cerca de la Patagonia está la Antártida.
+- "Ni en Corea tienen dia nacional del kimchi me parece"
+- "Y Dolarizando te tenes que comer la impresión de billetes a lo argentina que está haciendo la reserva federal con este nuevo gobierno… sin ninguno de los “beneficios”."
+- "Listo para ir a las Malvinas (?)"
+- "Cerca de la Patagonia está la Antártida."
 
 
 Predichos incorrectamente como no discurso de odio / agresivos:
 
-- Gracias por la info dia a dia! Es importante estar al corriente de los atentados de los terroristas mapuches!. HAGA PATRIA ...
-- Hay que ajusticiar a todos los emo mapuches.
-- Reprimir no, a esta altura tiene que ser balas de plomo
-- Aquí vemos a dos machos de la especie paquerus peronistus luchando por marcar territorio
+- "Gracias por la info dia a dia! Es importante estar al corriente de los atentados de los terroristas mapuches!. HAGA PATRIA ..."
+- "Hay que ajusticiar a todos los emo mapuches."
+- "Reprimir no, a esta altura tiene que ser balas de plomo"
+- "Aquí vemos a dos machos de la especie paquerus peronistus luchando por marcar territorio"
+
+
+### Visualización de términos cercanos seleccionados
+
+Dadas las palabras vistas hasta aquí en cada uno de los clústers, información mutua, y otras que se han ido probando, vemos dónde se situarían las mismas según su cercanía a cada cluster, y cuáles serían las palabras más cercanas a la misma en el espacio de embedding, tanto de Word2vec como de fastText.
+
+Vemos las cercanías de las distintas palabras en Word2vec
+
+![](misc/cherrypicking_word2vec.png)
+
+
+Vemos las cercanías de las distintas palabras en fastText
+
+![](misc/cherrypicking_fasttext.png)
+
+**comentar que en w2v no se ven muchas asociaciones que manifiesten odio, excepto quizás un par**
+
 
 
 
