@@ -183,7 +183,7 @@ El presente trabajo se basa en la siguiente hipótesis: *"en una comunidad en do
 
 [Reddit](https://www.reddit.com/) es una red social de “comunidades”, creadas y moderadas por sus propios usuarios. En cada comunidad, sus miembros hacen posts, y cada post puede ser comentado generando debate. Su aspecto distintivo es que cada post o comentario recibe votos, con el objetivo de que aquellos posts o comentarios que más aportan aparezcan encima de los que no. También se pueden premiar a aquellos destacados. 
 
-En la siguiente imagen podemos ver la estructura general de un post en reddit:
+En la siguiente imagen podemos ver la estructura general de un post en reddit (de r/argentina):
 
 ![](misc/reddit.png)
 
@@ -409,7 +409,7 @@ A raíz de ello, se optó por incrementar los umbrales de clasificación de los 
 | Random forest       | MeOffendMex |        455       |        167       |        72        |        14        |         0        |
 
 
-De la misma, se ve que naive Bayes es el modelo que mayor cantidad de comentarios clasifica como positivo. Por ejemplo, en HatEval, empleando un umbral de 0.5, clasifica un 37\% del total de comentarios como de odio. A este modelo le siguen la regresión logística y random forest, que en tiende a clasificar muy poca cantidad de ejemplos como positivo al aumentar el umbral desde 0.6 (llegando a no clasificar ningún ejemplo como positivo en el dataset DETOXIS).
+De la misma, se ve que naive Bayes es el modelo que mayor cantidad de comentarios clasifica como positivo. Por ejemplo, en HatEval, empleando un umbral de 0.5, clasifica un 37\% del total de comentarios como de odio. A este modelo le siguen la regresión logística y random forest, que tiende a clasificar muy poca cantidad de ejemplos como positivo al aumentar el umbral desde 0.6 (llegando a no clasificar ningún ejemplo como positivo en el dataset DETOXIS).
 
 Por otra parte, se observó también (en un vistazo general de las predicciones) que el dataset con el mejor rendimiento en la detección fue MeOffendMex. Tenemos la conjetura de que esto se debe a que el lenguaje que de los comentarios de este dataset es el más parecido al utilizado en r/argentina.
 
