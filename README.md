@@ -746,6 +746,7 @@ En la sección siguiente, se listan varias propuestas de trabajo futuro para rea
 - https://www.un.org/en/genocideprevention/hate-speech-strategy.shtml
 - https://fsi.stanford.edu/news/reddit-hate-speech
 - https://variety.com/2020/digital/news/reddit-bans-hate-speech-groups-removes-2000-subreddits-donald-trump-1234692898
+- https://www.cfr.org/backgrounder/hate-speech-social-media-global-comparisons
 - https://www.reddithelp.com/hc/en-us/articles/360045715951-Promoting-Hate-Based-on-Identity-or-Vulnerability
 
 ### reddit API
