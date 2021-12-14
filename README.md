@@ -26,8 +26,6 @@ Para realizar el entrenamiento de los modelos, es necesario contar con los *data
 
 6. Combinación de dicho modelo con las categorías encontradas para encontrar correlaciones ([link](https://github.com/PerseoSoft/redditHateSpeech/blob/main/src/6_pipeline_result.ipynb)).
 
-**Este informe y proyecto están en proceso 🚧🔨, todavía sujetos a cambios, correcciones, y mejoras**
-
 
 ## Instalación
 
