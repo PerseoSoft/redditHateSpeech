@@ -17,10 +17,10 @@ Cada etapa tiene su correspondiente notebook:
    
 2. Pre-procesamiento del mismo ([link](https://github.com/PerseoSoft/redditHateSpeech/blob/main/src/2_pipeline_preprocessing.ipynb)).
 
-3. Aplicación de embeddings y categorización en clusters (notebook [LDA](https://github.com/PerseoSoft/redditHateSpeech/blob/main/src/3a_pipeline_lda.ipynb) [Word2vec](https://github.com/PerseoSoft/redditHateSpeech/blob/main/src/3b_pipeline_embedding_word2vec.ipynb) [fastText](https://github.com/PerseoSoft/redditHateSpeech/blob/main/src/3c_pipeline_embedding_fasttext.ipynb)).
+3. Aplicación de *embeddings* y categorización en *clusters* (*notebook* [LDA](https://github.com/PerseoSoft/redditHateSpeech/blob/main/src/3a_pipeline_lda.ipynb) [Word2vec](https://github.com/PerseoSoft/redditHateSpeech/blob/main/src/3b_pipeline_embedding_word2vec.ipynb) [fastText](https://github.com/PerseoSoft/redditHateSpeech/blob/main/src/3c_pipeline_embedding_fasttext.ipynb)).
 
-4. Entrenamiento de un modelo de detección de odio y extracción de palabras de odio en cada dataset ([link](https://github.com/PerseoSoft/redditHateSpeech/blob/main/src/4_detect_hate_speech.ipynb)).
-Para realizar el entrenamiento de los modelos, es necesario contar con los datasets respectivos de tres competencias (Hateval, DETOXIS, MeOffendMex) que se desee entrenar.
+4. Entrenamiento de un modelo de detección de odio y extracción de palabras de odio en cada *dataset* ([link](https://github.com/PerseoSoft/redditHateSpeech/blob/main/src/4_detect_hate_speech.ipynb)).
+Para realizar el entrenamiento de los modelos, es necesario contar con los *datasets* respectivos de tres competencias (Hateval, DETOXIS, MeOffendMex) que se desee entrenar.
 
 5. Uso del modelo para predecir los comentarios recolectados ([link](https://github.com/PerseoSoft/redditHateSpeech/blob/main/src/5_pipeline_hate_speech.ipynb)).
 
@@ -96,7 +96,7 @@ Los distintos notebooks forman un pipeline en el cuál cada uno utiliza los dato
    - Archivos de entrada: 
      * *docs/reddit_data_hate_speech_METODO.csv*
      * *docs/palabras_odio.csv*
-
+   - Archivos de Salida: N/A. 
 
 ---
 
@@ -181,9 +181,9 @@ El presente trabajo se basa en la siguiente hipótesis: *"en una comunidad en do
 
 ### reddit
 
-[Reddit](https://www.reddit.com/) es una red social de “comunidades”, creadas y moderadas por sus propios usuarios. En cada comunidad, sus miembros hacen posts, y cada post puede ser comentado generando debate. Su aspecto distintivo es que cada post o comentario recibe votos, con el objetivo de que aquellos posts o comentarios que más aportan aparezcan encima de los que no. También se pueden premiar a aquellos destacados. 
+[Reddit](https://www.reddit.com/) es una red social de “comunidades”, creadas y moderadas por sus propios usuarios. En cada comunidad, sus miembros hacen *posts*, y cada *post* puede ser comentado generando debate. Su aspecto distintivo es que cada *post* o comentario recibe votos, con el objetivo de que aquellos *posts* o comentarios que más aportan aparezcan encima de los que no. También se pueden premiar a aquellos destacados. 
 
-En la siguiente imagen podemos ver la estructura general de un post en reddit (de r/argentina):
+En la siguiente imagen podemos ver la estructura general de un *post* en reddit (de r/argentina):
 
 ![](misc/reddit.png)
 
@@ -216,15 +216,15 @@ Se describe a continuación, el paso a paso de las distintas etapas de este proy
 [Notebook](/src/1_pipeline_download_reddit_comments.ipynb)
 
 Para la obtención de los datos se utilizó un *wrapper* de la API de reddit, llamado [PRAW](https://praw.readthedocs.io/en/stable/index.html), a partir del cual se descargaron comentarios de diferentes *post* del r/argentina, así como las respuestas de los comentarios.
-Los posts en reddit pueden ser de tipo *link* (por ejemplo, colocando el link hacia una noticia), o pueden ser de tipo texto.
-Para la descarga de comentarios de cada post, se consideraron sólo aquellos que contenían texto, y una cierta cantidad de caracteres como mínimo.
+Los *posts* en reddit pueden ser de tipo *link* (por ejemplo, colocando el *link* hacia una noticia), o pueden ser de tipo texto.
+Para la descarga de comentarios de cada *post*, se consideraron sólo aquellos que contenían texto, y una cierta cantidad de caracteres como mínimo.
 
 De cada comentario que se guardó de reddit, se obtuvieron los siguientes datos:
-- *id*: identificador del *post* o comentario. Guardado por cuestiones de trazabilidad.
-- *comment_parent_id*: identificador del comentario al cuál responde el comentario actual, en caso que corresponda. Se guardó por cuestiones de trazabilidad.
-- *flair*: categoría del post, asignada por el usuario que lo crea (a partir de una lista brindada por el propio subreddit). En el caso de r/argentina, las categorías incluyen tópicos como "Política", "Economía", "Humor", "Historia" o "Serio".
-- *comms_num*: número de respuestas que recibió el comentario.
-- *score*: es un puntaje que los usuarios le dieron al comentario.
+- **id**: identificador del *post* o comentario. Guardado por cuestiones de trazabilidad.
+- **comment_parent_id**: identificador del comentario al cuál responde el comentario actual, en caso que corresponda. Se guardó por cuestiones de trazabilidad.
+- **flair**: categoría del *post*, asignada por el usuario que lo crea (a partir de una lista brindada por el propio subreddit). En el caso de r/argentina, las categorías incluyen tópicos como "Política", "Economía", "Humor", "Historia" o "Serio".
+- **comms_num**: número de respuestas que recibió el comentario.
+- **score**: es un puntaje que los usuarios le dieron al comentario.
 
 En total, se descargaron 27791 comentarios desde el día 08/10/2021 hasta el 19/10/2021.
 
@@ -242,7 +242,7 @@ Teniendo descargados los datos, se aplicó un pre-procesamiento sobre cada comen
 - Lematización (mediante spaCy).
 - Construir bigramas y trigramas.
 
-### 3. Representación de tópicos mediante embeddings
+### 3. Representación de tópicos mediante *embeddings*
 
 Teniendo los comentarios pre-procesados, el siguiente objetivo fue detectar tópicos a partir de los mismos de acuerdo a las co-ocurrencias de las palabras, para poder identificar los distintos temas que se hablan, y los sublenguajes empleados en ellos.
 
@@ -258,14 +258,14 @@ Este evento fue el debate de la "[Ley de Promoción de la Alimentación Saludabl
 Vamos a comparar las subcomunidades obtenidas en cada técnica, analizando particularmente aquéllas referidas a este evento.
 
 
-#### 3a. Embeddings con LDA
+#### 3a. *Embeddings* con LDA
 
 [Notebook](/src/3a_pipeline_lda.ipynb)
 
 El primer modelo que se comenzó utilizando es [Latent Dirichlet Allocation](https://en.wikipedia.org/wiki/Latent_Dirichlet_allocation), que es un método generativo que asume que cada documento está compuesto por una mezcla de tópicos, y donde cada palabra tiene una probabilidad de relacionarse con cada uno de ellos.
-La elección inicial de LDA se fundamentó en que es un método sólido para detección de tópicos en corpus de texto.
+La elección inicial de LDA se fundamentó en que es un método sólido para detección de tópicos en *corpus* de texto.
 
-El modelo se aplicó probando tamaños de clústers de 30 a 120, y distintas configuraciones de híper-parámetros. No obstante, los resultados obtenidos  no fueron satisfactorios, ya que a la hora de realizar un análisis de los tópicos identificados por el modelo, se encontró poca cohesión entre los tópicos detectados.
+El modelo se aplicó probando tamaños de *clústers* de 30 a 120, y distintas configuraciones de híper-parámetros. No obstante, los resultados obtenidos  no fueron satisfactorios, ya que a la hora de realizar un análisis de los tópicos identificados por el modelo, se encontró poca cohesión entre los tópicos detectados.
 
 En la siguiente imagen se pueden observar algunos de los tópicos identificados por LDA.
 
@@ -280,7 +280,7 @@ El tópico número 91, **piedra - etiqueta - pan - mira**, incluye comentarios s
 5. "Alta banfest se van a mandar los mods con este thread. Despedite de tu cuenta, maquinola, denunciado"
 
 
-### 3b. Embeddings con Word2vec
+### 3b. *Embeddings* con Word2vec
 
 [Notebook](/src/3b_pipeline_embedding_word2vec.ipynb)
 
@@ -290,12 +290,12 @@ De esta manera, se podrían identificar subcomunidades en este nuevo espacio.
 
 Para ello, se llevaron a cabo los siguientes pasos:
 
-1. Entrenar el modelo de generación de embeddings de palabras mediante una *tarea de pretexto* (dada una palabra, predecir información relacionada a su contexto, por ejemplo una palabra que le sigue). Se emplearon dos modelos: [Word2vec](https://en.wikipedia.org/wiki/Word2vec), cuyos resultados se muestran en esta sección, y [fastText](https://en.wikipedia.org/wiki/fastText), mostrado en la siguiente.
-2. Una vez entrenados los modelos, se procedió a generar una representación vectorial de cada comentario, donde cada uno se mapeó a un vector numérico de acuerdo al promedio de los embeddings de cada una de sus palabras.
+1. Entrenar el modelo de generación de *embeddings* de palabras mediante una **tarea de pretexto** (dada una palabra, predecir información relacionada a su contexto, por ejemplo una palabra que le sigue). Se emplearon dos modelos: [Word2vec](https://en.wikipedia.org/wiki/Word2vec), cuyos resultados se muestran en esta sección, y [fastText](https://en.wikipedia.org/wiki/fastText), mostrado en la siguiente.
+2. Una vez entrenados los modelos, se procedió a generar una representación vectorial de cada comentario, donde cada uno se mapeó a un vector numérico de acuerdo al promedio de los *embeddings* de cada una de sus palabras.
 3. Se aplicó el algoritmo de *clustering* *[k-means](https://en.wikipedia.org/wiki/K-means_clustering)*, tomando los vectores generados en el paso anterior.
 
-Tras realizar el entrenamiento y aplicar clustering, se obseró que los tópicos obtenidos se identificaban de forma mucho mejor que al usar LDA.
-Estos tópicos, además se identificaron mejor con un número alto de clusters (120), frente a un número menor (como 30 o 70).
+Tras realizar el entrenamiento y aplicar *clustering*, se observó que los tópicos obtenidos se identificaban de forma mucho mejor que al usar LDA.
+Estos tópicos, además se identificaron mejor con un número alto de *clusters* (120), frente a un número menor (como 30 o 70).
 En la siguiente imagen se pueden observar algunas de las subcomunidades identificadas tras aplicar Word2vec.
 
 
@@ -310,11 +310,11 @@ En particular, el *cluster* número 94, **ley - etiquetado - proyecto**, es el q
 5. "Pero hay leyes contra la violencia de genero! Como paso esto!!!1!?"
 6. "No existe tal cosa en Argentina. Existe el Estado de Sitio, pero no se asemeja para nada a una ley marcial.. El concepto de ley marcial como tal, desapareció en el 94 con la nueva Constitución."
 
-### 3c. Embeddings con fastText
+### 3c. *Embeddings* con fastText
 
 [Notebook](/src/3c_pipeline_embedding_fasttext.ipynb)
 
-Finalmente, el último método aplicado fue [fastText](https://en.wikipedia.org/wiki/fastText) que entrena una tarea de pretexto para generar un embedding de palabras al igual que Word2vec, pero además tiene en cuenta las sub-palabras, lo cuál resulta útil para identificar las alteraciones que puede tener una misma palabra.
+Finalmente, el último método aplicado fue [fastText](https://en.wikipedia.org/wiki/fastText) que entrena una tarea de pretexto para generar un *embedding* de palabras al igual que Word2vec, pero además tiene en cuenta las sub-palabras, lo cuál resulta útil para identificar las alteraciones que puede tener una misma palabra.
 
 En la siguiente imagen se pueden observar algunas de las subcomunidades identificadas por fastText.
 
@@ -354,14 +354,14 @@ Observando esto, y el buen rendimiento obtenido al usar Word2vec, se optó final
 [Notebook](/src/4_detect_hate_speech.ipynb)
 
 
-En paralelo a la búsqueda de clústers que agrupan los distintos tópicos, se buscó también, a partir de los datos [pre-procesados anteriormente](#2-pre-procesamiento), el detectar automáticamente comentarios de odio, para poder combinarlos con los [tópicos encontrados](#3-embeddings). Para ello, se recurrió a conjuntos de datos anotados y en castellano, que hayan sido utilizados para tareas similares. En particular, se optó por los siguientes tres:
+En paralelo a la búsqueda de *clusters* que agrupan los distintos tópicos, se buscó también, a partir de los datos [pre-procesados anteriormente](#2-pre-procesamiento), el detectar automáticamente comentarios de odio, para poder combinarlos con los [tópicos encontrados](#3-embeddings). Para ello, se recurrió a conjuntos de datos anotados y en castellano, que hayan sido utilizados para tareas similares. En particular, se optó por los siguientes tres:
 
 
-1. HatEval: dataset con cerca de 7000 tweets de usuarios de España, que potencialmente manifiestan discurso de odio contra mujeres o inmigrantes. Este dataset es el más parecido a la tarea que queremos resolver, ya que tiene datos etiquetados que marcan directamente si se trata o no de un tweet con discurso de odio, sea contra un individuo o un grupo.
+1. HatEval: *dataset* con cerca de 7000 *tweets* de usuarios de España, que potencialmente manifiestan discurso de odio contra mujeres o inmigrantes. Este *dataset* es el más parecido a la tarea que queremos resolver, ya que tiene datos etiquetados que marcan directamente si se trata o no de un *tweet* con discurso de odio, sea contra un individuo o un grupo.
 
-2. DETOXIS: dataset con cerca de 3500 comentarios de sitios de noticias/foros españoles, que posiblemente contienen toxicidad. Si bien un mensaje con toxicidad no es necesariamente discurso de odio (y un mensaje con discurso de odio puede tener toxicidad o no), suele estar asociado al mismo.
+2. DETOXIS: *dataset* con cerca de 3500 comentarios de sitios de noticias/foros españoles, que posiblemente contienen toxicidad. Si bien un mensaje con toxicidad no es necesariamente discurso de odio (y un mensaje con discurso de odio puede tener toxicidad o no), suele estar asociado al mismo.
 
-3. MeOffendMex: dataset con alrededor de 5000 tweets de usuarios de México, que posiblemente contienen mensajes ofensivos. Al igual que la toxicidad, un mensaje ofensivo no necesariamente está manifestando odio, pero suelen estar asociados. 
+3. MeOffendMex: *dataset* con alrededor de 5000 *tweets* de usuarios de México, que posiblemente contienen mensajes ofensivos. Al igual que la toxicidad, un mensaje ofensivo no necesariamente está manifestando odio, pero suelen estar asociados. 
 
 En cada uno de los mismos, se entrenaron tres modelos de aprendizaje supervisado: *[regresión logística](https://en.wikipedia.org/wiki/Logistic_regression)*, *[naive Bayes](https://en.wikipedia.org/wiki/Naive_Bayes_classifier)* y *[random forest](https://en.wikipedia.org/wiki/Random_forests)*, todos provistos por la librería [scikit-learn](https://scikit-learn.org).
 
@@ -383,15 +383,15 @@ La siguiente tabla muestra un vistazo rápido de los resultados obtenidos, al ev
 | Naive Bayes         |             |        .76       |     .82    |     .62    |
 | Random forest       |             |        .79       |     .87    |     .53    |
 
-Una vez teniendo los modelos entrenados, se extrajeron las palabras que más probablemente manifiesten odio en cada dataset, de acuerdo a su aporte a la clasificación de las palabras. Estas palabras fueron guardadas en el archivo [palabras_odio.csv](src/docs/palabras_odio.csv).
-Por otra parte, [se guardaron](src/docs/models/) los modelos entrenados en cada dataset, y sus correspondientes vectorizaciones para su uso posterior.
+Una vez teniendo los modelos entrenados, se extrajeron las palabras que más probablemente manifiesten odio en cada *dataset*, de acuerdo a su aporte a la clasificación de las palabras. Estas palabras fueron guardadas en el archivo [palabras_odio.csv](src/docs/palabras_odio.csv).
+Por otra parte, [se guardaron](src/docs/models/) los modelos entrenados en cada *dataset*, y sus correspondientes vectorizaciones para su uso posterior.
 
 
 ## 5. Aplicación del modelo a los comentarios de reddit
 
 [Notebook](/src/5_pipeline_hate_speech.ipynb)
 
-Teniendo los modelos entrenados en tres datasets con tareas similares, el siguiente paso consistió en aplicarlos en los comentarios recolectados y [preprocesados previamente](#2-pre-procesamiento), para evaluar cómo los mismos se desenvuelven, viendo algunos de los comentarios que fueron predichos como positivos.
+Teniendo los modelos entrenados en tres *datasets* con tareas similares, el siguiente paso consistió en aplicarlos en los comentarios recolectados y [preprocesados previamente](#2-pre-procesamiento), para evaluar cómo los mismos se desenvuelven, viendo algunos de los comentarios que fueron predichos como positivos.
 Lo primero que se observó al verlos fue la significativa cantidad de falsos positivos (con el umbral de clasificación por defecto de 50\%), prediciendo como verdaderos a comentarios totalmente inofensivos.
 
 A raíz de ello, se optó por incrementar los umbrales de clasificación de los modelos en pos de reducir los falsos positivos. En la siguiente tabla se observa cómo varía la cantidad de comentarios clasificados como positivos de acuerdo al umbral de clasificación, de los 27791 comentarios recolectados en total.
@@ -411,14 +411,14 @@ A raíz de ello, se optó por incrementar los umbrales de clasificación de los 
 
 De la misma, se ve que naive Bayes es el modelo que mayor cantidad de comentarios clasifica como positivo. Por ejemplo, en HatEval, empleando un umbral de 0.5, clasifica un 37\% del total de comentarios como de odio. A este modelo le siguen la regresión logística y random forest, que tiende a clasificar muy poca cantidad de ejemplos como positivo al aumentar el umbral desde 0.6 (llegando a no clasificar ningún ejemplo como positivo en el dataset DETOXIS).
 
-Por otra parte, se observó también (en un vistazo general de las predicciones) que el dataset con el mejor rendimiento en la detección fue MeOffendMex. Tenemos la conjetura de que esto se debe a que el lenguaje que de los comentarios de este dataset es el más parecido al utilizado en r/argentina.
+Por otra parte, se observó también (en un vistazo general de las predicciones) que el *dataset* con el mejor rendimiento en la detección fue MeOffendMex. Tenemos la conjetura de que esto se debe a que el lenguaje que de los comentarios de este *dataset* es el más parecido al utilizado en r/argentina.
 
 
 ## 6. Análisis de resultados
 
 [Notebook](/src/6_pipeline_result.ipynb)
 
-En la siguiente sección, se toman los [clusters generados](#3-representación-de-tópicos-mediante-embeddings), los [modelos entrenados](#4-entrenamiento-del-detector-de-odio) y [sus predicciones](#5-aplicación-del-modelo-a-los-comentarios-de-reddit), para llevar a cabo un análisis de los resultados obtenidos.
+En la siguiente sección, se toman los [*clusters* generados](#3-representación-de-tópicos-mediante-embeddings), los [modelos entrenados](#4-entrenamiento-del-detector-de-odio) y [sus predicciones](#5-aplicación-del-modelo-a-los-comentarios-de-reddit), para llevar a cabo un análisis de los resultados obtenidos.
 
 Para este análisis, se usó el modelo Naive Bayes (con un umbral de clasificación de 0.8) entrenado sobre el conjunto de datos MeOffendMex, y el modelo Word2vec entrenado previamente.
 Como en MeOffendMex cada comentario se etiqueta según si representa una ofensa/agresión (y no necesariamente si es discurso de odio), consideramos a cada comentario como "positivo" si el mismo contiene una agresión o discurso de odio, y como "negativo" en caso contrario.
@@ -426,26 +426,26 @@ La razón de este criterio es que en los datos observados, la mayoría de veces 
 
 ### 6.1. Vista general de los distintos clusters
 
-Vemos una vista general de los datos con los que se cuenta hasta ahora, con respecto a su distribución en los distintos clusters.
+Vemos una vista general de los datos con los que se cuenta hasta ahora, con respecto a su distribución en los distintos *clusters*.
 
 * Se cuenta con 27.791 comentarios, donde cada uno tiene asignado un número de tópico y una etiqueta indicando si el clasificador lo categorizó como discurso de odio / agresivo o no. Los mensajes se distribuyen en los tópicos de la siguiente manera:
 
 ![](misc/num_topicos.png)
 
 * En muchos de los clusters se identifican tópicos concretos. Algunos ejemplos:
-  * Cluster 8: economía.
-  * Cluster 18: política.
-  * Cluster 23: dólar.
-  * Cluster 94: leyes.
-  * Cluster 98: comidas.
-  * Cluster 99: género.
-  * Cluster 116: insultos.
+  * *Cluster* 8: economía.
+  * *Cluster* 18: política.
+  * *Cluster* 23: dólar.
+  * *Cluster* 94: leyes.
+  * *Cluster* 98: comidas.
+  * *Cluster* 99: género.
+  * *Cluster* 116: insultos.
 
 * De los 27.791 comentarios, 2075 fueron predichos como de odio por el clasificador seleccionado. Tales predicciones se distribuyen como sigue:
 
 ![](misc/pred_hs_por_topico.png)
 
-* De los distintos clústers, existen varios cuyo porcentaje de comentarios predicho como odio es muy significativo:
+* De los distintos *clusters*, existen varios cuyo porcentaje de comentarios predicho como odio es muy significativo:
 
 | Número de cluster | \% pred. positivas |
 |:-----------------:|:-----------------------:|
@@ -456,7 +456,7 @@ Vemos una vista general de los datos con los que se cuenta hasta ahora, con resp
 |         93        |           24\%          |
 
 
-* Vemos también el porcentaje de comentarios predichos en cada flair:
+* Vemos también el porcentaje de comentarios predichos en cada *flair*:
 
 |     Flair    | \% pred. positivas |
 |:------------:|:-----------------------:|
@@ -467,7 +467,7 @@ Vemos una vista general de los datos con los que se cuenta hasta ahora, con resp
 |    Video📽️    |         9\%        |
 
 
-* Vemos, para todos los clústers en general y para los tres de mayor proporción de predicciones en particular, si existe una correlación lineal tanto entre el puntaje y la cantidad de réplicas de cada comentario, y su predicción como mensaje de odio.
+* Vemos, para todos los *clusters* en general y para los tres de mayor proporción de predicciones en particular, si existe una correlación lineal tanto entre el puntaje y la cantidad de réplicas de cada comentario, y su predicción como mensaje de odio.
 
 | Cluster | Corr. puntaje y pred. pos. | Corr. num. com. y pred. pos. |
 |:-------:|:--------------------------:|:----------------------------:|
@@ -476,16 +476,16 @@ Vemos una vista general de los datos con los que se cuenta hasta ahora, con resp
 |    66   |          0.068          |           0.170           |
 |    79   |          -0.025          |           -0.150          |
 
-Al ver todos los clústers, se observa que no existe una correlación lineal entre el puntaje o cantidad de comentarios obtenidos, y clasificación o no como discurso de odio. Por otra parte, al ver esto en los tres clústers donde se detectó una mayor proporción de discurso de odio, se observa que la correlación varía levemente según el caso, no habiendo encontrado un patrón en esta variación.
+Al ver todos los *clusters*, se observa que no existe una correlación lineal entre el puntaje o cantidad de comentarios obtenidos, y clasificación o no como discurso de odio. Por otra parte, al ver esto en los tres *clusters* donde se detectó una mayor proporción de discurso de odio, se observa que la correlación varía levemente según el caso, no habiendo encontrado un patrón en esta variación.
 
 
-### 6.2. Vista de los clusters con mayor proporción de predicción positiva
+### 6.2. Vista de los *clusters* con mayor proporción de predicción positiva
 
-Vemos los términos más cercanos a los centroides de cada uno de los tres clusters con más proporción de predicciones positivas (el 116, 66 y 79):
+Vemos los términos más cercanos a los centroides de cada uno de los tres *clusters* con más proporción de predicciones positivas (el 116, 66 y 79):
 
-* Cluster 116: "hijo puta kjjjjjjjjjjj palmó comper pobretonto pario colaborá ramen vigote "
-* Cluster 66: "va coquetar orina desmechado ansiosa amigoooo catre vas guita safás "
-* Cluster 79: "kjjjjjjjjjjj hijo palmó comper pobretonto ahorcandolo pario puta ramen refuta "
+* *Cluster* 116: "hijo puta kjjjjjjjjjjj palmó comper pobretonto pario colaborá ramen vigote "
+* *Cluster* 66: "va coquetar orina desmechado ansiosa amigoooo catre vas guita safás "
+* *Cluster* 79: "kjjjjjjjjjjj hijo palmó comper pobretonto ahorcandolo pario puta ramen refuta "
 
 Vemos ahora las palabras de mayor frecuencia (tanto predichas o no como odio), encontradas en los mismos.
 
@@ -493,22 +493,22 @@ Vemos ahora las palabras de mayor frecuencia (tanto predichas o no como odio), e
 ![](misc/top_3_clusters_word_freq_2.png)
 ![](misc/top_3_clusters_word_freq_3.png)
 
-Puede observarse que se detectan muchos insultos en los tres clústers. No obstante, no se distingue una separación clara de los términos usados (tanto de odio como de no odio) al realizar agrupamiento por términos más frecuentes. Por ello, se optó por ordenarlos según su [información mutua puntual](https://es.wikipedia.org/wiki/Punto_de_informaci%C3%B3n_mutua) (PMI). Se muestra abajo como quedarían entonces los términos agrupados de esta forma, en donde se puede ver que el ordenamiento es mucho mejor:
+Puede observarse que se detectan muchos insultos en los tres *clusters*. No obstante, no se distingue una separación clara de los términos usados (tanto de odio como de no odio) al realizar agrupamiento por términos más frecuentes. Por ello, se optó por ordenarlos según su [información mutua puntual](https://es.wikipedia.org/wiki/Punto_de_informaci%C3%B3n_mutua) (PMI). Se muestra abajo como quedarían entonces los términos agrupados de esta forma, en donde se puede ver que el ordenamiento es mucho mejor:
 
 ![](misc/top_3_clusters_word_pmi_1.png)
 ![](misc/top_3_clusters_word_pmi_2.png)
 ![](misc/top_3_clusters_word_pmi_3.png)
 
-Otro aspecto que se observa es que el puntaje promedio y la cantidad de respuestas que se reciben en los dos primeros clusters es mayor si los comentarios fueron clasificados como de odio/agresión.
+Otro aspecto que se observa es que el puntaje promedio y la cantidad de respuestas que se reciben en los dos primeros *clusters* es mayor si los comentarios fueron clasificados como de odio/agresión.
 
-### 6.3. Detección de clústers según palabras asociadas con odio
+### 6.3. Detección de *clusters* según palabras asociadas con odio
 
-Dadas las palabras asociadas con odio extraídas anteriormente de los modelos, se analiza si es posible encontrar nuevos clusters que tengan contenido de agresión u odio, en base a la distancia de cada una de las mismas con respecto a ellos.
-Para ello, se obtienen los clusters más cercanos de cada una de dichas palabras, y se evalúa cuáles fueron los clusters que ocurrieron más frecuentemente al considerar todas las palabras.
+Dadas las palabras asociadas con odio extraídas anteriormente de los modelos, se analiza si es posible encontrar nuevos *clusters* que tengan contenido de agresión u odio, en base a la distancia de cada una de las mismas con respecto a ellos.
+Para ello, se obtienen los *clusters* más cercanos de cada una de dichas palabras, y se evalúa cuáles fueron los *clusters* que ocurrieron más frecuentemente al considerar todas las palabras.
 
 El resultado se puede ver en la siguiente tabla:
 
-| Cluster más frecuente (# en top 1) | Cluster más frecuente (# en top 3) |
+| *Cluster* más frecuente (# en top 1) | *Cluster* más frecuente (# en top 3) |
 |:----------------------------------:|:-------------------------------------------------:|
 |            0 (72 veces)            |                    0 (72 veces)                   |
 |              113 (10)              |                      87 (72)                      |
@@ -516,19 +516,19 @@ El resultado se puede ver en la siguiente tabla:
 |               116 (4)              |                      113 (15)                     |
 |               81 (1)               |                      24 (14)                      |
 
-Vemos cuáles fueron los términos más comunes de cada cluster detectado. Respecto a los clusters que más se repitieron:
+Vemos cuáles fueron los términos más comunes de cada *cluster* detectado. Respecto a los *clusters* que más se repitieron:
 
-* Cluster 0: "hacer dislocar desuscribite ss vtv paja preferiría bosta oooon maloliente "
-* Cluster 113: "ibarra baratisimo diz rayitar candadito feriar dolaaaar mote doxxeo gual "
-* Cluster 24: "childrir changes clothes argument wage \-mr oooon boah pandemic ⣄ "
+* *Cluster* 0: "hacer dislocar desuscribite ss vtv paja preferiría bosta oooon maloliente "
+* *Cluster* 113: "ibarra baratisimo diz rayitar candadito feriar dolaaaar mote doxxeo gual "
+* *Cluster* 24: "childrir changes clothes argument wage \-mr oooon boah pandemic ⣄ "
 
-Respecto a los clusters que más aparecieron en entre los tres más cercanos (excluyendo el cluster 0):
+Respecto a los *clusters* que más aparecieron en entre los tres más cercanos (excluyendo el *cluster* 0):
 
-* Cluster 87: "macri sander bowie ionizante acuario galperin descubierto peluco preferio freestyler "
-* Cluster 86: "salir biodegradar tenian grabate navegar pensés esfuenzar chango platea drogar "
-* Cluster 113: "ibarra baratisimo diz rayitar candadito feriar dolaaaar mote doxxeo gual "
+* *Cluster* 87: "macri sander bowie ionizante acuario galperin descubierto peluco preferio freestyler "
+* *Cluster* 86: "salir biodegradar tenian grabate navegar pensés esfuenzar chango platea drogar "
+* *Cluster* 113: "ibarra baratisimo diz rayitar candadito feriar dolaaaar mote doxxeo gual "
 
-Vemos los términos más frecuentes de varios de estos clusters:
+Vemos los términos más frecuentes de varios de estos *clusters*:
 
 ![](misc/top_3_clusters_from_hate_words_word_freq_1.png)
 ![](misc/top_3_clusters_from_hate_words_word_freq_2.png)
@@ -545,26 +545,26 @@ Vemos ahora los términos ordenados por información mutua puntual
 
 Vemos que las palabras se separan mejor; no obstante, se aprecia que las palabras de odio ordenadas según su PMI se parecen a las palabras encontradas al aplicar este mismo criterio en la sección anterior.
 
-### 6.4. Análisis cercano de dos clústers
+### 6.4. Análisis cercano de dos *clusters*
 
-En particular, se seleccionaron dos clusters que nos resultaron de interés que no estaban categorizados según los dos criterios tomados en las secciones anteriores, los etiquetamos manualmente como de odio/agresivos, y evaluamos cuál es el rendimiento del modelo sobre los mismos.
+En particular, se seleccionaron dos *clusters* que nos resultaron de interés que no estaban categorizados según los dos criterios tomados en las secciones anteriores, los etiquetamos manualmente como de odio/agresivos, y evaluamos cuál es el rendimiento del modelo sobre los mismos.
 
-Los clusters seleccionados fueron el de género (99) y el de soberanía (94). Para cada caso, se realizó un etiquetado a mano de cada comentario, respecto a si el mismo contenía discurso de odio y contenido agresivo. Esto se hizo con el fin de poder analizar la calidad de la detección del modelo en estos casos particulares.
+Los *clusters* seleccionados fueron el de género (99) y el de soberanía (94). Para cada caso, se realizó un etiquetado a mano de cada comentario, respecto a si el mismo contenía discurso de odio y contenido agresivo. Esto se hizo con el fin de poder analizar la calidad de la detección del modelo en estos casos particulares.
 
-A modo de aclaración, el etiquetado de ambos clusters se realizó según el criterio de quienes hicimos este trabajo; el mismo fue está sujeto a errores u omisiones. No obstante, consideramos que resulta muy importante para poder obtener una vista del rendimiento del modelo, y de sus puntos fuertes y débiles.
+A modo de aclaración, el etiquetado de ambos *clusters* se realizó según el criterio de quienes hicimos este trabajo; el mismo fue está sujeto a errores u omisiones. No obstante, consideramos que resulta muy importante para poder obtener una vista del rendimiento del modelo, y de sus puntos fuertes y débiles.
 
-Los comentarios de estos clusters con etiquetado manual se encuentran en los siguientes documentos:
+Los comentarios de estos *clusters* con etiquetado manual se encuentran en los siguientes documentos:
 
 - [Análisis manual de cluster de género](/src/docs/analisis/genero.csv).
 - [Análisis manual de cluster de soberanía](/src/docs/analisis/soberania.csv).
 
-A continuación, vemos los resultados de las predicciones de cada cluster:
+A continuación, vemos los resultados de las predicciones de cada *cluster*:
 
-#### Cluster de Género
+#### *Cluster* de Género
 
 El *cluster* 99 contiene comentarios que hacen referencia a temas de género, tales como: "mujer, hombre, no binario, homosexual, trans", entre otros.
 
-Vemos la distribución de las palabras del cluster según su frecuencia e información mutua:
+Vemos la distribución de las palabras del *cluster* según su frecuencia e información mutua:
 
 ![](misc/genero_freq.png)
 
@@ -575,7 +575,7 @@ Varios aspectos a mencionar:
 * Las nubes de palabras que ordenan los términos por frecuencia expresa mucho mejor los comentarios de este tópico que la que los ordena por información mutua.
 * Además, en la nube de palabras clasificadas como de odio, las palabras que mayor PMI tienen son considerablemente distintas a las que se observaron en las secciones anteriores.
 
-Vemos ahora la matriz de confusión del modelo al realizar predicciones en este cluster:
+Vemos ahora la matriz de confusión del modelo al realizar predicciones en este *cluster*:
 
 ![](misc/confusion_matrix_genero.png)
 
@@ -615,23 +615,23 @@ Predichos incorrectamente como no discurso de odio / agresivos:
 - "Eso prueba que las mujeres siempre estan cachondas."
 
 
-#### Cluster de Soberanía
+#### *Cluster* de Soberanía
 
-Este cluster (número 94) incluye comentarios que hacen referencia a diferentes tipos de soberanía, como la territorial. Dentro del tópico se ven comentarios referidos al conflicto por el territorio Mapuche, comentarios sobre las Islas Malvinas, la aprobación del Senado de la Nación de la Ley que establece el "Día Nacional del Kimchi", entre muchos otros.
+Este *cluster* (número 94) incluye comentarios que hacen referencia a diferentes tipos de soberanía, como la territorial. Dentro del tópico se ven comentarios referidos al conflicto por el territorio Mapuche, comentarios sobre las Islas Malvinas, la aprobación del Senado de la Nación de la Ley que establece el "Día Nacional del Kimchi", entre muchos otros.
 
-Vemos la distribución de las palabras del cluster según su frecuencia e información mutua:
+Vemos la distribución de las palabras del *cluster* según su frecuencia e información mutua:
 
 ![](misc/soberania_freq.png)
 ![](misc/soberania_pmi.png)
 
 * El ordenamiento por frecuencia refleja mejor el tópico de soberanía que se habla, aunque el ordenamiento por PMI también muestra algunos aspectos del tópico.
-* En este cluster en particular, la proporción de comentarios predichos como de odio por el modelo es muy baja; también se da que tanto el puntaje como la cantidad de comentarios recibidos es menor para aquellos comentarios predichos como de odio que aquellos que no.
+* En este *cluster* en particular, la proporción de comentarios predichos como de odio por el modelo es muy baja; también se da que tanto el puntaje como la cantidad de comentarios recibidos es menor para aquellos comentarios predichos como de odio que aquellos que no.
 
-Vemos la matriz de confusión del modelo en este cluster:
+Vemos la matriz de confusión del modelo en este *cluster*:
 
 ![](misc/confusion_matrix_soberania.png)
 
-* Al igual que en el cluster de género, la proporción de comentarios cuya etiqueta es de odio o agresivo es mayor (477) a aquellos que no (136).
+* Al igual que en el *cluster* de género, la proporción de comentarios cuya etiqueta es de odio o agresivo es mayor (477) a aquellos que no (136).
 * No obstante, la cantidad de comentarios correctamente predichos como de odio es muy baja (12), y la mayoría de errores fueron, para nuestra sorpresa, falsos negativos (124, frente a 26 falsos positivos).
 * Consideramos que esto se da porque muchos de los comentarios que consideramos como de odio al realizar el etiquetado manual, usan un lenguaje peyorativo sobre una minoría (los mapuches), lo cuál dista bastante de los términos usados en comentarios con los que el modelo fue entrenado (MeOffendMex).
 
@@ -669,10 +669,10 @@ Predichos incorrectamente como no discurso de odio / agresivos:
 
 ### 6.5. Visualización de términos cercanos seleccionados
 
-Para la siguiente visualización, tomamos varias palabras vistas hasta aquí en cada uno de los clústers, obtenidas por frecuencia o información mutua, y otras que se han ido probando, y vemos dónde se situarían las mismas según su cercanía a cada cluster, y cuáles serían las palabras más cercanas a la misma en el espacio proyectado, tanto para Word2vec como de fastText.
+Para la siguiente visualización, tomamos varias palabras vistas hasta aquí en cada uno de los *clusters*, obtenidas por frecuencia o información mutua, y otras que se han ido probando, y vemos dónde se situarían las mismas según su cercanía a cada *cluster*, y cuáles serían las palabras más cercanas a la misma en el espacio proyectado, tanto para Word2vec como de fastText.
 La motivación detrás de este análisis es que pueden descubrirse palabras de odio/agresivas a partir de otras.
 
-Vemos las palabras más cercanas a cada una de las distintas palabras en Word2vec, la distancia de cada una, y el cluster en el que serían clasificadas.
+Vemos las palabras más cercanas a cada una de las distintas palabras en Word2vec, la distancia de cada una, y el *cluster* en el que serían clasificadas.
 
 ![](misc/cherrypicking_word2vec.png)
 
@@ -683,7 +683,7 @@ Vemos ahora las cercanías de las distintas palabras en fastText
 Tras observar las palabras similares a cada una de las otras tanto con Word2vec como con fastText, puede verse que: 
 * En Word2vec, en algunos casos se obtienen términos muy representantivos, sea por contener palabras con significado parecido, o por manifestar el contexto donde ocurren las palabras, mientras que en otros no se observa a simple vista una relación evidente. Una de las palabras que manifiesta su uso común en comentarios que suelen involucrar discursos de odio, es la palabra "Brian", donde se observa a través de sus términos relacionados, que ese nombre es usado de forma muy peyorativa, comúnmente en mensajes que contienen aporofobia.
 
-* En fastText, se detectan mejor las mismas variantes de una misma palabra. Por ejemplo, "conurbano" se relaciona con la palabra peyorativa "congourbano" *[sic]* (usada en varios mensajes con discurso de odio), así como con "conurbanense" o "urbano", aunque de la misma manera, también se relaciona con palabras con pronciación parecida pero significado totalmente distinto, como "conadu".
+* En fastText, se detectan mejor las mismas variantes de una misma palabra. Por ejemplo, "conurbano" se relaciona con la palabra peyorativa "congourbano" *[sic]* (usada en varios mensajes con discurso de odio), así como con "conurbanense" o "urbano", aunque de la misma manera, también se relaciona con palabras con pronunciación parecida pero significado totalmente distinto, como "conadu".
 
 
 ## Conclusiones
@@ -692,15 +692,16 @@ En este trabajo, se usaron técnicas tanto de aprendizaje supervisado como de no
 
 Combinando ambos tipos de técnicas, se validó que es posible realizar una detección automática de palabras y formas de comunicación asociadas con discursos de odio o agresividad, identificando aquellos tópicos en donde mayormente se utilizan, y los contextos y formas alternativas en la que se manifiestan.
 
-En la parte de clustering, los métodos que mejor dieron resultado fueron los de embeddings neuronales (Word2vec y fastText); empleando los mismos es donde se pudo identificar mejor los tópicos y sublenguajes referetes a los mismos.
+En la parte de *clustering*, los métodos que mejor dieron resultado fueron los de *embeddings* neuronales (Word2vec y fastText); empleando los mismos es donde se pudo identificar mejor los tópicos y sublenguajes referentes a los mismos.
 De ambos, el que mejor resultó para esta categorización fue el modelo entrenado con Word2vec, ya que capturaba mejor las palabras distintas pero con significado similar; fastText por otro lado, capturó mejor las variantes de una misma palabra, pero muchas veces un tópico estaba dominado específicamente por una palabra y sus variantes.
 
-Respecto a la predicción con un modelo, se emplearon modelos de aprendizaje supervisado entrenados con datasets que no eran necesariamente de detección de discursos de odio, y que estaban realizados por comunidades con distintas formas de comunicarse (mayormente conformadas por usuarios españoles y mexicanos), y de distintas plataformas (Twitter y páginas de noticias/foros).
+Respecto a la predicción con un modelo, se emplearon modelos de aprendizaje supervisado entrenados con *datasets* que no eran necesariamente de detección de discursos de odio, y que estaban realizados por comunidades con distintas formas de comunicarse (mayormente conformadas por usuarios españoles y mexicanos), y de distintas plataformas (Twitter y páginas de noticias/foros).
 Pese a ello, tales modelos resultaron muy provechosos para detectar manifiestaciones de agresividad/odio en el contexto de r/argentina.
 
-Por último, tras etiquetar manualmente datos de dos clústers seleccionados y realizar predicciones sobre ellos, observamos que la detección de discursos de odio está atada a los sublenguajes usados en la comunidad (por ejemplo, algunos términos peyorativos contra minorías sólo se utilizan entre usuarios de ciertas comunidades de Argentina), y podría mejorar considerablemente si se incorporan algunos datos etiquetados al entrenamiento del modelo de entrenamiento.
+Por último, tras etiquetar manualmente datos de dos *clusters* seleccionados y realizar predicciones sobre ellos, observamos que la detección de discursos de odio está atada a los sub-lenguajes usados en la comunidad (por ejemplo, algunos términos peyorativos contra minorías sólo se utilizan entre usuarios de ciertas comunidades de Argentina), y podría mejorar considerablemente si se incorporan algunos datos etiquetados al entrenamiento del modelo de entrenamiento.
 
-Finalmente, la conclusión final a la que llegamos tras realizar este trabajo, es que es totalmente posible avanzar en métodos automáticos para la detección y caracterización de discursos de odio, y hay mucho margen para avanzar en esta dirección.
+Finalmente, la conclusión a la que llegamos tras realizar este trabajo, es que es totalmente provechoso avanzar en el uso de métodos automáticos para detectar y caracterizar discursos de odio en sus distintas variantes, y que hay mucho margen para seguir aplicando minería de texto en pos de poder mitigar su impacto.
+En la sección siguiente, se listan varias propuestas de trabajo futuro para realizar a partir de este trabajo.
 
 ## Trabajo futuro
 
@@ -708,19 +709,19 @@ Finalmente, la conclusión final a la que llegamos tras realizar este trabajo, e
 
 - Tomando el enfoque de este trabajo como base, buscar caracterizar el discurso de odio en otras comunidades de foros populares argentinos, tales como [Taringa!](https://www.taringa.net/), [r/republicaargentina](https://www.reddit.com/r/RepublicaArgentina/), [r/dankargentina](https://www.reddit.com/r/dankargentina/), o comunidades argentinas en Twitter.
 
-- Explorar la relación entre "baits" y la generación de discursos de odio en los comentarios alrededor de los mismos. Por ejemplo, posts con información no verificada o con una editorialización marcada (pudiendo estar generada tanto por un medio, o que el título haya sido cambiado por quien realizó el post), o memes o chistes con animosidad hacia un determinado grupo o persona.
+- Explorar la relación entre "baits" y la generación de discursos de odio en los comentarios alrededor de los mismos. Por ejemplo, *posts* con información no verificada o con una editorialización marcada (pudiendo estar generada tanto por un medio, o que el título haya sido cambiado por quien realizó el *post*), o memes o chistes con animosidad hacia un determinado grupo o persona.
 
 ### Clustering
 
-- Usar coeficientes de silueta para determinar el número óptimo de clústers.
+- Usar coeficientes de silueta para determinar el número óptimo de *clusters*.
 
 ### Modelo
 
 - Realizar optimización de híper-parámetros para mejorar el rendimiento de los modelos. Por ejemplo, probar distintos tamaños de ventana en el entrenamiento de Word2vec, o distintas cantidades de estimadores en random forest.
   
-- Realizar un etiquetado en diferentes comentarios de r/argentina que pertenezcan a ciertos clusters que potencialmente contengan odio (o bien que pertenezcan a un cierto Flair), y entrenar un modelo a partir de ellos, para poder mejorar la detección de comentarios de odio.
+- Realizar un etiquetado en diferentes comentarios de r/argentina que pertenezcan a ciertos *clusters* que potencialmente contengan odio (o bien que pertenezcan a un cierto *flair*), y entrenar un modelo a partir de ellos, para poder mejorar la detección de comentarios de odio.
 
-- Incorporar en el análisis de los resultados en el notebook 6 a los distintos datasets modelos que se emplearon, como random forest o fastText, en los tres datasets, y ver cuáles son los puntos de coincidencia y de divergencia de los mismos.
+- Incorporar en el análisis de los resultados en el *notebook* 6 a los distintos *datasets* modelos que se emplearon, como random forest o fastText, en los tres *datasets*, y ver cuáles son los puntos de coincidencia y de divergencia de los mismos.
 
 
 ### Información de contexto
@@ -729,11 +730,11 @@ Finalmente, la conclusión final a la que llegamos tras realizar este trabajo, e
   
 - Incorporar el contexto del comentario padre, especialmente si se está respondiendo. Esto es dado que un mensaje puede no ser un mensaje de odio por sí sólo, pero sí lo es al observar el comentario al que se contesta.
   
-- Incorporar el puntaje y premios de los posts y comentarios en el análisis.
+- Incorporar el puntaje y premios de los *posts* y comentarios en el análisis.
   
 - Considerar dejar de alguna forma los emojis, ya que también pueden representar una forma de manifestar odio.
   
-- Incorporar los Flairs al análisis, como por ejemplo: “\[Serio\]”.
+- Incorporar los *flairs* al análisis, como por ejemplo: “\[Serio\]”.
   
 - Incluir en el contexto el análisis morfosintáctico de las palabras.
 
