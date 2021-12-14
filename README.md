@@ -125,7 +125,7 @@ Se muestra a continuación el informe producto de este proyecto, en donde se esp
     - [3b. Embeddings con Word2vec](#3b-embeddings-con-word2vec)
     - [3c. Embeddings con fastText](#3c-embeddings-con-fasttext)
   - [4. Entrenamiento de detectores de odio](#4-entrenamiento-de-detectores-de-odio)
-  - [5. Aplicación de los modelos a los comentarios de reddit](#5-aplicación-de-los-modelos-a-los-comentarios-de-reddit)
+  - [5. Aplicación del modelo a los comentarios de reddit](#5-aplicación-del-modelo-a-los-comentarios-de-reddit)
   - [6. Análisis de resultados](#6-análisis-de-resultados)
     - [6.1. Vista general de los distintos clusters](#61-vista-general-de-los-distintos-clusters)
     - [6.2. Vista de los clusters con mayor proporción de predicción positiva](#62-vista-de-los-clusters-con-mayor-proporción-de-predicción-positiva)
@@ -183,7 +183,7 @@ El presente trabajo se basa en la siguiente hipótesis: *"en una comunidad en do
 
 [Reddit](https://www.reddit.com/) es una red social de “comunidades”, creadas y moderadas por sus propios usuarios. En cada comunidad, sus miembros hacen posts, y cada post puede ser comentado generando debate. Su aspecto distintivo es que cada post o comentario recibe votos, con el objetivo de que aquellos posts o comentarios que más aportan aparezcan encima de los que no. También se pueden premiar a aquellos destacados. 
 
-En la siguiente imagen podemos ver la estructura general de un post en reddit:
+En la siguiente imagen podemos ver la estructura general de un post en reddit (de r/argentina):
 
 ![](misc/reddit.png)
 
@@ -294,7 +294,7 @@ Para ello, se llevaron a cabo los siguientes pasos:
 2. Una vez entrenados los modelos, se procedió a generar una representación vectorial de cada comentario, donde cada uno se mapeó a un vector numérico de acuerdo al promedio de los embeddings de cada una de sus palabras.
 3. Se aplicó el algoritmo de *clustering* *[k-means](https://en.wikipedia.org/wiki/K-means_clustering)*, tomando los vectores generados en el paso anterior.
 
-Tras realizar el entrenamiento y aplicar clustering, se observaron que los tópicos obtenidos se identificaban de forma mucho mejor que al usar LDA.
+Tras realizar el entrenamiento y aplicar clustering, se obseró que los tópicos obtenidos se identificaban de forma mucho mejor que al usar LDA.
 Estos tópicos, además se identificaron mejor con un número alto de clusters (120), frente a un número menor (como 30 o 70).
 En la siguiente imagen se pueden observar algunas de las subcomunidades identificadas tras aplicar Word2vec.
 
@@ -332,7 +332,7 @@ El *cluster* número 113, **ley - etiquetado - votar**, incluye comentarios sobr
 6. "Eso está por la ley Micaela no?. Tipo esta clase de capacitaciones no?"
 7. "y ahora Lipovetzky reconoce lo de la ley de alquileres"
 
-Si bien existen algunos *clusters* que nos permiten identificar tópicos especificos (como el 113), se observó que si bien el método detecta variantes de palabras, en términos generales los *clusters* no se traducen en tópicos cohesivos. Por ejemplo, en el *cluster* número 54 encontrarmos comentarios de diferentes tópicos:
+Si bien existen algunos *clusters* que nos permiten identificar tópicos específicos (como el 113), se observó que si bien el método detecta variantes de palabras, en términos generales los *clusters* no se traducen en tópicos cohesivos. Por ejemplo, en el *cluster* número 54 encontramos comentarios de diferentes tópicos:
 1. "No lo veo a Belgrano? Saavedra?. Me re mintieron!"
 2. "Mate de cafe re copado, un litro de cafe en tu organismo"
 3. "ajajajajajaj Geologia, es re linda carrera igual pero esta materia es una completa mierda"
@@ -391,7 +391,7 @@ Por otra parte, [se guardaron](src/docs/models/) los modelos entrenados en cada 
 
 [Notebook](/src/5_pipeline_hate_speech.ipynb)
 
-Teniendo los modelos entrenados en tres datasets con tareas similares, el siguiente paso consistió en aplicarlos en los comentarios recolectados y [preprocesados previamente](#2-pre-procesamiento), para evaluar cómo los mismos se desenvolvían, viendo algunos de los comentarios que fueron predichos como positivos.
+Teniendo los modelos entrenados en tres datasets con tareas similares, el siguiente paso consistió en aplicarlos en los comentarios recolectados y [preprocesados previamente](#2-pre-procesamiento), para evaluar cómo los mismos se desenvuelven, viendo algunos de los comentarios que fueron predichos como positivos.
 Lo primero que se observó al verlos fue la significativa cantidad de falsos positivos (con el umbral de clasificación por defecto de 50\%), prediciendo como verdaderos a comentarios totalmente inofensivos.
 
 A raíz de ello, se optó por incrementar los umbrales de clasificación de los modelos en pos de reducir los falsos positivos. En la siguiente tabla se observa cómo varía la cantidad de comentarios clasificados como positivos de acuerdo al umbral de clasificación, de los 27791 comentarios recolectados en total.
@@ -409,7 +409,7 @@ A raíz de ello, se optó por incrementar los umbrales de clasificación de los 
 | Random forest       | MeOffendMex |        455       |        167       |        72        |        14        |         0        |
 
 
-De la misma, se ve que naive Bayes es el modelo que mayor cantidad de comentarios clasifica como positivo. Por ejemplo, en HatEval, empleando un umbral de 0.5, clasifica un 37\% del total de comentarios como de odio. A este modelo le siguen la regresión logística y random forest, que en tiende a clasificar muy poca cantidad de ejemplos como positivo al aumentar el umbral desde 0.6 (llegando a no clasificar ningún ejemplo como positivo en el dataset DETOXIS).
+De la misma, se ve que naive Bayes es el modelo que mayor cantidad de comentarios clasifica como positivo. Por ejemplo, en HatEval, empleando un umbral de 0.5, clasifica un 37\% del total de comentarios como de odio. A este modelo le siguen la regresión logística y random forest, que tiende a clasificar muy poca cantidad de ejemplos como positivo al aumentar el umbral desde 0.6 (llegando a no clasificar ningún ejemplo como positivo en el dataset DETOXIS).
 
 Por otra parte, se observó también (en un vistazo general de las predicciones) que el dataset con el mejor rendimiento en la detección fue MeOffendMex. Tenemos la conjetura de que esto se debe a que el lenguaje que de los comentarios de este dataset es el más parecido al utilizado en r/argentina.
 
@@ -441,7 +441,7 @@ Vemos una vista general de los datos con los que se cuenta hasta ahora, con resp
   * Cluster 99: género.
   * Cluster 116: insultos.
 
-* De los 27.791 comentarios, 2075 fueron predichos como de odio por el clasificador seleccionado. Tales prediciones de distribuyen como sigue:
+* De los 27.791 comentarios, 2075 fueron predichos como de odio por el clasificador seleccionado. Tales predicciones se distribuyen como sigue:
 
 ![](misc/pred_hs_por_topico.png)
 
@@ -516,7 +516,7 @@ El resultado se puede ver en la siguiente tabla:
 |               116 (4)              |                      113 (15)                     |
 |               81 (1)               |                      24 (14)                      |
 
-Vemos cuales fueron los términos más comunes de cada cluster detectado. Respecto a los clusters que más se repitieron:
+Vemos cuáles fueron los términos más comunes de cada cluster detectado. Respecto a los clusters que más se repitieron:
 
 * Cluster 0: "hacer dislocar desuscribite ss vtv paja preferiría bosta oooon maloliente "
 * Cluster 113: "ibarra baratisimo diz rayitar candadito feriar dolaaaar mote doxxeo gual "
@@ -549,7 +549,7 @@ Vemos que las palabras se separan mejor; no obstante, se aprecia que las palabra
 
 En particular, se seleccionaron dos clusters que nos resultaron de interés que no estaban categorizados según los dos criterios tomados en las secciones anteriores, los etiquetamos manualmente como de odio/agresivos, y evaluamos cuál es el rendimiento del modelo sobre los mismos.
 
-Los clusters seleccionados fueron el de género (99) y el de soberanía (94). Para cada caso, se realizó un etiquetado a mano de cada comentario, respecto a si el mismo contenía discurso de odio, y si el mismo tenía un contenido agresivo. Esto se hizo con el fin de poder analizar la calidad de la detección del modelo en estos casos particulares.
+Los clusters seleccionados fueron el de género (99) y el de soberanía (94). Para cada caso, se realizó un etiquetado a mano de cada comentario, respecto a si el mismo contenía discurso de odio y contenido agresivo. Esto se hizo con el fin de poder analizar la calidad de la detección del modelo en estos casos particulares.
 
 A modo de aclaración, el etiquetado de ambos clusters se realizó según el criterio de quienes hicimos este trabajo; el mismo fue está sujeto a errores u omisiones. No obstante, consideramos que resulta muy importante para poder obtener una vista del rendimiento del modelo, y de sus puntos fuertes y débiles.
 
@@ -683,7 +683,7 @@ Vemos ahora las cercanías de las distintas palabras en fastText
 Tras observar las palabras similares a cada una de las otras tanto con Word2vec como con fastText, puede verse que: 
 * En Word2vec, en algunos casos se obtienen términos muy representantivos, sea por contener palabras con significado parecido, o por manifestar el contexto donde ocurren las palabras, mientras que en otros no se observa a simple vista una relación evidente. Una de las palabras que manifiesta su uso común en comentarios que suelen involucrar discursos de odio, es la palabra "Brian", donde se observa a través de sus términos relacionados, que ese nombre es usado de forma muy peyorativa, comúnmente en mensajes que contienen aporofobia.
 
-* En fastText, se detectan mejor las mismas variantes de una misma palabra. Por ejemplo, "conurbano" se relaciona con la palabra peyorativa "congourbano" (usada en varios mensajes con discurso de odio), así como con "conurbanense" o "urbano", aunque de la misma manera, también se relaciona con palabras con pronciación parecida pero significado totalmente distinto, como "conadu".
+* En fastText, se detectan mejor las mismas variantes de una misma palabra. Por ejemplo, "conurbano" se relaciona con la palabra peyorativa "congourbano" *[sic]* (usada en varios mensajes con discurso de odio), así como con "conurbanense" o "urbano", aunque de la misma manera, también se relaciona con palabras con pronciación parecida pero significado totalmente distinto, como "conadu".
 
 
 ## Conclusiones
@@ -727,7 +727,7 @@ Finalmente, la conclusión final a la que llegamos tras realizar este trabajo, e
 
 - Incorporar info de la comunidad, para ver qué tan de acuerdo estuvieron los usuarios con los comentarios.
   
-- Incorporar el contexto del comentario padre, especialmente si se lo está respondiendo. Esto es dado que un mensaje puede no ser un mensaje de odio por sí sólo, pero sí lo es al observar el comentario al que se contesta.
+- Incorporar el contexto del comentario padre, especialmente si se está respondiendo. Esto es dado que un mensaje puede no ser un mensaje de odio por sí sólo, pero sí lo es al observar el comentario al que se contesta.
   
 - Incorporar el puntaje y premios de los posts y comentarios en el análisis.
   
