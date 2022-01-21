@@ -779,9 +779,12 @@ En la sección siguiente, se listan varias propuestas de trabajo futuro para rea
 
 ### Competencias
 
-- HatEval (SemEval 2019): https://competitions.codalab.org/competitions/19935
-- DETOXIS (IberLEF 2021): https://detoxisiberlef.wixsite.com/website/corpus
-- MeOffendEs (IberLEF 2021): https://competitions.codalab.org/competitions/28679
+- HatEval (SemEval 2019): https://competitions.codalab.org/competitions/19935. Paper:
+  - SemEval-2019 Task 5: Multilingual Detection of Hate Speech Against Immigrants and Women in Twitter, por Basile, Valerio; Bosco, Cristina; Fersini, Elisabetta; Nozza, Debora; Patti, Viviana; Rangel Pardo, Francisco Manuel; Rosso, Paolo; Sanguinetti, Manuela. Proceedings of the 13th International Workshop on Semantic Evaluation. Association for Computational Linguistics, 2019. [URL](https://aclanthology.org/S19-2007/).
+- DETOXIS (IberLEF 2021): https://detoxisiberlef.wixsite.com/website/corpus.
+- MeOffendEs (IberLEF 2021): https://competitions.codalab.org/competitions/28679. Papers:
+    - OffendES: A New Corpus in Spanish for Offensive Language Research, por Plaza-del-Arco, Flor Miriam; Montejo Ráez, Arturo; Ureña-López, L. Alfonso y Martín Valdivia, María Teresa. Proceedings of the International Conference on Recent Advances in Natural Language Processing (RANLP 2021). INCOMA Ltd., 2021. [URL](https://aclanthology.org/2021.ranlp-main.123).
+    - Overview of MeOffendEs at IberLEF 2021: Offensive Language Detection in Spanish Variants, por Plaza-del-Arco, Flor Miriam; Casavantes, Marco; Escalante, Hugo Jair; Martín Valdivia, María Teresa; Montejo Ráez, Arturo; Montes y Gómez, Manuel; Jarquín-Vásquez, Horacio y Villaseñor Pineda, Luis. Procesamiento del Lenguaje Natural, Revista nº 67, septiembre de 2021, Sociedad Española para el Procesamiento del Lenguaje Natural. [URL](https://rua.ua.es/dspace/handle/10045/117506).
 
 
 ### Trabajos relacionados
