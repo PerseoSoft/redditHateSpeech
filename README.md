@@ -59,7 +59,7 @@ Ir a [http://localhost:8888](http://localhost:8888) para acceder a la UI de Jupy
 
 ## Flujo de datos generados
 
-Los distintos notebooks forman un pipeline en el cuál cada uno utiliza los datos generados por el anterior. Se listan cada una de las entradas:
+Los distintos notebooks forman un pipeline en el cual cada uno utiliza los datos generados por el anterior. Se listan cada una de las entradas:
 
 1. Obtención de comentarios. 
     - Archivos de entrada: N/A. 
@@ -167,7 +167,7 @@ Su manifestación en Internet, además:
 4. Facilita la generación de cámaras de eco.
 5. Al estar en servidores privados, la aplicación de la ley no siempre es rápida, lo que hace que ciertos actores intenten eludir su control, utilizando el discurso de odio en beneficio de su agenda.
 
-A raíz de la gravedad que significa el problema, muchas plataformas sociales han reconocido el problema, tomando acciones para mitigarlo ([ver ejemplo](https://www.theguardian.com/technology/2016/may/31/facebook-youtube-twitter-microsoft-eu-hate-speech-code)),  prohibiendolo en sus términos de uso, pudiendo sus usuarios reportar comentarios que potencialmente contengan este tipo de discursos.
+A raíz de la gravedad que significa el problema, muchas plataformas sociales han reconocido el problema, tomando acciones para mitigarlo ([ver ejemplo](https://www.theguardian.com/technology/2016/may/31/facebook-youtube-twitter-microsoft-eu-hate-speech-code)), prohibiéndolo en sus términos de uso, pudiendo sus usuarios reportar comentarios que potencialmente contengan este tipo de discursos.
 No obstante, a pesar de las prohibiciones y esfuerzos, que hasta llegan a incluir algoritmos de detección automática de discursos de odio en plataformas como Facebook e Instagram, el problema de la propagación de odio en redes sociales persiste, y genera daño, tanto a individuos como a comunidades.
 
 
@@ -186,11 +186,11 @@ En la siguiente imagen podemos ver la estructura general de un *post* en reddit 
 ![](misc/reddit.png)
 
 
-En este proyecto, nos centramos en [r/argentina](https://www.reddit.com/r/argentina/), que es una comunidad dedicada a charlar temas referentes a Argentina, que incluyen comidas, costumbres, chistes, deporte, política,  economía, consejos, entre otros.
+En este proyecto, nos centramos en [r/argentina](https://www.reddit.com/r/argentina/), que es una comunidad dedicada a charlar temas referentes a Argentina, que incluyen comidas, costumbres, chistes, deporte, política, economía, consejos, entre otros.
 
 #### ¿Por qué r/argentina?
 
-Quisimos hacer nuestro trabajo enfocado en una comunidad Argentina fuera de las redes sociales más comunes (dado que son aquellas más frecuentemente estudiadas), pero que a la vez tenga el tamaño suficiente como para tener muchos usuarios e interacciones. En ese sentido, r/argentina fue la opción más prominente, ya que la comunidad es muy activa y cuenta con cerca de 350.000 suscriptores (a Noviembre de 2021).
+Quisimos hacer nuestro trabajo enfocado en una comunidad Argentina fuera de las redes sociales más comunes (dado que son aquellas más frecuentemente estudiadas), pero que a la vez tenga el tamaño suficiente como para tener muchos usuarios e interacciones. En ese sentido, r/argentina fue la opción más prominente, ya que la comunidad es muy activa y cuenta con cerca de 350.000 suscriptores (a noviembre de 2021).
 
 Respecto a su posición frente a discursos de odio, en las reglas de r/argentina (en concreto, la Regla 3) se deja totalmente de manifiesto su prohibición. Citando textualmente:
 
@@ -215,11 +215,11 @@ Se describe a continuación, el paso a paso de las distintas etapas de este proy
 
 Para la obtención de los datos se utilizó un *wrapper* de la API de reddit, llamado [PRAW](https://praw.readthedocs.io/en/stable/index.html), a partir del cual se descargaron comentarios de diferentes *post* del r/argentina, así como las respuestas de los comentarios.
 Los *posts* en reddit pueden ser de tipo *link* (por ejemplo, colocando el *link* hacia una noticia), o pueden ser de tipo texto.
-Para la descarga de comentarios de cada *post*, se consideraron sólo aquellos que contenían texto, y una cierta cantidad de caracteres como mínimo.
+Para la descarga de comentarios de cada *post*, se consideraron solo aquellos que contenían texto, y una cierta cantidad de caracteres como mínimo.
 
 De cada comentario que se guardó de reddit, se obtuvieron los siguientes datos:
 - **id**: identificador del *post* o comentario. Guardado por cuestiones de trazabilidad.
-- **comment_parent_id**: identificador del comentario al cuál responde el comentario actual, en caso que corresponda. Se guardó por cuestiones de trazabilidad.
+- **comment_parent_id**: identificador del comentario al cual responde el comentario actual, en caso de que corresponda. Se guardó por cuestiones de trazabilidad.
 - **flair**: categoría del *post*, asignada por el usuario que lo crea (a partir de una lista brindada por el propio subreddit). En el caso de r/argentina, las categorías incluyen tópicos como "Política", "Economía", "Humor", "Historia" o "Serio".
 - **comms_num**: número de respuestas que recibió el comentario.
 - **score**: es un puntaje que los usuarios le dieron al comentario.
@@ -253,7 +253,7 @@ Para poder llevar esto a cabo, se emplearon tres métodos en los datos obtenidos
 Se describe a continuación cada uno de ellos, mostrando particularmente algunos comentarios que fueron agrupados a través de las diferentes técnicas aplicadas. 
 Analizamos un evento particular que se encuentra presente en los tres métodos, y se capturó durante la descarga de estos datos.
 Este evento fue el debate de la "[Ley de Promoción de la Alimentación Saludable](https://www.boletinoficial.gob.ar/detalleAviso/primera/252728/20211112)", también conocida como "ley de etiquetado frontal".
-Vamos a comparar las subcomunidades obtenidas en cada técnica, analizando particularmente aquéllas referidas a este evento.
+Vamos a comparar las subcomunidades obtenidas en cada técnica, analizando particularmente aquellas referidas a este evento.
 
 
 #### 3a. *Embeddings* con LDA
@@ -263,7 +263,7 @@ Vamos a comparar las subcomunidades obtenidas en cada técnica, analizando parti
 El primer modelo que se comenzó utilizando es [Latent Dirichlet Allocation](https://en.wikipedia.org/wiki/Latent_Dirichlet_allocation), que es un método generativo que asume que cada documento está compuesto por una mezcla de tópicos, y donde cada palabra tiene una probabilidad de relacionarse con cada uno de ellos.
 La elección inicial de LDA se fundamentó en que es un método sólido para detección de tópicos en *corpus* de texto.
 
-El modelo se aplicó probando tamaños de *clústers* de 30 a 120, y distintas configuraciones de híper-parámetros. No obstante, los resultados obtenidos  no fueron satisfactorios, ya que a la hora de realizar un análisis de los tópicos identificados por el modelo, se encontró poca cohesión entre los tópicos detectados.
+El modelo se aplicó probando tamaños de *clústers* de 30 a 120, y distintas configuraciones de híper-parámetros. No obstante, los resultados obtenidos no fueron satisfactorios, ya que a la hora de realizar un análisis de los tópicos identificados por el modelo, se encontró poca cohesión entre los tópicos detectados.
 
 En la siguiente imagen se pueden observar algunos de los tópicos identificados por LDA.
 
@@ -288,7 +288,7 @@ De esta manera, se podrían identificar subcomunidades en este nuevo espacio.
 
 Para ello, se llevaron a cabo los siguientes pasos:
 
-1. Entrenar el modelo de generación de *embeddings* de palabras mediante una **tarea de pretexto** (dada una palabra, predecir información relacionada a su contexto, por ejemplo una palabra que le sigue). Se emplearon dos modelos: [Word2vec](https://en.wikipedia.org/wiki/Word2vec), cuyos resultados se muestran en esta sección, y [fastText](https://en.wikipedia.org/wiki/fastText), mostrado en la siguiente.
+1. Entrenar el modelo de generación de *embeddings* de palabras mediante una **tarea de pretexto** (dada una palabra, predecir información relacionada con su contexto, por ejemplo una palabra que le sigue). Se emplearon dos modelos: [Word2vec](https://en.wikipedia.org/wiki/Word2vec), cuyos resultados se muestran en esta sección, y [fastText](https://en.wikipedia.org/wiki/fastText), mostrado en la siguiente.
 2. Una vez entrenados los modelos, se procedió a generar una representación vectorial de cada comentario, donde cada uno se mapeó a un vector numérico de acuerdo al promedio de los *embeddings* de cada una de sus palabras.
 3. Se aplicó el algoritmo de *clustering* *[k-means](https://en.wikipedia.org/wiki/K-means_clustering)*, tomando los vectores generados en el paso anterior.
 
@@ -312,7 +312,7 @@ En particular, el *cluster* número 94, **ley - etiquetado - proyecto**, es el q
 
 [Notebook](/src/3c_pipeline_embedding_fasttext.ipynb)
 
-Finalmente, el último método aplicado fue [fastText](https://en.wikipedia.org/wiki/fastText) que entrena una tarea de pretexto para generar un *embedding* de palabras al igual que Word2vec, pero además tiene en cuenta las sub-palabras, lo cuál resulta útil para identificar las alteraciones que puede tener una misma palabra.
+Finalmente, el último método aplicado fue [fastText](https://en.wikipedia.org/wiki/fastText) que entrena una tarea de pretexto para generar un *embedding* de palabras al igual que Word2vec, pero además tiene en cuenta las sub-palabras, lo cual resulta útil para identificar las alteraciones que puede tener una misma palabra.
 
 En la siguiente imagen se pueden observar algunas de las subcomunidades identificadas por fastText.
 
@@ -631,7 +631,7 @@ Vemos la matriz de confusión del modelo en este *cluster*:
 
 * Al igual que en el *cluster* de género, la proporción de comentarios cuya etiqueta es de odio o agresivo es mayor (477) a aquellos que no (136).
 * No obstante, la cantidad de comentarios correctamente predichos como de odio es muy baja (12), y la mayoría de errores fueron, para nuestra sorpresa, falsos negativos (124, frente a 26 falsos positivos).
-* Consideramos que esto se da porque muchos de los comentarios que consideramos como de odio al realizar el etiquetado manual, usan un lenguaje peyorativo sobre una minoría (los mapuches), lo cuál dista bastante de los términos usados en comentarios con los que el modelo fue entrenado (MeOffendMex).
+* Consideramos que esto se da porque muchos de los comentarios que consideramos como de odio al realizar el etiquetado manual, usan un lenguaje peyorativo sobre una minoría (los mapuches), lo cual dista bastante de los términos usados en comentarios con los que el modelo fue entrenado (MeOffendMex).
 
 Vemos ahora algunas predicciones en concreto: Comentarios predichos correctamente como discurso de odio o agresivos:
 
@@ -696,7 +696,7 @@ De ambos, el que mejor resultó para esta categorización fue el modelo entrenad
 Respecto a la predicción con un modelo, se emplearon modelos de aprendizaje supervisado entrenados con *datasets* que no eran necesariamente de detección de discursos de odio, y que estaban realizados por comunidades con distintas formas de comunicarse (mayormente conformadas por usuarios españoles y mexicanos), y de distintas plataformas (Twitter y páginas de noticias/foros).
 Pese a ello, tales modelos resultaron muy provechosos para detectar manifiestaciones de agresividad/odio en el contexto de r/argentina.
 
-Por último, tras etiquetar manualmente datos de dos *clusters* seleccionados y realizar predicciones sobre ellos, observamos que la detección de discursos de odio está atada a los sub-lenguajes usados en la comunidad (por ejemplo, algunos términos peyorativos contra minorías sólo se utilizan entre usuarios de ciertas comunidades de Argentina), y podría mejorar considerablemente si se incorporan algunos datos etiquetados al entrenamiento del modelo de entrenamiento.
+Por último, tras etiquetar manualmente datos de dos *clusters* seleccionados y realizar predicciones sobre ellos, observamos que la detección de discursos de odio está atada a los sub-lenguajes usados en la comunidad (por ejemplo, algunos términos peyorativos contra minorías solo se utilizan entre usuarios de ciertas comunidades de Argentina), y podría mejorar considerablemente si se incorporan algunos datos etiquetados al entrenamiento del modelo de entrenamiento.
 
 Finalmente, la conclusión a la que llegamos tras realizar este trabajo, es que es totalmente provechoso avanzar en el uso de métodos automáticos para detectar y caracterizar discursos de odio en sus distintas variantes, y que hay mucho margen para seguir aplicando minería de texto en pos de poder mitigar su impacto.
 En la sección siguiente, se listan varias propuestas de trabajo futuro para realizar a partir de este trabajo.
@@ -726,7 +726,7 @@ En la sección siguiente, se listan varias propuestas de trabajo futuro para rea
 
 - Incorporar info de la comunidad, para ver qué tan de acuerdo estuvieron los usuarios con los comentarios.
   
-- Incorporar el contexto del comentario padre, especialmente si se está respondiendo. Esto es dado que un mensaje puede no ser un mensaje de odio por sí sólo, pero sí lo es al observar el comentario al que se contesta.
+- Incorporar el contexto del comentario padre, especialmente si se está respondiendo. Esto es dado que un mensaje puede no ser un mensaje de odio por sí solo, pero sí lo es al observar el comentario al que se contesta.
   
 - Incorporar el puntaje y premios de los *posts* y comentarios en el análisis.
   
@@ -784,7 +784,7 @@ En la sección siguiente, se listan varias propuestas de trabajo futuro para rea
 - DETOXIS (IberLEF 2021): https://detoxisiberlef.wixsite.com/website/corpus.
 - MeOffendEs (IberLEF 2021): https://competitions.codalab.org/competitions/28679. Papers:
     - OffendES: A New Corpus in Spanish for Offensive Language Research, por Plaza-del-Arco, Flor Miriam; Montejo Ráez, Arturo; Ureña-López, L. Alfonso y Martín Valdivia, María Teresa. Proceedings of the International Conference on Recent Advances in Natural Language Processing (RANLP 2021). INCOMA Ltd., 2021. [URL](https://aclanthology.org/2021.ranlp-main.123).
-    - Overview of MeOffendEs at IberLEF 2021: Offensive Language Detection in Spanish Variants, por Plaza-del-Arco, Flor Miriam; Casavantes, Marco; Escalante, Hugo Jair; Martín Valdivia, María Teresa; Montejo Ráez, Arturo; Montes y Gómez, Manuel; Jarquín-Vásquez, Horacio y Villaseñor Pineda, Luis. Procesamiento del Lenguaje Natural, Revista nº 67, septiembre de 2021, Sociedad Española para el Procesamiento del Lenguaje Natural. [URL](https://rua.ua.es/dspace/handle/10045/117506).
+    - Overview of MeOffendEs at IberLEF 2021: Offensive Language Detection in Spanish Variants, por Plaza-del-Arco, Flor Miriam; Casavantes, Marco; Escalante, Hugo Jair; Martín Valdivia, María Teresa; Montejo Ráez, Arturo; Montes y Gómez, Manuel; Jarquín-Vásquez, Horacio y Villaseñor Pineda, Luis. Procesamiento del Lenguaje Natural, Revista n. 67, septiembre de 2021, Sociedad Española para el Procesamiento del Lenguaje Natural. [URL](https://rua.ua.es/dspace/handle/10045/117506).
 
 
 ### Trabajos relacionados
