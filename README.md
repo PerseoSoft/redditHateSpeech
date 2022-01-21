@@ -118,19 +118,19 @@ Se muestra a continuación el informe producto de este proyecto, en donde se esp
   - [Paso a paso del proyecto](#paso-a-paso-del-proyecto)
     - [1. Obtención de los datos](#1-obtención-de-los-datos)
     - [2. Pre-procesamiento](#2-pre-procesamiento)
-    - [3. Representación de tópicos mediante embeddings](#3-representación-de-tópicos-mediante-embeddings)
-      - [3a. Embeddings con LDA](#3a-embeddings-con-lda)
-    - [3b. Embeddings con Word2vec](#3b-embeddings-con-word2vec)
-    - [3c. Embeddings con fastText](#3c-embeddings-con-fasttext)
+    - [3. Representación de tópicos mediante *embeddings*](#3-representación-de-tópicos-mediante-embeddings)
+      - [3a. *Embeddings* con LDA](#3a-embeddings-con-lda)
+    - [3b. *Embeddings* con Word2vec](#3b-embeddings-con-word2vec)
+    - [3c. *Embeddings* con fastText](#3c-embeddings-con-fasttext)
   - [4. Entrenamiento de detectores de odio](#4-entrenamiento-de-detectores-de-odio)
   - [5. Aplicación del modelo a los comentarios de reddit](#5-aplicación-del-modelo-a-los-comentarios-de-reddit)
   - [6. Análisis de resultados](#6-análisis-de-resultados)
     - [6.1. Vista general de los distintos clusters](#61-vista-general-de-los-distintos-clusters)
-    - [6.2. Vista de los clusters con mayor proporción de predicción positiva](#62-vista-de-los-clusters-con-mayor-proporción-de-predicción-positiva)
-    - [6.3. Detección de clústers según palabras asociadas con odio](#63-detección-de-clústers-según-palabras-asociadas-con-odio)
-    - [6.4. Análisis cercano de dos clústers](#64-análisis-cercano-de-dos-clústers)
-      - [Cluster de Género](#cluster-de-género)
-      - [Cluster de Soberanía](#cluster-de-soberanía)
+    - [6.2. Vista de los *clusters* con mayor proporción de predicción positiva](#62-vista-de-los-clusters-con-mayor-proporción-de-predicción-positiva)
+    - [6.3. Detección de *clusters* según palabras asociadas con odio](#63-detección-de-clusters-según-palabras-asociadas-con-odio)
+    - [6.4. Análisis cercano de dos *clusters*](#64-análisis-cercano-de-dos-clusters)
+      - [*Cluster* de Género](#cluster-de-género)
+      - [*Cluster* de Soberanía](#cluster-de-soberanía)
     - [6.5. Visualización de términos cercanos seleccionados](#65-visualización-de-términos-cercanos-seleccionados)
   - [Conclusiones](#conclusiones)
   - [Trabajo futuro](#trabajo-futuro)
@@ -553,8 +553,8 @@ A modo de aclaración, el etiquetado de ambos *clusters* se realizó según el c
 
 Los comentarios de estos *clusters* con etiquetado manual se encuentran en los siguientes documentos:
 
-- [Análisis manual de cluster de género](/src/docs/analisis/genero.csv).
-- [Análisis manual de cluster de soberanía](/src/docs/analisis/soberania.csv).
+- [Comentarios del cluster de género etiquetados manualmente](/src/docs/analisis/genero.csv).
+- [Comentarios del cluster de soberanía etiquetados manualmente](/src/docs/analisis/soberania.csv).
 
 A continuación, vemos los resultados de las predicciones de cada *cluster*:
 
