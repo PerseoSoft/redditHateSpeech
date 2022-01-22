@@ -35,10 +35,10 @@ def vectorize(list_of_docs, model):
 
 
 def mbkmeans_clusters(
-    X, 
-    k, 
-    mb, 
-    print_silhouette_values, 
+        X,
+        k,
+        mb,
+        print_silhouette_values,
 ):
     """Generate clusters and print Silhouette metrics using MBKmeans
 

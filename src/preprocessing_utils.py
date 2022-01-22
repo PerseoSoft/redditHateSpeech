@@ -21,31 +21,31 @@ def give_emoji_free_text(text):
 
 
 def url_free_text(text):
-    '''
+    """
     Cleans text from urls
-    '''
+    """
     text = re.sub(r'http\S+', '', text)
     return text
 
 
 def email_free_text(text):
-    '''
+    """
     Cleans text from emails
-    '''
+    """
     text = re.sub('\S*@\S*\s?', '', text)
     return text
 
 
 def quotes_free_text(text):
-    '''
+    """
     Cleans text from quotes
-    '''
+    """
     text = re.sub("\'", "", text)
     return text
 
 
 def get_lemmas(text):
-    '''Used to lemmatize the processed tweets'''
+    """Used to lemmatize the processed tweets"""
     lemmas = []
 
     doc = nlp(text)
